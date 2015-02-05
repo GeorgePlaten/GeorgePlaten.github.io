@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Mockup Portfolio Page</title>
+    <!-- Use the bootstrap framework for ease of implementing a robust responsive layout (including images), other presentational classes such as text-center or font-weight are set in main.css to help preserve serperation of concerns with more direct and meaningfull references. -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- All selectors in main.css use "ud-" naming prefix. -->
+    <link rel="stylesheet" href="css/main.css">
+  </head>
+  <!-- Use class selector on body to help prevent possible clashes. -->
+  <body class="ud-body">
+    <!-- Start the bootstrap grid container -->
+      <!-- Boostrap requires class "container" for responsive grid layout. -->
+        <!-- The grid layout is made of rows stacked from top to bottom. Any number of rows could be stacked. -->
+        <!-- Rows are further subdivided horizontally into 'columns'. The default number of columns is 12. -->
+        <!-- Columns must children of rows. Rows should have no other direct children.-->
+        <!-- Columns can (and usually are) joined together. Eg "col-md-12" combines 12 columns to span the full row. Two colums of col-md-5 and col-md-7 will span the same width. For full information see: http://getbootstrap.com/css/#grid -->
+        <!-- This page uses 2 rows. The first row contains the article headline and spans 12 columns. The second row contains the article content and is subdivided into two columns. The first column (left) spans 5 bootstrap columns and contains a summary with photo and feature list. The second column (right) spans 7 bootstrap columns and contains a wordy text description.  -->
+    <div class="container">
+      <!-- Start bootstrap row 1. -->
+      <div class="row">
+        <!-- Start bootstrap row 1, column 1. -->
+        <div class="col-md-12">
+          <h1 class="ud-headline">Orange Udacity Mug</h1>
+        <!-- End bootstrap row 1, column 1. -->
+        </div>
+      <!-- End bootstrap row 1. -->
+      </div>
+      <!-- Start bootstrap row 2. -->
+      <div class="row">
+        <!-- Start bootstrap row 2, column 1. -->
+        <div class="col-md-5">
+          <!-- Include bootstrap class "img-responsive" on image to make it responsive. -->
+          <img src="images/mug.png" alt="udacity branded mug photo" class="img-responsive">
+          <div class="ud-feature-box">
+            <h2 class="ud-subheadline">Main Features</h2>
+            <ul>
+              <li>Holds your favourite drink</li>
+              <li>Energizing color</li>
+              <li>Reminds you to learn</li>
+            </ul>
+          </div>
+        <!-- End bootstrap row 2, column 1. -->
+        </div>
+        <!-- Start bootstrap row 2, column 2. -->
+        <div class="col-md-7">
+          <h2 class="ud-subheadline">A Good Way to Start a Day</h2>
+          <p>Bacon ipsum dolor sit amet shoulder drumstick spare ribs shank, magna in sirloin. Turducken dolore tempor irure tenderloin pork belly shankle. Excepteur in strip steak pork chop voluptate tongue, hamburger nostrud kevin enim nulla ut cow incididunt. Do pancetta swine hamburger incididunt in excepteur irure pig labore est venison dolor ex adipisicing. Labore capicola veniam, commodo corned beef ut non rump swine pork chop exercitation ball tip ham deserunt.</p>
+          <p>Ad tri-tip short loin anim beef ribs eu ball tip velit deserunt frankfurter sunt nisi filet mignon. Pork loin quis ham hock mollit cupidatat. Id ground round chuck jerky meatball laborum frankfurter short loin in biltong t-bone doner ea irure. Culpa ex ut id. Nostrud t-bone bresaola pariatur qui tri-tip pork chop, ribeye irure velit pork et in dolore.</p>
+          <p>Bacon in sunt dolor fatback excepteur turkey chuck velit proident frankfurter quis. Nisi shank sirloin sed tenderloin. Magna short ribs kielbasa biltong minim. In esse t- bone est tail kielbasa dolor ullamco tongue mollit sint sirloin chuck venison anim. Short ribs dolore adipisicing, bresaola venison cupidatat short loin turducken biltong leberkas andouille elit ad in occaecat. Ground round pariatur cupidatat ham hock magna tempor ea jowl duis.</p>
+        <!-- Start bootstrap row 2, column 2. -->
+        </div>
+      <!-- End bootstrap row 2. -->
+      </div>
+    <!-- End bootstrap grid container. -->
+    </div>
+  </body>
+</html>

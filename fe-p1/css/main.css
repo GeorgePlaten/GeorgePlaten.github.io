@@ -1,0 +1,28 @@
+/* Use "ud-" prefix for all selectors. */
+
+/* Put body styles into ud-body class to prevent possible clashes. */
+.ud-body {
+  font-family: Kalimati, Verdana, sans-serif;
+  color: #666;
+  line-height: 2em;
+  font-size: 16px;
+}
+
+.ud-headline {
+  font-size: 48px;
+  margin: 45px auto 30px;
+  text-align: center;
+}
+
+.ud-subheadline {
+  color: #f07c17;
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0 auto 30px;
+}
+
+.ud-feature-box {
+  border: 1px solid #ccc;
+  padding: 30px;
+  margin: 30px 0;
+}

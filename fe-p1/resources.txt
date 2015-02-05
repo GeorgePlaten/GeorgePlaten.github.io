@@ -1,0 +1,15 @@
+This is a list of websites pages used while preparing the submission for Udacity Front End Developer Nanodegree, Project 1.
+
+http://getbootstrap.com/css/#grid
+http://getbootstrap.com/css/#type
+https://developer.mozilla.org/en/docs/Web/Guide/HTML/HTML5/HTML5_element_list
+http://diveintohtml5.info/semantics.html
+http://udacity.github.io/frontend-nanodegree-styleguide/index.html
+http://udacity.github.io/frontend-nanodegree-styleguide/css.html
+http://css-tricks.com/snippets/css/a-guide-to-flexbox/
+http://css-tricks.com/how-css-selectors-work/
+http://css-tricks.com/pseudo-element-roundup/
+http://css-tricks.com/snippets/css/complete-guide-grid/
+http://validator.w3.org/
+http://www.css-validator.org/
+http://stackoverflow.com/questions/11451535/gitignore-not-working
