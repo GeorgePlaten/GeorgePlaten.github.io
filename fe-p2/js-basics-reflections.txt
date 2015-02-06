@@ -1,0 +1,514 @@
+﻿/// New Terms (add definitions), New Ideas (redefine in own terms)
+/// Compare New Ideas with things I already know, differences, similarities.
+
+Lesson 0
+
+	Q1	Why are you taking this course?
+		To enable me to create a modern interactive front end for my web app.
+
+	Q2	What technologies and techniques will you be using to build your online resume in this class?
+		jQuery, javascript, DOM manipulation, HTML, CSS, a pro text editor, Browser Dev Tools, Git and Git Hub... maybe that Python tutorial visualiser for Javascript
+
+Key Ideas
+
+	1. Why so much HTML?
+		Everything in Javascript (at least, in this course) works on HTML and CSS via the DOM, which it sees as a Javascript Object.  Javascript can also be directly in the HTML, or preferably reference from a seperate file with <script> tags.
+
+	2. Referencing Elements
+		Note that referencing an HTML element using #example is looking for the unique identifier ID="example". And that getElementByID says singular 'element', because it is an ID. Other refernced will use 'elements' plural.
+
+	3. jQuery
+		This course will use the third party library, jQuery. It is a good idea to get used to the idea of using third party libraries. jQuery had an .append() method that allows us to add text to an HTML element. To get an HTML element ID with jQuery, type $("#elementIDvalue") will refernce the element, $("#main").append("some text") will append some text to it.
+
+	4. resume.js
+		This course will be completed in resume.js, the other files contain helper data.
+
+	5. Running Javascript in the Dev Tools console
+		The big browsers have 'Dev Tools' that we can use Javascript directly with. Chrome has a Javascript console that we can type directly into and have it parsed. Note that using console.log() returns undefined, this is because it prints to the console as a side-effect, it does not return anything.
+
+	6. More Dev Tools
+		Note that you can view and manipulate any webpage you visit using Dev Tools by messing with the HTML, CSS and Javascript. You can execute any old javascript in the console, like multiplication, division etc.
+
+	7. Variable Syntax.
+		var varName = value;
+		Note that objects, arrays and functions use the same syntax.
+
+	8. Semicolon style
+		Note that all statements in Javascript shall end with ; this is not always needed but omitting it can cause problems when you least expect it you'll have trouble fiding that this was the root. Compare this with Python which never uses ; but uses line returns as part of the language.
+
+Lesson 1 - Data Types
+Key Ideas
+
+	1. Elements and Data Types
+		Note the several different Data Types, for now we'll just work with strings and numbers. All numbers are 64 bit floating point. There are no integers and no number conversions required.
+
+	2. String Replace Method.
+		"string".replace("old", "new"); "string".replace(/regex/ig, "new"); i = ignore case, g = global (replace all results of the search, not just the first). See MDN for loads more string.methods()
+
+	3. jQuery append and prepend
+		Note .append() and .prepend() work inside the container they find, they don't append after or before the container, they add content at the beginning or end.
+
+	4. Zero Indexing
+		Remember indexing an Array [] (and strings) starts counting at 0, so array[0] is the first item of the Array.
+
+	5. Concatenation
+		You can concatenate text with + "string1" + " " + "string2" will return "string1 string2".
+
+	6. More String Methods
+			str.toUpperCase() // converts to upper case
+			str.split([separator[, limit]]) // seperator is typically a space, comma or tab
+			str.slice(beginSlice[, endSlice]) // if no endSlice is specified, it will take everything upto the end.Note beginSlice starts counting at 0
+		We also used thestring methods, and noticed strings are immutable, unlike Arrays. You can't alter a single letter in an string, it has to be split and joined into new strings.
+
+	7. We learned about:
+		str = arr.join([separator = ',']) // need to remember that this is an array method, even though it is commonly used on strings.
+
+	8. Truthy and Falsey.
+		The 7 Falsey objects are:
+			0, "" (the empty string), false // all are == to each other
+			null, undefined // only equal to themselves
+			NaN // not even equal to itself, use isNaN() to test for it, if needed. typeof(NaN) is "number"
+    Some surprising Truthy items are:
+      [] The empty array
+      {} The empty object
+      "0" A string with 0 in it
+		Note Booleans true and false are lower case.
+
+	9. Infinity has both positive and negative versions.
+
+	10. The difference between ReferenceError and undefined
+		...is that undefined has a variable names but no value assigned. ReferenceError means the variable has not been named. null is an intentional undefined placeholder value for a variable name. undefined is unintentional. undefined can cause serious debuggling issues as bugs happen in places where they didn't originate and can be very hard to trace. using a lot of assertions can help avoid the issue.
+
+	11. Arrays [] // [] is objecy literal, e.g. var myArr = [];
+		Array methods:
+			.push() // appends the argument to the array, returns new length of the array
+			.pop() // cuts the last item off the array and returns it
+      .split() // uses the parameter to split the string and return an array
+			.join() // joins all items of an *array* into a string
+		Style: open square bracket on declaration line, newline and indent each item, commas between items, no trailing comma, close bracket at same indentation as declaration.
+			var myArr = [
+				"item",
+				23455,
+				false
+		Note arrays use zero indexing.
+
+	12. Objects {} // {} is object literal, e.g. var myObj = {};
+		Object referencing:
+			Dot Notation: name.value // best for code readability, code needs strict style to work with this though.
+			[] Notation: name["value"] // works for (badly) named variable, but can also be useful for certain situations.
+		Style: Same as array for layout. Items should be "name": value, note that name must be a string, items are seperated by commas so a trailing comma after last item should not be there.
+			var myObj = {
+				"name": "value",
+				"namen": 2343,
+				"manem": true
+			}
+		Add items too an Object with
+			object.name = value; // or the equivalent bracket notation: object["name"] = value;
+		NOTE: THERE ARE NO CLASSES IN JAVASCRIPT
+
+	13. JSON (Javascript Object Notation)
+		It is (not quite) a subset of Javascript, it's very useful for site syndication as it is more flexible that RSS or XML. The style is very important and, although it is simple, it can get messy easily so using a service like jsonlint.com is a must.
+		The main differences between a javascript object and the JSON standard format are:
+			Double quotes must be used for property names
+			Trailing commas are forbidden
+			Leading zeros are forbidden from numbers
+			A decimal point must have at least one trailing digit
+			Certain character can be escaped, it gets a bit technical here... cross that bridge later
+		JSON.stringify(object) converts and object to JSON.
+
+	14. More HTML, CSS and DOM stuff
+		Note that using document.getElementByID("something") return the full HTML snippet.
+		To set a CSS with Javascript use the syntax:
+			document.getElementByXXX.style.property = "value";
+		Note Javascript and CSS references will not be exactly the same e.g. background-color = backgroudColor
+
+Lesson 2 - Flow Control
+Key Ideas
+/// New Terms (add definitions), New Ideas (redefine in own terms)
+/// Compare New Ideas with things I already know, differences, similarities.
+
+	1. if / else and comparisons
+    An if / else statement syntax is:
+      if (condition) {
+        //code to run;
+      } else {
+        //code to run;
+      }
+    Note the else block is not required and there's no trailing semi-colon after the condition or after the if and else blocks.
+    Comparisons can take strict and loose form, the strict forms like === and !== are safer than loose, == and != which most people say never to use because it first tries to convert both items to the same type and then evaluates the comparison.
+    You can also use less than, greater than and with less or equal etc
+      <, >, <=, >=
+    These can evaluate to true of false and be used in the if statement's condition.
+    Note the ternary operator would make short work of the example syntax given above.
+
+  2. Loops: while, for, for-in. psuedo-selector :last
+    DRY - don't repeat yourself
+    While Loop
+      syntax:
+        while (condition) {
+          //code to loop
+        }
+      Note, no trailing semi-colon
+    For Loop
+      syntax:
+        for (initialization, condition, mutator) {
+          //code to loop
+        }
+      Note, no trailing semi-colon, initialization defines how to start, condition defines when to end, and mutator defines how to increment the iterator.
+      For Loop example:
+        for (var i = 0, i < 9, i++) {
+          //doSomething();
+        }
+      Notes: no trailing semi-colon, use var when delaring i, or better initialize a incrementer variable before the loop.
+    For-In Loop
+    syntax:
+        for (item in object) {
+          //doSomething();
+        }
+      Notes: Iterates through every item in a collection of items.
+      'item' is like a function parameter - it can be named here for use inside the loop. This refers to the item's index in an array or name in an object.
+      'in' is a keyword that must be used for the for-in loop
+      'object' is the name of the collection to go through
+      Only for use with hashs, maps and Objects. Can be dangerous with Arrays - use basic for loop above for arrays.
+
+    (note: found and used the jQuery .each() method, more notes in the code)
+
+    Lastly we came across jQuery's :last selector which gets the last item in a group of items with same class name like .class
+    There is also :first and :last-child and :first-child
+    It is used inside the quote marks like $.(".class:last")
+    Psuedo-selectors, now for more than just :huvvers!
+
+    I decided after this exercise to use a variable naming stryle for now in my projects, especially while learning. This means appending 'Indx' to index names and 'Arr' to arrays because even though the istructors gave a clue about the problem that would be run into, and I noticed the clue, and was watching for it... I still made the mistake.
+
+  3. Functions
+    "Spaghettified": a mess of if statements and loops. Using functions can chunk code into more meaningful and logical groups, or 'bundling complicated groups of instructions together' as described by the instructors. The thing is; they'll probably recommend simplifying and shortening these functions later!
+    "Spaghettification" is something entirely cooler.
+
+    function expression syntax:
+      var myVar = function (paramaters) {
+        //bundled code to run;
+      }
+    Notes; this is an anonymous function assigned to be returned by the variable myFunc and is run when called by myFunc(); or passed like console.log(myFunc);
+    This syntax can also be used un-anonymously by assigning a name to the function as well, this can be useful when using recursion.
+    Anonymous function can also cause confusing when debugging.
+
+    function declaration syntax:
+      function myFunc(parameters) {
+        //bundles of code go here;
+      }
+    Declared funtions like this get 'hoisted' to the top of the scope with their blocks of code. Expression functions only get their variable names hoisted, and set to undefined until called directly or passed.
+
+  4. Collecting clicks and the event object
+    I'm still having trouble with:
+      event objects
+      callbacks
+
+    There was some more difficulty here about 'loc', turns out this was the same as using 'e' as an event object.
+    http://forums.udacity.com/questions/100255989/re-loc-the-jquery-documentation-link-given-here-doesnt-mention-it
+
+    **need to spend some time to understand this 'event' thing
+    http://api.jquery.com/category/events/event-object/
+
+    I don't even know what the point of this exercise was, what was is showing?
+
+  5. Return Statements
+    Dev tools demo showing how to access the different files referenced from a web page. This led to finding a return keyword and statement. He explained this was why console.log() shows 'undefined' on the console. It doesn't return anything. This is also known as a pure function, the console printing is done as a side-effect. Apparantly this is how Haskell mostly works and why the joke says it is a 'useless' language.
+    He showed how "string split".split(" "); returns and array.
+    Quiz also gave exposure to .push() and .pop(). Push appends and item to an array by mutation and returns the new length of the array. Pop return the last item in the array and deletes the item from the array.
+
+  6. Internationalization
+    This was a bit of revision the let us create a new function, do some string manipulation and return stuff. It also demo'd some 'interactivity' by using a button to change a page element. Nothing new here, just some timely practice.
+
+  7. Encapsulation
+    Encapsulation means 'hold inside'. In terms of objects and functions, the lesson seems to be teaching that you can put a function inside an object by assigning the function using dot notation, making the function a method of the object. This was the lesson that linked to the excellent helefant.com, from where I went into a total rabbit hole for several days.
+
+  8. Exploring new syntax
+    James noted the 3 different syntax to create objects: literal, dot and brackets. He noted Javascript had been around for a long time and has gone through many changes, stuff you see today may be old and outdated and not suitable to use any more.
+    They revisited the Click collector as a challenge to figure out what's going on. But since the answer was just to show that an anonymous function can be passed as a parameter, it didn't actually help understand anything about events etc.
+    They also remind you to look stuff up in Google...
+    I did note the notes mentioned that: "some libraries ask for a callback function to be executed once they have the results ofa task." But still found no explanations or help anywhere...
+
+  9. Customize / The Final Project
+    They talked about 3rd party libraries like Google Maps and D3, which I will look into as needed, personalizing the resume with CSS and adding the map to the resume page, which really was just uncommenting some code. More of a demo of the 'further cool things you can do with JS' kinda thing, which is ok.
+    The instructions were a mess in this one though. Even the final project is very vague, yeah you can do it like that but it shows a lack of effort. Anyway I'll get a much more exacting picture of what to submit from the nanodegree details.
+
+  DONE: Research learn and understand events
+    Very, very basically, events get attached to HTML elements so that something the user does to the element (like clicking, hovering or even typing) can be used in JavaScript. Like the way jQuery grabs an HTML node from the DOM and returns it to you to do something with it, the events is sent back to you, so you can interact with the user.
+  TODO: Research learn and understand callbacks.
+  TODO: find out the difference in the placement of these parentheses in anonymous self-executing functions.
+  DONE: Find out the meaning of 'formal' in 'formal parameters'
+    Formal parameters are those defined in the function definition, actual parameters are those that are passed in when then the function is called.
+  TODO: Understand how Closures can be dangerous according to the Udacity Style Guide.
+
+  FURTHER NOTES:
+  Scope
+  Functions create scope, not blocks.
+
+  Variables created inside scope only live inside that scope, they call also live inside child scopes, but not inside parent scopes.
+
+  Closures are an interesting idea that allow us to simulate private and public functions, they let you make an enclosed function object that returns methods to make them public and normal but enclosed methods remain private. If that doesn't make a lot of sense summarized, see the resources file for links to pages with full explanations and working examples.
+  TODO: Understand how Closures can be dangerous according to the Udacity Style Guide.
+
+  To simulate a block level scope you can wrap a block's code in an anonymous function, creating a 'temporary' scope.
+
+  (function() { //code; }() ) and (function() { //code; } )() are both kind of like saying "var f = function(){//code;}; f();" the trailing empty parentheses executes the code in the anonymous function, like calling itself (is this callback?) and this is the function's closure? In other words everything inside the function is enclosed because it starts its own scope, executes and finishes all in one.
+  Note the trailing parentheses are either outside the function or just inside the closing bracket TODO: find out the difference in the placement of these parentheses here.
+
+  Functions as Objects
+  Functions are first-class objects, which basically means you can do anything to them that you would do with a variable, like assign them to variable, pass them as parameters, and return them from functions.
+  Note: console.log(myFunc instanceof Object); => true
+
+  'Hoisting'
+  Declared fuctions and variables are always hoisted to the top of the scope before any other code is run. This:
+    function () {
+      bar();
+      var x = 1;
+    }
+  actually becomes this:
+    function () {
+      var x;
+      bar();
+      x = 1;
+    }
+  The resolution order for hoisting is:
+    1. language defined (this, arguments)
+    2. Formal Parameters
+    3. Function Declaration
+    4. Variable Declaration
+  If the name had already been defined it will not be overridden by another property of the same name. So function declaration takes priority over variable declaration.
+    NB; never use 'arguments' as a formal parameter
+  If multiple formal parameters have the same name the last one will take precedence (even if undefined).
+
+OPTIONAL EXERCISES
+
+  Relationships
+
+    function getRelationship(x, y) {
+      var isNum = function(value) {
+          return isNaN(value) ? false : Object.prototype.toString.call(value) === '[object Number]';
+      };
+      if (isNum(x) && isNum(y)) {
+          return x>y ? ">" : x<y ? "<" : "=";
+      }
+      if (isNum(x) || isNum(y)) {
+          return "Can't compare relationships because " + (isNum(y) ? x : y) + " is not a number";
+      }
+      return "Can't compare relationships because " + x + " and " + y + " are not numbers";
+    }
+
+    // If one or both of the values aren't numbers, your function
+    // should output:
+
+    // "Can't compare relationships because [this value] and [that
+    // value] [is]/[are] not [a] number[s]."
+
+    // where [this value] and [that value] are replaced with the
+    // non-numerical values. The sentence should be grammatically correct
+    // by outputting either is or are and pluralizing number if necessary.
+
+    // Try logging these functions to test your code!
+    console.log(getRelationship(1,4));
+    console.log(getRelationship(1,1));
+    console.log(getRelationship("that",2));
+    console.log(getRelationship("this"," something else"));
+    console.log(getRelationship(3));
+    console.log(getRelationship("hi"));
+    console.log(getRelationship(NaN));
+    console.log(getRelationship(NaN, undefined));
+
+  Astronauts
+    // Twelve people have walked on the Moon. They are:
+    //
+    // Neil Armstrong
+    // Buzz Aldrin
+    // Pete Conrad
+    // Alan Bean
+    // Alan Shepard
+    // Edgar Mitchell
+    // David Scott
+    // James Irwin
+    // John W Young
+    // Charles Duke
+    // Eugene Cernan
+    // Harrison Schmitt
+    //
+    // You'll notice that these names are listed in the order that they first stepped
+    // on the Moon, not alphabetical order. To alphabetize them, it would make sense to
+    // write their names as lastname, firstname. For example: Neil Armstrong becomes
+    // Armstrong, Neil.
+    //
+    // Finish the alphabetizer(_names) function, which takes in a names
+    // array (of length N) containing strings of names and returns an alphabetized
+    // array of names in lastname, firstname format.
+
+    var moonWalkers = [
+      "Neil Armstrong",
+      "Buzz Aldrin",
+      "Pete Conrad",
+      "Alan Bean",
+      "Alan Shepard",
+      "Edgar Mitchell",
+      "David Scott",
+      "James Irwin",
+      "John Young",
+      "Charles Duke",
+      "Eugene Cernan",
+      "Harrison Schmitt"
+    ];
+
+    function alphabetizer(names) {
+        var namesLen = names.length;
+        var surNameLastName = [];
+        for (i=0; i<namesLen; i++) {
+            names[i] = names[i].split(" ");
+            names[i][2] = names[i][1] + ", " + names[i][0];
+            surNameLastName.push(names[i][2]);
+        }
+        return surNameLastName.sort();
+    }
+
+    // Try logging your results to test your code!
+    console.log(alphabetizer(moonWalkers));
+
+  Page Insights
+
+    // Iterate through the localizedRuleNames in ruleResults and
+    // return an array of their strings.
+    function ruleList(results) {
+      var myArr = [];
+      var myResults = results.formattedResults.ruleResults;
+      for (var group in myResults) {
+          if (myResults[group].localizedRuleName.length > 0) {
+              myArr.push(myResults[group].localizedRuleName);
+          }
+      }
+      return myArr;
+    }
+
+    // Iterate through pageStats in the psiResults object and
+    // return the total number of bytes to load the website.
+    function totalBytes(results) {
+        var total = 0;
+        var stats = results.pageStats;
+        for (var item in stats) {
+            if (item.indexOf("Bytes") !== -1) {
+                total = total + parseInt(stats[item],10);
+            }
+        }
+        return total;
+    }
+
+    // Below, you'll find a sample PS Insights JSON
+    // and two console.log statements to help you test your code!
+
+    psinsights = {
+     "kind": "pagespeedonline#result",
+     "id": "/speed/pagespeed",
+     "responseCode": 200,
+     "title": "PageSpeed Home",
+     "score": 90,
+     "pageStats": {
+      "numberResources": 22,
+      "numberHosts": 7,
+      "totalRequestBytes": "2761",
+      "numberStaticResources": 16,
+      "htmlResponseBytes": "91981",
+      "cssResponseBytes": "37728",
+      "imageResponseBytes": "13909",
+      "javascriptResponseBytes": "247214",
+      "otherResponseBytes": "8804",
+      "numberJsResources": 6,
+      "numberCssResources": 2
+     },
+     "formattedResults": {
+      "locale": "en_US",
+      "ruleResults": {
+        "AvoidBadRequests": {
+          "localizedRuleName": "Avoid bad requests",
+          "ruleImpact": 0.0
+        },
+        "MinifyJavaScript": {
+          "localizedRuleName": "Minify JavaScript",
+          "ruleImpact": 0.1417,
+          "urlBlocks": [
+          {
+            "header": {
+           "format": "Minifying the following JavaScript resources could reduce their size by $1 ($2% reduction).",
+           "args": [
+            {
+             "type": "BYTES",
+             "value": "1.3KiB"
+            },
+            {
+             "type": "INT_LITERAL",
+             "value": "0"
+            }
+           ]
+            },
+            "urls": [
+            {
+              "result": {
+             "format": "Minifying $1 could save $2 ($3% reduction).",
+             "args": [
+              {
+               "type": "URL",
+               "value": "http://code.google.com/js/codesite_tail.pack.04102009.js"
+              },
+              {
+               "type": "BYTES",
+               "value": "717B"
+              },
+              {
+               "type": "INT_LITERAL",
+               "value": "1"
+              }
+             ]
+            }
+           },
+           {
+            "result": {
+             "format": "Minifying $1 could save $2 ($3% reduction).",
+             "args": [
+              {
+               "type": "URL",
+               "value": "http://www.gmodules.com/ig/proxy?url\u003dhttp%3A%2F%2Fjqueryjs.googlecode.com%2Ffiles%2Fjquery-1.2.6.min.js"
+              },
+              {
+               "type": "BYTES",
+               "value": "258B"
+              },
+              {
+               "type": "INT_LITERAL",
+               "value": "0"
+              }
+             ]
+            }
+           }
+          ]
+         }
+        ]
+       },
+       "SpriteImages": {
+        "localizedRuleName": "Combine images into CSS sprites",
+        "ruleImpact": 0.0
+       }
+      }
+     },
+     "version": {
+      "major": 1,
+      "minor": 11
+     }
+    };
+
+    // Try logging the outputs below to test your code!
+    console.log(ruleList(psinsights));
+    console.log(totalBytes(psinsights));
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,123 @@
+THOUGHTS
+
+Piazza and The Self-Introduction.
+Hello my name is Colin, I'm in the GMT time zone (Ireland).
+I'm skeptical about the whole on-line education thing - I know it's the future, but this is only baby steps towards that. In particular I'm reserved about Udacity because of the way they keep very strongly hinting how it will get you a job with one of their partners, but of course it won't get you a job with one of their partners (although it might help and sure can't hurt). A lack of upfront honesty and mild misdirections is always annoying and I should probably be more concerned about it than I am. Maybe I only care about this because I am not looking for a job - I'm just here to learn. I want to keep my mind sharp, or at least, prevent atrophy. I'm really hoping to go and do the Full Stack Course as I would love to learn programming for my own work and hobbies that do okay with off-the-shelf software, but I always feel would do much better if I could build something more customised. I have tried learning before, but lacked the motivation to see me through. I'm hoping and expecting the financial aspect of this Nanodegree will remedy that.
+I got pretty deep into HTML, CSS and Accessibility a few years ago, but I'm hoping I have forgotten enough of it to enable me to learn the new way doing things without getting too messed up by old habits and opinions.
+If and when I sound like a smartass, it's because I'm trying to be 'hypercritical' (but I don't have the nice personality that John Siracusa has).
+
+
+PROJECT 1 OVERVIEW
+
+
+CRITERIA: DOM TREE
+
+Q1 In your own words, explain what the DOM is.
+
+	The Document Object Model (DOM) Tree is the full description of the content being served to the web browser. The browser uses the DOM to construct and render the content to screen. The DOM is also the means by which we interact with and manipulate the content via code like Javascript [2]. The DOM contains all structural, relational and type descriptions of the content being served. The relationships are described as nodes in a tree-like structure with roots and branches and sub-branches etc, or could be thought of as a parent-child structure, with children and grand-children, and great-grand-children and on and on. The DOM is a cross-platform and language independent convention [1] that is used for rendering HTML (and other content types and formats).
+
+	[1] https://www.udacity.com/course/viewer#!/c-ud304-nd/l-2617868617/m-2596138815
+	[2] http://en.wikipedia.org/wiki/Document_Object_Model#Standardization
+
+
+CRITERIA: SEMANTIC Vs NON-SEMANTIC
+
+Q1 What are non-semantic tags? Please provide some examples and scenarios when you will use them.
+
+	Non-semantic tags are used to define, organise and separate sections of the content that should not be interrupted, separated or interleaved with regard to the content's structure and meaning. They are used to help build scaffolding for visual arrangements, presentation style, and web page behaviour. Examples are the <div> and <span> tags.
+
+Q2 What are semantic tags? Can you provide some examples?
+
+	Semantic tags are related to the structure (or document architecture) and meaning of the content. For example <body> identifies the whole content. <h1> to <h6> identify headings of decreasing structural levels. <p> identifies normal text paragraphs, and <ol><li> identifies an ordered list and a list item.
+
+
+CRITERIA: LAYOUT PRINCIPLES
+
+Q1 What is a grid based layout principle?
+
+	The grid layout principle divides a page into a rectangular array of subdivisions. The principle is that each subdivision, or cell, will contain specific content. Logical groups of cells can be combined into larger sub-arrays of the overall layout, but should always remain rectangular in shape. For example a web-page design of 3 x 6, could have the first row of 3 cells combined to describe the space for the site banner.
+
+Q2 Google for other layout priciples and explain the one that you thought was most interesting (other than grid based!).
+
+	https://www.google.ie/search?q=alternative+web+page+layouts >>
+	http://designshack.net/articles/layouts/ditching-the-grid-alternate-layout-strategies-and-tips/ >>
+	http://melonfree.com/
+
+	 I like the melonfree site, as it seems to work and draw the eye rather than force the eye like most modern websites seem to do (which could be evolving to maximise ad-clicks). The melon free site lets the eye wander and make discoveries, most of which feel pleasant. It makes you slow down and allow the information to seep in. The soft colour palettes does a lot of this work too though.
+
+
+CRITERIA: RESPONSIVE DESIGN
+
+Q1 What does "Responsive Design" mean?
+
+	Responsive Design describes a page layout that reshapes and reflows itself automatically depending on the shape, size, pixel density, settings and capability of the media it is being rendered to. In theory it is supposed to optimise content comsumption depending on the device the content is accessed from, such as font-size and margins appropriate for handheld devices will probably not be appropriate for a desktop type monitor.
+
+	From: http://www.smashingmagazine.com/2011/01/12/guidelines-for-responsive-web-design/
+	Note that responsive should also include a response to the capability and settings of the device being served to such as scripting ability and user preferences such as no javascript or images / advertisements switched off.
+
+	From: https://www.udacity.com/course/viewer#!/c-ud304-nd/l-2810388540/m-2872198549 a difference between 'adaptive' and 'responsive' is mentioned, indicating that responsive only refers to layout changes, and adaptive refers to everything else such as input types and browser abilites. It may be useful to stick to strict definitions of the two different things, but it is immaterial to me at the moment. That is: modern web pages automatically adapt to the device they are on and do not serve different versions that are optimised for particular devices.
+
+Q2 What attributes or media queries do you need in your HTML and CSS to make a website render appropriately on an iPad?
+
+	Unknown... quick Google... (it's gonna be @media something something...)
+	http://stephen.io/mediaqueries/
+		@media only screen
+		and (min-device-width : NNNpx)
+		and (max-device-width : NNNpx)
+		and (-webkit-min-device-pixel-ratio: N)
+		and (-orientation: portrait/landscape/[not specified]) {
+		/* styles go here */
+		}
+
+CRITERIA: SEPARATION OF CONCERNS
+
+Q1 Why do you thing it is important to separate structure (HTML) from design / style (CSS)?
+
+	Doing so allows simplified maintenance of websites. Often a change required in either, should be executed without having to be concerned if it will effect the other. In the old days both structure and presentation were very commonly mixed and it was difficuly and sometimes impossible to change one without effecting the other. It was always much more complex and required more energy and effort, and wasn't always successful.
+	There is also an opinion that raw files should be as readable as possible in their right, as this will make them easier to maintain and might encourage self-documentation. Intermixing CSS styling in the HTML file will pollute the text and make it less readable.
+
+CRITERIA: CODE QUALITY
+
+Q1 It is very clear why our code should be logical and correct, but why do we need to write code that is easy to read?
+
+	As the old C language guru once said (something like): Debugging is twice as hard as coding, so unless you're twice as smart as that 'clever code' you wrote -- you're gonna have a bad time.
+	Code is almost always a work-in-progress, it is usually never finished, even when it works perfectly and passes all tests. It often has to be revisited by someone to update, fix or improve it, due to new tests or other changes and developments in 3rd Party technology that is dependant or depended upon. It needs to be clear and understandable for both a stranger to the code and a future version of the author (who can also a be a stranger, given even a short amount of time).
+
+Q2 Why do you think Udacity provided a style guide? Do you think every company dictates styles? What purpose do style guides serve?
+
+	I think there are two main reasons: one, to teach the student about style guides and let them get used to conforming to them, and two, it will help them enormously with marking. It will probably also help the students to read and discuss each other's code.
+	Not all companies use Style Guides, but usually this is because they are very early in their development or are very small and not growing, or just badly managed.
+	I think the purpose of style guides is to reduce complexity of reading someone else's code. Knowing where one should expect to find things and the form they take will allow many people to read code more efficiently. Style guides make reading and comprehension faster and easier (although maybe not as effective for learning, rentention and retrieval). Style guides can be very effective in preventing arguements about the 'best' style to use, sometimes because all developers on a team can all agree that the style guide sucks - the christmas cracker joke effect.
+
+PROJECT SUBMISSION
+Hints to achieve 0% code mismatch and total udaciousness.
+
+	Part 1: How to aim for a 0% mismatch in the autograder for Project 1
+	Part 2: How to go through a short tour of a website that shows the basics of using git (https://try.github.io/levels/1/challenges/1).
+
+	Link to video of Part 1:
+	https://plus.google.com/u/0/events/crnd8nm83i1bsrdufgfinqo204g?authkey=CO2PqvDqi_SjDQ
+
+	POST NOTE: The hint to match didn't work, but it was helpful to get close.
+	Matching the image well meant missing the comparison generated by the udacity site.
+	Much further tweaking was required. The succesful 0% mismatch solution was quite
+	wrong compared to the mockup.png
+
+	"...be sure to set the width to 1024 in DevTools)"" ahhh... I didn't think of this! It would have helped more, but would not have fixed the problem.
+
+	Link to video of Part 2:(jump to 12:30)
+	https://plus.google.com/u/0/events/c9svuqo9stjct0glefc1279f3hk
+	A brief overview of the following commands:
+
+	git init
+	git add
+	git commit
+	git status
+	git log
+
+	We had a question on how to work with multiple branches in git and apply changes onto them. The best way to do this is to use:
+	git checkout
+	and to ensure you are on the right branch, make your changes on each and the do a
+	git merge
+	An example of this scenario can be found at:
+	https://piazza.com/class?cid=i4q86xbcq2o3j3&nid=i4nat74xz7tsx&token=wDglman7g9a
