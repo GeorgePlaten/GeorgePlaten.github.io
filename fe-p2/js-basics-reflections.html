@@ -22,13 +22,13 @@
 
         <h3>Q2  What technologies and techniques will you be using to build your online resume in this class?</h3>
 
-          <p>jQuery, javascript, DOM manipulation, HTML, CSS, a pro text editor, Browser Dev Tools, Git and Git Hub... maybe that Python tutorial visualiser for Javascript. Follow-up: goshdarnit, that visualiser is gone!</p>
+          <p>jQuery, JavaScript, DOM manipulation, HTML, CSS, a pro text editor, Browser Dev Tools, Git and Git Hub... maybe that Python tutorial visualiser for JavaScript. Follow-up: goshdarnit, that visualiser is gone!</p>
 
       <h2>Key Ideas</h2>
 
         <h3>1. Why so much HTML?</h3>
 
-          <p>Everything in Javascript (at least, in this course) works on HTML and CSS via the DOM, which it sees as a Javascript Object.  Javascript can also be directly in the HTML, or preferably reference from a seperate file with &lt;script&gt; tags.</p>
+          <p>Everything in JavaScript (at least, in this course) works on HTML and CSS via the DOM, which it sees as a JavaScript Object. JavaScript can also be directly in the HTML, or preferably reference from a separate file with &lt;script&gt; tags.</p>
 
         <h3>2. Referencing Elements</h3>
 
@@ -42,13 +42,13 @@
 
           <p>This course will be completed in resume.js, the other files contain helper data.</p>
 
-        <h3>5. Running Javascript in the Dev Tools console</h3>
+        <h3>5. Running JavaScript in the Dev Tools console</h3>
 
-          <p>The big browsers have 'Dev Tools' that we can use Javascript directly with. Chrome has a Javascript console that we can type directly into and have it parsed. Note that using <code>console.log()</code> returns <code>undefined</code>, this is because it prints to the console as a <em>side-effect</em>, it does not return anything.</p>
+          <p>The big browsers have 'Dev Tools' that we can use JavaScript directly with. Chrome has a JavaScript console that we can type directly into and have it parsed. Note that using <code>console.log()</code> returns <code>undefined</code>, this is because it prints to the console as a <em>side-effect</em>, it does not return anything.</p>
 
         <h3>6. More Dev Tools</h3>
 
-          <p>Note that you can view and manipulate any webpage you visit using Dev Tools by messing with the HTML, CSS and Javascript. You can execute any old javascript in the console, like multiplication, division etc.</p>
+          <p>Note that you can view and manipulate any webpage you visit using Dev Tools by messing with the HTML, CSS and JavaScript. You can execute any old JavaScript in the console, like multiplication, division etc.</p>
 
         <h3>7. Variable Syntax.</h3>
 
@@ -56,7 +56,7 @@
 
         <h3>8. Semicolon style</h3>
 
-          <p>Note that all statements in Javascript shall end with <code>;</code> this is not always needed but omitting it can cause problems when you least expect it you'll have trouble fiding that this was the root. Compare this with Python which never uses <code>;</code> but uses line returns as part of the language.</p>
+          <p>Note that all statements in JavaScript shall end with <code>;</code> this is not always needed but omitting it can cause problems when you least expect it you'll have trouble finding that this was the root. Compare this with Python which never uses <code>;</code> but uses line returns as part of the language.</p>
 
 
       <h2>Data Types</h2>
@@ -90,8 +90,8 @@
 
           <ul>
             <li><code>str.toUpperCase()</code> converts to upper case</li>
-            <li><code>str.split([separator[, limit]])</code> seperator is typically a space, comma or tab</li>
-            <li><code>str.slice(beginSlice[, endSlice])</code> if no <em>endSlice</em> is specified, it will take everything upto the end.Note <em>beginSlice</em> starts counting at 0</li>
+            <li><code>str.split([separator[, limit]])</code> separator is typically a space, comma or tab</li>
+            <li><code>str.slice(beginSlice[, endSlice])</code> if no <em>endSlice</em> is specified, it will take everything up to the end. Note <em>beginSlice</em> starts counting at 0</li>
           </ul>
 
           <p>We also used the string methods, and noticed that strings are immutable, unlike Arrays. You can't alter a single letter in an string, it has to be split and joined into new strings.</p>
@@ -124,7 +124,7 @@
 
         <h3>10. The difference between <code>ReferenceError</code> and <code>undefined</code></h3>
 
-          <p>...is that <code>undefined</code> has a variable names but no value assigned. <code>ReferenceError</code> means the variable has not been created. <code>null</code> is an intentional undefined placeholder value for a variable name. <code>undefined</code> is unintentional. <code>undefined</code> can cause serious debuggling issues as bugs happen in places where they didn't originate and can be very hard to trace. Using a lot of assertions can help avoid the issue.</p>
+          <p>...is that <code>undefined</code> has a variable names but no value assigned. <code>ReferenceError</code> means the variable has not been created. <code>null</code> is an intentional undefined place-holder value for a variable name. <code>undefined</code> is unintentional. <code>undefined</code> can cause serious debugging issues as bugs happen in places where they didn't originate and can be very hard to trace. Using a lot of assertions can help avoid the issue.</p>
 
         <h3>11. Arrays. <code>[]</code> is object literal, e.g. <code>var myArr = [];</code></h3>
 
@@ -154,7 +154,7 @@
           <ul>
             <li>Dot Notation: <code>name.value</code> best for code readability, code needs strict style to work with this though.</li>
             <li>Square Brackets Notation: <code>name["value"]</code> works for (badly) named variable, but can also be useful for certain situations.</li>
-            <li>Style: Same as array for layout. Items should be <code>"name": value</code>, note that name must be a string, items are <em>seperated</em> by commas so a trailing comma after last item should not be there.</li>
+            <li>Style: Same as array for layout. Items should be <code>"name": value</code>, note that name must be a string, items are <em>separated</em> by commas so a trailing comma after last item should not be there.</li>
           </ul>
 
           <p>
@@ -173,11 +173,11 @@
             <strong>NOTE: THERE ARE NO CLASSES IN JAVASCRIPT!!!</strong>
           </p>
 
-        <h3>13. JSON (Javascript Object Notation)</h3>
+        <h3>13. JSON (JavaScript Object Notation)</h3>
 
-          <p>It is (not quite) a subset of Javascript, it's very useful for site syndication as it is more flexible that RSS or XML. The style is very important and, although it is simple, it can get messy easily so using a service like <a href="http://jsonlint.com">jsonlint.com</a> is a must.</p>
+          <p>It is (not quite) a subset of JavaScript, it's very useful for site syndication as it is more flexible that RSS or XML. The style is very important and, although it is simple, it can get messy easily so using a service like <a href="http://jsonlint.com">jsonlint.com</a> is a must.</p>
 
-          <p>The main differences between a javascript object and the JSON standard format are:
+          <p>The main differences between a JavaScript object and the JSON standard format are:
 
             <ul>
               <li>Double quotes must be used for property names</li>
@@ -192,7 +192,7 @@
 
         <h3>14. More HTML, CSS and DOM stuff</h3>
 
-          <p>Note that using <code>document.getElementByID("something")</code> return the full HTML snippet. To set a CSS with Javascript use the syntax: <code>document.getElementByXXX.style.property = "value";</code></p>
+          <p>Note that using <code>document.getElementByID("something")</code> return the full HTML snippet. To set a CSS with JavaScript use the syntax: <code>document.getElementByXXX.style.property = "value";</code></p>
 
           <p>Note Javascript and CSS references will not be exactly the same e.g. <code>background-color != backgroudColor</code></p>
 
@@ -221,7 +221,7 @@
 
           <p>Note the ternary operator would make short work of the example if / else syntax given above.</p>
 
-        <h3>2. Loops: <code>while</code>, <code>for</code>, <code>for</code>-<code>in</code>. psuedo-selector <code>:last</code></h3>
+        <h3>2. Loops: <code>while</code>, <code>for</code>, <code>for</code>-<code>in</code>. pseudo-selector <code>:last</code></h3>
 
           <p>DRY - don't repeat yourself<p>
 
@@ -245,7 +245,7 @@
               </pre>
               Note, initialization defines how to start, condition defines when to end, and mutator defines how to increment the iterator.</p>
 
-              <p>Notes: no trailing semi-colon, use var when delaring i, or better initialize a incrementer variable before the loop.</p>
+              <p>Notes: no trailing semi-colon, use var when declaring i, or better initialize an incrementer variable before the loop.</p>
 
             <h4>For-In Loop</h4>
 
@@ -262,7 +262,7 @@
                   <li>'<code>in</code>' is a keyword that must be used for the for-in loop</li>
                   <li>'<code>object</code>' is the name of the collection to go through</li>
                 </ul>
-              Only for use with hashs, maps and Objects. Can be dangerous with Arrays - use basic for loop above for arrays.</p>
+              Only for use with hashes, maps and Objects. Can be dangerous with Arrays - use basic for loop above for arrays.</p>
 
           <p>(note: found and used the jQuery <code>.each()</code> method, more notes in the code)</p>
 
@@ -270,9 +270,9 @@
 
           <p>There is also <code>:first</code> and <code>:last-child</code> and <code>:first-child</code></p>
 
-          <p>It is used <em>inside</em> the quote marks like <code>$.(".class:last")</code>. Psuedo-selectors, now for more than just :huvvers!</p>
+          <p>It is used <em>inside</em> the quote marks like <code>$.(".class:last")</code>. Pseudo-selectors, now for more than just :huvvers!</p>
 
-          <p><em>I decided after this exercise to use a variable naming style for now in my projects, especially while learning. This means appending 'Indx' to index names and 'Arr' to arrays because even though the istructors gave a clue about the problem that would be run into, and I noticed the clue, and was watching for it... I still made the mistake.</em></p>
+          <p><em>I decided after this exercise to use a variable naming style for now in my projects, especially while learning. This means appending 'Indx' to index names and 'Arr' to arrays because even though the instructors gave a clue about the problem that would be run into, and I noticed the clue, and was watching for it... I still made the mistake.</em></p>
 
         <h3>3. Functions</h3>
 
@@ -281,7 +281,7 @@
 
           <p>function expression syntax:
             <pre>
-              var myVar = function (paramaters) {
+              var myVar = function (parameters) {
                 //bundled code to run;
               }
             </pre>
@@ -297,7 +297,7 @@
                 //bundles of code go here;
               }
             </pre>
-          Declared funtions like this get 'hoisted' to the top of the scope with their blocks of code. Function Expressions only get their variable <em>names</em> hoisted, and set to <code>undefined</code> until called directly or passed.</p>
+          Declared functions like this get 'hoisted' to the top of the scope with their blocks of code. Function Expressions only get their variable <em>names</em> hoisted, and set to <code>undefined</code> until called directly or passed.</p>
 
         <h3>4. Collecting clicks and the event object</h3>
 
@@ -316,7 +316,7 @@
 
         <h3>5. Return Statements</h3>
 
-          <p>Dev tools demo showing how to access the different files referenced from a web page. This led to finding a return keyword and statement. He explained this was why console.log() shows 'undefined' on the console. It doesn't return anything. This is also known as a pure function, the console printing is done as a side-effect. Apparantly this is how Haskell mostly works and why the joke says it is a 'useless' language.</p>
+          <p>Dev tools demo showing how to access the different files referenced from a web page. This led to finding a return keyword and statement. He explained this was why console.log() shows 'undefined' on the console. It doesn't return anything. This is also known as a pure function, the console printing is done as a side-effect. Apparently this is how Haskell mostly works and why the joke says it is a 'useless' language.</p>
 
           <p>He showed how <code>"string split".split(" ");</code> returns and array. Quiz also gave exposure to <code>.push()</code> and <code>.pop()</code>. <em>Push</em> appends and item to an array by mutation and returns the new length of the array. <em>Pop</em> return the last item in the array and deletes the item from the array.</p>
 
@@ -330,7 +330,7 @@
 
         <h3>8. Exploring new syntax</h3>
 
-          <p>James noted the 3 different syntax to create objects: literal, dot and brackets. He noted Javascript had been around for a long time and has gone through many changes, stuff you see today may be old and outdated and not suitable to use any more.</p>
+          <p>James noted the 3 different syntax to create objects: literal, dot and brackets. He noted JavaScript had been around for a long time and has gone through many changes, stuff you see today may be old and outdated and not suitable to use any more.</p>
 
           <p>They revisited the Click collector as a challenge to figure out what's going on. But since the answer was just to show that an anonymous function can be passed as a parameter, it didn't actually help understand anything about events etc.</p>
 
@@ -340,7 +340,7 @@
 
           <p>They talked about 3rd party libraries like Google Maps and D3, which I will look into as needed, personalizing the resume with CSS and adding the map to the resume page, which really was just uncommenting some code. More of a demo of the 'further cool things you can do with JS' kinda thing, which is ok.</p>
 
-          <p>The instructions were a mess in this one though. Even the final project is very vague, yeah you can do it like that but it shows a lack of effort. Anyway I'll get a much more exacting picture of what to submit from the nanodegree details.</p>
+          <p>The instructions were a mess in this one though. Even the final project is very vague, yeah you can do it like that but it shows a lack of effort. Anyway I'll get a much more exacting picture of what to submit from the Nanodegree details.</p>
 
 
     <hr>
@@ -392,7 +392,7 @@
 
         <h3>'Hoisting'</h3>
 
-          <p>Declared fuctions and variables are always hoisted to the top of the scope before any other code is run. This:
+          <p>Declared functions and variables are always hoisted to the top of the scope before any other code is run. This:
             <pre>
               function () {
                 bar();
