@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Intro to jQuery: reflections</title>
+    <style>body {width: 600px;}</style>
+  </head>
+  <body>
+
+    <h1>The Basics: DOM, $ and selectors</h1>
+
+
+      <h2>Intro</h2>
+
+        <p>A look ahead. jQuery is just JavaScript. $ is shorthand for calling the jQuery object. jQuery uses css style selectors to get DOM elements, to which jQuery methods can be stringed on to. For example: <code>$('.article').css('color','purple');</code></p>
+
+        <p>Is calling jQuery to get an element or elements with the class of 'article', and them setting the color to purple with the css method.</p>
+
+        <p>Note that the jQuery selects DOM elements with a string, as are the arguments for the methods. JavaScript variable can be passed too.</p>
+
+        <p>A lot of the course will be about using the jQuery documentation.</p>
+
+
+      <h2>Why does jQuery exist?</h2>
+
+        <p>jQuery IS JUST JAVASCRIPT!!!111OMGWTF!</p>
+
+        <p>jQuery exists because manipulating the DOM with plain JavaScript isn't always easy. It's much more long-winded, and therefore error-prone. James showed and example of adding an element to a page, which is 4 steps in JavaScript and 1 step in qQuery.</p>
+
+        <p>It also takes away all the headaches of browser compatiblity. And some other advantages I don't understand yet, like AJAX stuff. It let's you focus on <strong>UX</strong> (user experience).</p>
+
+
+      <h2>What is jQuery actually?</h2>
+
+        <p>James demo'd that typing jQuery into the console returns a function -- which is also an object, as all JavaScript functions are objects. He then did the same demo with the $ sign, showing that it is used as shorthand for jQuery. Note: the $ is just a variable and can be overwritten / reassigned accidentaly, and that some other JavaScript libraries also use the $ in a similar fashion, so you should be aware of potential clashes.</p>
+
+
+      <h2>How to use the $</h2>
+
+        <p>Calling $ returns a <em>jQuery Collection</em> which is very similar to a JavaScript array - BUT with additional methods.</p>
+
+        <p>When you pass a string into the jQuery objects a jQuery Collection of DOM elements is returned. e.g.: <code>$('#someID');</code></p>
+
+        <p>You can also pass a function into the jQuery object, and even a DOM element like: <code>$(body);</code></p>
+
+        <p>You can call methods directly on the $ object, like .each() : <code>$.each();</code> or <code>$.ajax();</code>. James also mentioned the <a href="https://www.udacity.com/course/ud110">Udacity AJAX class</a>, which I could probably do with taking, someday, since I have no clue what it's all about. Why do I keep calling him James? That was the lovely black southern guy, this guy's name is Cameron Pittman or something.</p>
+
+
+      <h2>DOM Inspiration</h2>
+
+        <p>The DOM is a tree structure. Cameron explained the concepts of children, siblings, parents, nested elements etc.</p>
+
+
+      <h2>How is jQuery added to a page?</h2>
+
+        <p>Just like any JavaScript, using script tags, in the head, in the body, etc. It can be served from a CDN, which had the advantage of caching (and saving your visitor from having to download the library again) or from your own site. CDNs are super fast too, and will probably always be way faster than your own site.</p>
+
+        <p>Don't forget to use the minified version of jQuery in production, as it is seriously smaller</p>
+
+
+      <h2>Select by tags</h2>
+
+        <ul>
+          <li>Remember to use CSS style selection rules.</li>
+          <li>Remember to pass them to jQuery as strings.</li>
+        </ul>
+
+        <p>The jQuery <a href="http://api.jquery.com/category/selectors/">docs on selectors</a>.</p>
+
+        <p>This exercise shows getting all list elements in a DOM and it is the first time we see the format of that weird jQuery indexed array.</p>
+
+
+      <h2>Select by classes / Select by ids</h2>
+
+        <p>Selecting by tags is bad.</p>
+
+        <p>Select by classes is better as it is more specific (assuming you are writing half-decent HTML). Remember to add the CSS selector like a . for classes and a # for ids.</p>
+
+
+      <h2>(Family Tree Revisited) jQuery DOM Traversal Methods</h2>
+
+        <ul>
+          <li><code>$('selector').parent();</code></li>
+          <li><code>$('selector').parents();</code> and <code>$('selector').parents('selector');</code></li>
+          <li><code>$('selector').childen();</code></li>
+          <li><code>$('selector').find();</code> and <code>$('selector').find('selector');</code></li>
+          <li><code>$('selector').siblings();</code></li>
+        </ul>
+
+        <p><a href="http://api.jquery.com/category/traversing/">jQuery docs on traversal methods</a>.</p>
+
+        <p>Note: <code>.parent()</code> only gets the immediate level above the selector, while <code>.parents()</code> will select all of the parents. You can pass another selector into <code>.parents()</code> to refine the selection.</p>
+
+        <p>Likewise, <code>.children()</code> only selects one level below. To go further below, Cameron recommended using <code>.find()</code> to get <em>all</em> sub-levels and them pass a selector into <code>.find()</code> to be more specific.</p>
+
+        <p>Note that <code>.parent()</code> and <code>.children()</code> only traverse one level. <code>.parent()</code> only returns a single item. <code>.siblings()</code> returns a group of siblings and also takes a selector to let you get more specific.</p>
+
+
+      <h2>Filtering</h2>
+
+        <p>Cameron dropped in <a href="http://api.jquery.com/category/traversing/filtering">a link on filtering</a> but didn't discuss it yet. In the quiz it didn't actually use any filtering methods either? He passed another selctor to a traversal method and called that a filter, but that's not what the filter methods link was about at all! That was helpful. The sneaky snakey git.</p>
+
+        <p>Note that Cameron used the universal selctor '*' inside <code>.find('*')</code> as the selector is not optional. Using '*' is allowed, and is used as you would think. He took the opportunity again to show this is the first thing they tell you when you look at the docs for <code>.find()</code> on the jQuery website.</p>
+
+      <hr>
+
+    <h1>The Tricks: DOM Manipulation</h1>
+
+
+      <h2>jQuery documentation and me, who me? yes me</h2>
+
+        <p>A description of what's to come, then a look at the website docs and the <code>.addClass('className')</code> method under attributes. Went on to show that you can also pass a function to the addClass method like <code>$('selector').addClass(function);</code>, the function has to return (or evaluate to) a string. The addClass method can also take multiple class names seperated by spaces.</p>
+
+        <p>If the documentation shows a method being passed a parameter enclosed in square brackets <code>.parents(['selector'])</code>, this denotes it is optional.</p>
+
+
+      <h2>me.toggleClass('className')</h2>
+
+        <p>A look at the <code>.toggleClass('className')</code> method. Note the class name is being passed as a parameter and is <em>not</em> being used as a CSS style selector - this means it is <em>not</em> preceded with a '.' or '#'.</p>
+
+
+      <h2>.next(['selector'])</h2>
+
+        <p>The next method gets the immediately following sibling of each element in the set of matched elements. This was quite tricky to get my head around, multiple selections and then shifting all those selections by one.</p>
+
+        <p>If a selector is passed, it gets the next sibling only if it matches that selector.</p>
+
+
+      <h2>Changing Attributes</h2>
+
+        <p>The <code>$('selector').attr('attribute', 'value');</code> method is very interesting in that if you pass one parameter it returns the value, but if you pass two parameters it sets the attribute and value.</p>
+
+        <p>This will be a common pattern in use in jQuery.</p>
+
+        <p>The quiz also showed the <code>$('selector').first();</code> method, which references the first item in a collection.</p>
+
+
+      <h2>Modifying css</h2>
+
+        <p>Note that adding CSS with jQuery adds inline style tags to the HTML and does not add styles to the CSS file, as you would prefer. So, really it shouldn't be used.</p>
+
+        <p>The syntax is: <code>$('selector').css('property','attribute');</code> but can also take functions that evaluate to strings.</p>
+
+
+      <h2>Pulling html and text</h2>
+
+        <p><code>.html()</code> will get or set all the everything between a set of tags, but <code>.text()</code> will only get or set the text and strip all the html from what was referenced.</p>
+
+        <p><code>.val()</code> is a great way to get to the contents of a lable or other elements.</p>
+
+
+      <h2>Removing DOM elements</h2>
+
+        <p><code>.remove(['selector'])</code> does exactly what it says on the tin.</p>
+
+        <p><code>$( "p" ).remove( ":contains('Hello')" );</code> - a nice example using <code>:contains</code> from the jQuery docs.</p>
+
+        <p>MmmmHmmmm. Now we know what happened to James.</p>
+
+
+      <h2>Adding DOM elements</h2>
+
+        <ul>
+          <li><code>$('selector').append(content)</code> adds content inside an element, at the end.</li>
+          <li><code>$('selector').prepend(content)</code> adds content inside an element, at the beginning.</li>
+          <li><code>$(content).insertBefore('target')</code> adds content before an element, not the inverse pattern when compared to append / prepend.</li>
+          <li><code>$(content).insertAfter('target')</code> adds content after an element, not the inverse pattern when compared to append / prepend.</li>
+        </ul>
+
+        <p>Note that both insertBefore and insertAfter can be used to do multiple insertions around a target selection that found a collection.</p>
+        <p>For a more 'normal' pattern you can use <code>$('selector').before(content)</code> and <code>$('selector').after(content)</code> instead.</p>
+
+
+      <h2>Iterating with <code>.each(function)</code></h2>
+
+        <p>Iterates over a jQuery object, executing the function on each matched element. Note you must use <code>$(this)</code> to refer to the element currently being iterated on.</p>
+
+        <p>Example: <br><pre>
+          $( "li" ).each(function( index ) {
+            console.log( index + ": " + $( this ).text() );
+          });
+        </pre></p>
+
+        <p>Note that 'index' was used here optionally.</p>
+
+
+      <h2>Why use jQuery?</h2>
+
+        <p>Why is jQuery so popular?</p>
+
+        <ul>
+          <li>Fast Selection</li>
+          <li>Browser Compatibility</li>
+          <li>Makes it easier to manipulate the DOM</li>
+        </ul>
+
+        <p>Note, technically it should slow pageloads, but in practice it will probably speed them up. Udacity's tip is to use a minified version from a CDN to make it even faster.</p>
+
+
+      <h2>$ Ready when you are</h2>
+
+        <p>In the last section we are reminded that any that uses the jQuery ($) call runs on <code>document.ready</code> which makes life very simple an can (and has been for me) a pain for beginners. Just using jQuery instead, avoids all these issues.</p>
+
+        <p>Apparantly, this is something to do with <em>callback</em> too... :/</p>
+
+
+    <h1>What Next?</h1>
+
+
+      <h2>Other notes and resources</h2>
+
+        <p>I looked at the Microsoft Virtual Academy Intro to jQuery course which was very interesting but suffered from the fact that is gives no exercises or practice. A real pity becuase it had much better content and covered a lot more, as beginner's Intros go, I thought.</p>
+
+  </body>
+</html>
