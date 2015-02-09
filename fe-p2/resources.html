@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8">
     <title>Project 2: Resources</title>
-    <style>body {width: 900px;}</style>
+    <style>body {width: 600px;}</style>
   </head>
   <body>
-    <p>This is a list of web pages with short notes or descriptions used while preparing the submission for Udacity Front End Developer Nanodegree, Project 2. (For a thorough list of links, questions, answers, thoughts and notes made during the course see *.reflections.html)</p>
+    <p>This is a list of web pages with short notes or descriptions used while preparing the submission for Udacity Front End Developer Nanodegree, Project 2. (For a thorough journal of links, questions, answers, thoughts and notes made during the course see <a href="js-basics-reflections.html">js-basics-reflections.html</a> and <a href="jquery-reflections.html">jquery-reflections.html</a>)</p>
 
     <ul>
       <li>
@@ -100,66 +100,51 @@
         </pre>
       </li>
       <li>
-        <a href=""></a><br>
-
+        <a href="http://justinhileman.info/article/git-pretty/">Git Troubleshooters Flowchart</a><br>
+        Could come in handy.
       </li>
       <li>
-        <a href=""></a><br>
-
+        <a href="http://forums.udacity.com/questions/100255989/re-loc-the-jquery-documentation-link-given-here-doesnt-mention-it">'loc' clarification on Udacity forums</a><br>
+        This is what I needed, only place I could find it, might need again.
       </li>
       <li>
-        <a href=""></a><br>
-
+        <a href="https://developers.google.com/maps/documentation/javascript/tutorial">Google Maps Docs, JavaScript tutorial</a><br>
+        As usual with Google docs, it looks a bit crap, but since one of the final projects is about mapping.... Hmmm, a video tutorial, something like lynda.com, might be a quicker way of seeing what's available. In truth, you don't see Google Maps being used for much more that Google Maps...
       </li>
       <li>
-        <a href=""></a><br>
-
+        <a href="http://d3js.org/">THE Data visualisation for JavaScript library</a><br>
+        This is 'the big one' for data vis. Looks complex, but could be great.
       </li>
       <li>
+        <a href="http://en.wikipedia.org/wiki/Anonymous_function#JavaScript">Anonymous Functions # JavaScript on Wikipedia</a><br>
+        So <code>(function(){}())</code> and <code>(function(){})()</code>, are pretty much the same thing - anonymous functions that get executed immediatly. They are almost the same as: <code>var f = function(){}; f();</code><br>
+        After that, it's gets a bit silly.
+      </li>
+      <li>
+        <a href="http://helephant.com/2008/08/23/javascript-anonymous-functions/">Helefant on Anonymous functions</a><br>
+        <pre>
+          var something = function() {
+            //some code;
+          };
+        </pre>
+        <p>Is actually an anonymous function assigned directly to the return value of the variable, I never noticed this before! Note: this is also the difference between creating a function with the function delaration and with a function operator in an expression.</p>
+        <p>Expressions are created at runtime, declarations run before any other code is executed. Revisit this when looking at recursive functions, it builds to a nice example.</p>
+        <p>When you give an function in an expression a name, it still only gets created at runtime - therefore giving them names can really help with debugging as all anonymous functions can look the same.</p>
+      </li>
+      <li>
+        <a href="http://helephant.com/2008/08/19/functions-are-first-class-objects-in-javascript/">Function are Objects, Making library functions</a><br>
+        Nice example of making library functions, review in 2 weeks
+      </li>
+      <li>
+        <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date">MDN Using dates in JS</a><br>
+        Did this because the guideline suggest using an Interger to represent dates in the education object, but I suspect that's error, although it was a good exercise to do it this way.
+      </li>
+<!--       <li>
         <a href=""></a><br>
 
-      </li>
-
+      </li> -->
     </ul>
 
+  </body>
+</html>
 
-
-// Git Troubleshooters Flowchart
-http://justinhileman.info/article/git-pretty/
-  Could come in handy.
-
-// 'loc' clarification on Udacity forums
-http://forums.udacity.com/questions/100255989/re-loc-the-jquery-documentation-link-given-here-doesnt-mention-it
-  This is what I needed, only place I could find it, might need again.
-
-// Google Maps Docs, JavaScript tutorial
-https://developers.google.com/maps/documentation/javascript/tutorial
-  As usual with Google tutes, it looks a bit crap, but might be worth powering through if and when the specific need arises. Hmmm, a video tutorial, something like lynda.com, might be a quicker way of seeing what's available. In truth, you don't see Google Maps being used for much more that Google Maps...
-
-// THE Data visualisation for JavaScript library
-http://d3js.org/
-  This is 'the big one' for data vis. Looks complex, but could be great.
-
-// Anonymous Functions # JavaScript on Wikipedia
-http://en.wikipedia.org/wiki/Anonymous_function#JavaScript
-  So (function(){}()) and (function(){})(), are pretty much the same thing - anonymous functions that get executed immediatly. They are almost the same as: var f = function(){}; f();
-  After that, it's gets a bit silly.
-
-// Helefant on Anonymoud functions
-http://helephant.com/2008/08/23/javascript-anonymous-functions/
-  var something = function() {
-    //some code;
-  };
-  Is actually an anonymous function assigned directly to the return value of the variable! I never noticed this before! Note: this is also the difference between creating a function with the function delaration and the function operator (the operator is the anonymous one).
-  Operators are created at runtime, declarations run before any other code is executed. Note, the function declaration uses the function name in order to add it to the current scope as a variable.
-  Revisit this when looking at recursive functions, it builds to a nice example.
-  When you give an anonymous function a name, it still only gets created at runtime - therefore giving them names can really help with debugging as all anonymous functions can look the same.
-  Goddamn, gotta subscribe to helephant!
-
-// Function are Objects, Making library functions
-http://helephant.com/2008/08/19/functions-are-first-class-objects-in-javascript/
-  Nice example of making library functions, review in 2 weeks
-
-// MDN Using dates in JS
-https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
-  Did this because the guideline suggest using an Interger to represent dates in the education object, but I suspect that's error, although it was a good exercise to do it this way.
