@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>JavaScript Basics: reflections</title>
+    <style>
+    body {
+      width: 600px;
+      margin-left: 40px;
+    }
+    </style>
+  </head>
+  <body>
+
+    <h1>Intro</h1>
+
+      <h2>Questions</h2>
+
+        <h3>Q1  Why are you taking this course?</h3>
+
+          <p>To enable me to create a modern interactive front end for my web app.</p>
+
+        <h3>Q2  What technologies and techniques will you be using to build your online resume in this class?</h3>
+
+          <p>jQuery, javascript, DOM manipulation, HTML, CSS, a pro text editor, Browser Dev Tools, Git and Git Hub... maybe that Python tutorial visualiser for Javascript. Follow-up: goshdarnit, that visualiser is gone!</p>
+
+      <h2>Key Ideas</h2>
+
+        <h3>1. Why so much HTML?</h3>
+
+          <p>Everything in Javascript (at least, in this course) works on HTML and CSS via the DOM, which it sees as a Javascript Object.  Javascript can also be directly in the HTML, or preferably reference from a seperate file with &lt;script&gt; tags.</p>
+
+        <h3>2. Referencing Elements</h3>
+
+          <p>Note that referencing an HTML element using <code>#example</code> is looking for the unique identifier <code>id="example"</code>. And that <code>getElementByID</code> says singular 'element', because it is an ID. Other references will use 'elements' plural.</p>
+
+        <h3>3. jQuery</h3>
+
+          <p>This course will use the third party library, jQuery. It is a good idea to get used to the idea of using third party libraries. jQuery had an <code>.append()</code> method that allows us to add text to an HTML element. To get an HTML element ID with jQuery, type <code>$("#elementIDvalue")</code> will reference the element, <code>$("#main").append("some text")</code> will append some text to it.</p>
+
+        <h3>4. resume.js</h3>
+
+          <p>This course will be completed in resume.js, the other files contain helper data.</p>
+
+        <h3>5. Running Javascript in the Dev Tools console</h3>
+
+          <p>The big browsers have 'Dev Tools' that we can use Javascript directly with. Chrome has a Javascript console that we can type directly into and have it parsed. Note that using <code>console.log()</code> returns <code>undefined</code>, this is because it prints to the console as a <em>side-effect</em>, it does not return anything.</p>
+
+        <h3>6. More Dev Tools</h3>
+
+          <p>Note that you can view and manipulate any webpage you visit using Dev Tools by messing with the HTML, CSS and Javascript. You can execute any old javascript in the console, like multiplication, division etc.</p>
+
+        <h3>7. Variable Syntax.</h3>
+
+          <p><code>var varName = value;</code><br>Note that objects, arrays and functions use the same syntax.</p>
+
+        <h3>8. Semicolon style</h3>
+
+          <p>Note that all statements in Javascript shall end with <code>;</code> this is not always needed but omitting it can cause problems when you least expect it you'll have trouble fiding that this was the root. Compare this with Python which never uses <code>;</code> but uses line returns as part of the language.</p>
+
+
+      <h2>Data Types</h2>
+
+        <h3>1. Elements and Data Types</h3>
+
+          <p>Note the several different <em>Data Types</em>, for now we'll just work with strings and numbers. All numbers are 64 bit floating point. There are no integers and no number conversions required.</p>
+
+        <h3>2. String Replace Method.</h3>
+          <ul>
+            <li><code>"string".replace("old", "new");</code></li>
+            <li><code>"string".replace(/regex/ig, "new");</code></li>
+          </ul>
+
+          </p><code>i</code> = ignore case, <code>g</code> = global (replace all results of the search, not just the first). See MDN for loads more <code>string.methods()</code><p>
+
+        <h3>3. jQuery append and prepend</h3>
+
+          <p>Note <code>.append()</code> and <code>.prepend()</code> work inside the container they find, they don't append after or before the container, they add content as if a child or children, at the beginning or end.</p>
+
+        <h3>4. Zero Indexing</h3>
+
+          <p>Remember indexing an Array <code>[]</code> (and strings) starts counting at 0, so array[0] is the first item of the Array.</p>
+
+        <h3>5. Concatenation</h3>
+
+          <p>You can concatenate text with <code>+</code><br>
+          <code>"string1" + " " + "string2"</code> will return <code>"string1 string2"</code>.</p>
+
+        <h3>6. More String Methods</h3>
+
+          <ul>
+            <li><code>str.toUpperCase()</code> converts to upper case</li>
+            <li><code>str.split([separator[, limit]])</code> seperator is typically a space, comma or tab</li>
+            <li><code>str.slice(beginSlice[, endSlice])</code> if no <em>endSlice</em> is specified, it will take everything upto the end.Note <em>beginSlice</em> starts counting at 0</li>
+          </ul>
+
+          <p>We also used the string methods, and noticed that strings are immutable, unlike Arrays. You can't alter a single letter in an string, it has to be split and joined into new strings.</p>
+
+        <h3>7. We learned about:</h3>
+
+          <p><code>str = arr.join([separator = ','])</code> need to remember that this is an array method, even though it is commonly used on strings.</p>
+
+        <h3>8. Truthy and Falsey.</h3>
+
+          <p>The 7 Falsey objects are:</p>
+
+          <ul>
+            <li><code>0</code>, <code>""</code> (the empty string), and <code>false</code> all are <code>==</code> to each other (3)</li>
+            <li><code>null</code> and <code>undefined</code> only equal to themselves (2)</li>
+            <li><code>NaN</code> not even equal to itself, use <code>isNaN()</code> to test for it, if needed. <code>typeof(NaN)</code> is <code>"number"</code> (1)</li>
+          </ul>
+
+          <p>Some surprising <strong>Truthy</strong> items are:</p>
+
+          <ul>
+            <li><code>[]</code> The empty array</li>
+            <li><code>{}</code> The empty object</li>
+            <li><code>"0"</code> A string with 0 in it</li>
+          </ul>
+
+          <p>Note Booleans <code>true</code> and <code>false</code> are lower case.</p>
+
+        <h3>9. Infinity has both positive and negative versions.</h3>
+
+        <h3>10. The difference between <code>ReferenceError</code> and <code>undefined</code></h3>
+
+          <p>...is that <code>undefined</code> has a variable names but no value assigned. <code>ReferenceError</code> means the variable has not been created. <code>null</code> is an intentional undefined placeholder value for a variable name. <code>undefined</code> is unintentional. <code>undefined</code> can cause serious debuggling issues as bugs happen in places where they didn't originate and can be very hard to trace. Using a lot of assertions can help avoid the issue.</p>
+
+        <h3>11. Arrays. <code>[]</code> is object literal, e.g. <code>var myArr = [];</code></h3>
+
+          <p>Array methods:
+
+          <ul>
+            <li><code>.push()</code> appends the argument to the array, returns new length of the array</li>
+            <li><code>.pop()</code> cuts the last item off the array and returns it</li>
+            <li><code>.split()</code> uses the parameter to split the string and return an array</li>
+            <li><code>.join()</code> joins all items of an <strong>array</strong> into a string</li>
+          </ul>
+
+          <p>Style: open square bracket on declaration line, newline and indent each item, commas between items, no trailing comma, close bracket at same indentation as declaration.
+          <pre>
+            var myArr = [
+              "item",
+              23455,
+              false
+            ]
+          </pre>
+          Note arrays use zero indexing.</p>
+
+        <h3>12. Objects. <code>{}</code> is object literal, e.g. <code>var myObj = {};</code></h3>
+
+          <p>Object referencing:</p>
+
+          <ul>
+            <li>Dot Notation: <code>name.value</code> best for code readability, code needs strict style to work with this though.</li>
+            <li>Square Brackets Notation: <code>name["value"]</code> works for (badly) named variable, but can also be useful for certain situations.</li>
+            <li>Style: Same as array for layout. Items should be <code>"name": value</code>, note that name must be a string, items are <em>seperated</em> by commas so a trailing comma after last item should not be there.</li>
+          </ul>
+
+          <p>
+            <pre>
+            var myObj = {
+              "name": "value",
+              "namen": 2343,
+              "manem": true
+            }
+            </pre>
+            Add items too an Object with:
+            <ul>
+              <li><code>object.name = value;</code> or the equivalent bracket notation:</li>
+              <li><code>object["name"] = value;</code></li>
+            </ul>
+            <strong>NOTE: THERE ARE NO CLASSES IN JAVASCRIPT!!!</strong>
+          </p>
+
+        <h3>13. JSON (Javascript Object Notation)</h3>
+
+          <p>It is (not quite) a subset of Javascript, it's very useful for site syndication as it is more flexible that RSS or XML. The style is very important and, although it is simple, it can get messy easily so using a service like <a href="http://jsonlint.com">jsonlint.com</a> is a must.</p>
+
+          <p>The main differences between a javascript object and the JSON standard format are:
+
+            <ul>
+              <li>Double quotes must be used for property names</li>
+              <li>Trailing commas are forbidden</li>
+              <li>Leading zeros are forbidden from numbers</li>
+              <li>A decimal point must have at least one trailing digit</li>
+              <li>Certain character can be escaped, it gets a bit technical here... cross that bridge later</li>
+            </ul>
+          </p>
+
+          <p><code>JSON.stringify(object)</code> converts and object to JSON.</p>
+
+        <h3>14. More HTML, CSS and DOM stuff</h3>
+
+          <p>Note that using <code>document.getElementByID("something")</code> return the full HTML snippet. To set a CSS with Javascript use the syntax: <code>document.getElementByXXX.style.property = "value";</code></p>
+
+          <p>Note Javascript and CSS references will not be exactly the same e.g. <code>background-color != backgroudColor</code></p>
+
+
+      <h2>Flow Control</h2>
+
+        <h3>1. <code>if</code> / <code>else</code> and comparisons</h3>
+
+          <p>An <code>if</code> / <code>else</code> statement syntax is:
+            <pre>
+              if (condition) {
+                //code to run;
+              } else {
+                //code to run;
+              }
+            </pre>
+          Note the else block is not required and there's no trailing semi-colon after the condition or after the if and else blocks.</p>
+
+          <p>Comparisons can take strict and loose form, the strict forms like <code>===</code> and <code>!==</code> are safer than loose, <code>==</code> and <code>!=</code> which most people say never to use because it first tries to convert both items to the same type and then evaluates the comparison.</p>
+
+          <p>You can also use less than, greater than and with less or equal etc
+          <pre>
+            <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>=&gt;</code>
+          </pre>
+          These can evaluate to <code>true</code> of <code>false</code> and be used in the if statement's condition.</p>
+
+          <p>Note the ternary operator would make short work of the example if / else syntax given above.</p>
+
+        <h3>2. Loops: <code>while</code>, <code>for</code>, <code>for</code>-<code>in</code>. psuedo-selector <code>:last</code></h3>
+
+          <p>DRY - don't repeat yourself<p>
+
+            <h4>While Loop</h4>
+
+              <p>syntax:
+              <pre>
+                while (condition) {
+                 //code to loop
+                }
+              </pre>
+              Note, no trailing semi-colon</p>
+
+            <h4>For Loop</h4>
+
+              <p>syntax:
+              <pre>
+                for (var i = 0, i &lt; 9, i++) { // (initialization, end condition, mutator)
+                  //doSomething();
+                }
+              </pre>
+              Note, initialization defines how to start, condition defines when to end, and mutator defines how to increment the iterator.</p>
+
+              <p>Notes: no trailing semi-colon, use var when delaring i, or better initialize a incrementer variable before the loop.</p>
+
+            <h4>For-In Loop</h4>
+
+              <p>syntax:
+              <pre>
+                for (item in object) {
+                  //doSomething();
+                }
+              </pre>
+              Notes:
+                <ul>
+                  <li>Iterates through every item in a collection of items.</li>
+                  <li>'<code>item</code>' is like a function parameter - it can be named here for use inside the loop. This refers to the item's index in an array or name in an object.</li>
+                  <li>'<code>in</code>' is a keyword that must be used for the for-in loop</li>
+                  <li>'<code>object</code>' is the name of the collection to go through</li>
+                </ul>
+              Only for use with hashs, maps and Objects. Can be dangerous with Arrays - use basic for loop above for arrays.</p>
+
+          <p>(note: found and used the jQuery <code>.each()</code> method, more notes in the code)</p>
+
+          <p>Lastly we came across jQuery's <code>:last </code>selector which gets the last item in a group of items with same class name like <code>.class</code></p>
+
+          <p>There is also <code>:first</code> and <code>:last-child</code> and <code>:first-child</code></p>
+
+          <p>It is used <em>inside</em> the quote marks like <code>$.(".class:last")</code>. Psuedo-selectors, now for more than just :huvvers!</p>
+
+          <p><em>I decided after this exercise to use a variable naming style for now in my projects, especially while learning. This means appending 'Indx' to index names and 'Arr' to arrays because even though the istructors gave a clue about the problem that would be run into, and I noticed the clue, and was watching for it... I still made the mistake.</em></p>
+
+        <h3>3. Functions</h3>
+
+          <p>"Spaghettified": a mess of if statements and loops. Using functions can chunk code into more meaningful and logical groups, or 'bundling complicated groups of instructions together' as described by the instructors. The thing is; they'll probably recommend simplifying and shortening these functions later!</p>
+          <p>"Spaghettification" is something entirely cooler.</p>
+
+          <p>function expression syntax:
+            <pre>
+              var myVar = function (paramaters) {
+                //bundled code to run;
+              }
+            </pre>
+          </p>
+
+          <p>This is an anonymous function assigned to be returned by the variable <code>myVar</code> and is run when called by <code></code>myVar(); or passed like <code>console.log(myVar);</code></p>
+
+          <p>This syntax can also be used un-anonymously by assigning a name to the function as well, this can be useful when using recursion. Anonymous functions can also cause confusing when debugging.</p>
+
+          <p>function declaration syntax:
+            <pre>
+              function myFunc(parameters) {
+                //bundles of code go here;
+              }
+            </pre>
+          Declared funtions like this get 'hoisted' to the top of the scope with their blocks of code. Function Expressions only get their variable <em>names</em> hoisted, and set to <code>undefined</code> until called directly or passed.</p>
+
+        <h3>4. Collecting clicks and the event object</h3>
+
+          <p>I'm still having trouble with:
+            <ul>
+              <li>event objects</li>
+              <li>callbacks</li>
+            </ul>
+          </p>
+
+          <p>There was some more difficulty here about 'loc', turns out this was the same as using 'e' as an event object. <a href="http://forums.udacity.com/questions/100255989/re-loc-the-jquery-documentation-link-given-here-doesnt-mention-it">http://forums.udacity.com/questions/100255989/re-loc-the-jquery-documentation-link-given-here-doesnt-mention-it</a></p>
+
+          <p><strong>need to spend some time to understand this 'event' thing</strong> <a href="http://api.jquery.com/category/events/event-object/">http://api.jquery.com/category/events/event-object/</a></p>
+
+          <p>I don't even know what the point of this exercise was, what was is showing?</p>
+
+        <h3>5. Return Statements</h3>
+
+          <p>Dev tools demo showing how to access the different files referenced from a web page. This led to finding a return keyword and statement. He explained this was why console.log() shows 'undefined' on the console. It doesn't return anything. This is also known as a pure function, the console printing is done as a side-effect. Apparantly this is how Haskell mostly works and why the joke says it is a 'useless' language.</p>
+
+          <p>He showed how <code>"string split".split(" ");</code> returns and array. Quiz also gave exposure to <code>.push()</code> and <code>.pop()</code>. <em>Push</em> appends and item to an array by mutation and returns the new length of the array. <em>Pop</em> return the last item in the array and deletes the item from the array.</p>
+
+        <h3>6. Internationalization</h3>
+
+          <p>This was a bit of revision the let us create a new function, do some string manipulation and return stuff. It also demo'd some 'interactivity' by using a button to change a page element. Nothing new here, just some timely practice.</p>
+
+        <h3>7. Encapsulation</h3>
+
+          <p>Encapsulation means 'hold inside'. In terms of objects and functions, the lesson seems to be teaching that you can put a function inside an object by assigning the function using dot notation, making the function a method of the object. This was the lesson that linked to the excellent <a href="http://helefant.com">helefant.com</a>, from where I went into a total rabbit hole for several days.</p>
+
+        <h3>8. Exploring new syntax</h3>
+
+          <p>James noted the 3 different syntax to create objects: literal, dot and brackets. He noted Javascript had been around for a long time and has gone through many changes, stuff you see today may be old and outdated and not suitable to use any more.</p>
+
+          <p>They revisited the Click collector as a challenge to figure out what's going on. But since the answer was just to show that an anonymous function can be passed as a parameter, it didn't actually help understand anything about events etc.</p>
+
+          <p>They also remind you to look stuff up in Google... I did note the notes mentioned that: "some libraries ask for a callback function to be executed once they have the results ofa task." But still found no explanations or help anywhere...</p>
+
+        <h3>9. Customize / The Final Project</h3>
+
+          <p>They talked about 3rd party libraries like Google Maps and D3, which I will look into as needed, personalizing the resume with CSS and adding the map to the resume page, which really was just uncommenting some code. More of a demo of the 'further cool things you can do with JS' kinda thing, which is ok.</p>
+
+          <p>The instructions were a mess in this one though. Even the final project is very vague, yeah you can do it like that but it shows a lack of effort. Anyway I'll get a much more exacting picture of what to submit from the nanodegree details.</p>
+
+
+    <hr>
+    <h1>Post Course Notes</h1>
+
+      <h2>TODOs</h2>
+
+        <ul>
+          <li>
+            <h3>DONE: Research learn and understand events</h3>
+
+              <p>Very, very basically, events get attached to HTML elements so that something the user does to the element (like clicking, hovering or even typing) can be used in JavaScript. Like the way jQuery grabs an HTML node from the DOM and returns it to you to do something with it, the events is sent back to you, so you can interact with the user.</p>
+          </li>
+          <li>
+            <h3>TODO: Research learn and understand callbacks.</h3>
+          </li>
+          <li>
+            <h3>TODO: find out the difference in the placement of these parentheses in anonymous self-executing functions.</h3>
+          </li>
+          <li>
+            <h3>DONE: Find out the meaning of 'formal' in 'formal parameters'</h3>
+
+              <p>Formal parameters are those defined in the function definition, actual parameters are those that are passed in when then the function is called.</p>
+          </li>
+          <li>
+            <h3>TODO: Understand how Closures can be dangerous according to the Udacity Style Guide.</h3>
+          </li>
+        </ul>
+
+      <h2>More about Scopes</h2>
+
+        <h3>Functions create scope, not blocks.</h3>
+
+          <p>Variables created inside scope only live inside that scope, they call also live inside child scopes, but not inside parent scopes.</p>
+
+          <p>Closures are an interesting idea that allow us to simulate private and public functions, they let you make an enclosed function object that returns methods to make them public and normal but enclosed methods remain private. If that doesn't make a lot of sense summarized, see the resources file for links to pages with full explanations and working examples.</p>
+
+          <p>To simulate a block level scope you can wrap a block's code in an anonymous function, creating a 'temporary' scope.</p>
+
+          <p><code>(function() { //code; }() )</code> and <code>(function() { //code; } )()</code> are both kind of like saying "<code>var f = function(){//code;}; f();</code>" the trailing empty parentheses executes the code in the anonymous function, like calling itself (is this callback?) and this is the function's closure?</p>
+
+          <p>In other words everything inside the function is enclosed because it starts its own scope, executes and finishes all in one.</p>
+
+          <p>Note the trailing parentheses are either outside the function or just inside the closing bracket (added a TODO for this)</p>
+
+        <h3>Functions as Objects</h3>
+
+          <p>Functions are first-class objects, which basically means you can do anything to them that you would do with a variable, like assign them to variable, pass them as parameters, and return them from functions.  Note: <code>console.log(myFunc instanceof Object); => true</code></p>
+
+        <h3>'Hoisting'</h3>
+
+          <p>Declared fuctions and variables are always hoisted to the top of the scope before any other code is run. This:
+            <pre>
+              function () {
+                bar();
+                var x = 1;
+              }
+            </pre>
+          actually becomes this:
+            <pre>
+              function () {
+                var x;
+                bar();
+                x = 1;
+              }
+            </pre>
+          </p>
+
+          <p>The resolution order for hoisting is:
+            <ol>
+              <li>language defined (this, arguments)</li>
+              <li>Formal Parameters</li>
+              <li>Function Declaration</li>
+              <li>Variable Declaration</li>
+            </ol>
+          If the name had already been defined it will not be overridden by another property of the same name. So function declaration takes priority over variable declaration.</p>
+
+          <p>NB; never use 'arguments' as a formal parameter. If multiple formal parameters have the same name the last one will take precedence (even if undefined).</p>
+  </body>
+</html>
