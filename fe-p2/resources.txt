@@ -1,128 +1,165 @@
-// Git docs
-http://git-scm.com/doc
-	Added to Git session
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Project 2: Resources</title>
+    <style>body {width: 900px;}</style>
+  </head>
+  <body>
+    <p>This is a list of web pages with short notes or descriptions used while preparing the submission for Udacity Front End Developer Nanodegree, Project 2. (For a thorough list of links, questions, answers, thoughts and notes made during the course see *.reflections.html)</p>
 
-// Git cheat sheet
-https://training.github.com/kit/downloads/github-git-cheat-sheet.pdf
-	Added to Git session.
-	TODO: Add to Anki
+    <ul>
+      <li>
+        <a href="http://git-scm.com/doc">Git docs</a><br>
+        Added to Git session
+      </li>
+      <li>
+        <a href="https://training.github.com/kit/downloads/github-git-cheat-sheet.pdf">Git cheat sheet</a><br>
+        Added to Git session.
+      </li>
+      <li>
+        <a href="http://ndpsoftware.com/git-cheatsheet.html#loc=index;">Git interactive cheat sheet</a><br>
+        Added to Git session. TODO: Add extras to Anki later
+      </li>
+      <li>
+        <a href="https://docs.webplatform.org/wiki/css">WWWC CSS docs</a><br>
+        Added to MTNL & CSS session
+      </li>
+      <li>
+        <a href="https://developer.chrome.com/devtools/docs/console">Chrome devtools docs 1</a><br>
+      </li>
+      <li>
+        <a href="https://developer.chrome.com/devtools/index">Chrome devtools docs 2</a><br>
+        Added to Read Later
+      </li>
+      <li>
+        <a href="http://learn.jquery.com/javascript-101/">jQuery docs</a><br>
+        Read as needed, added JavaScript session
+      </li>
+      <li>
+        <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">JavaScript String Methods</a><br>
+        Read as needed, added main methods page to JavaScript session
+      </li>
+      <li>
+        <a href="http://www.sitepoint.com/javascript-truthy-falsy/">JavaScript Comparing Truthy and Falsey</a><br>
+        Nice article, examples added to Anki
+      </li>
+      <li>
+        <a href="http://www.dev-archive.net/articles/js-dot-notation/">Comparison of Dot and Bracket Notation</a><br>
+        The example in the lesson (added to Anki cards) was more help, but this article does note the extra bit that crude expressions can be included when using square brackets.
+      </li>
+      <li>
+        <a href="http://jsonlint.com">Validate the JSON</a><br>
+        Added to JavaScript session
+      </li>
+      <li>
+        <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_native_JSON">JSON info</a><br>
+        For future reference
+      </li>
+      <li>
+        <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction">DOM Intro page</a><br>
+        Looks like a better place to start than the reference page below. Add to read it later.
+      </li>
+      <li>
+        <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model">MDN DOM reference page</a><br>
+        Read as needed, added JavaScript session
+      </li>
+      <li>
+        <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element">MDN HTML Element interface, all the Properties</a><br>
+        Read as needed, added JavaScript session
+      </li>
+      <li>
+        <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Properties_Reference">MDN CSS Property Reference in JavaScript</a><br>
+        Read as needed, added JavaScript session
+      </li>
+      <li>
+        <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions">Regular Expressions on MDN, uh oh</a><br>
+        Nagonna avoid these forever. Read as needed, added to JavaScript session. TODO: Learn Regex the hard way
+      </li>
+      <li>
+        <a href="http://toddmotto.com/everything-you-wanted-to-know-about-javascript-scope/">ToddMotto: All about Scope</a><br>
+        Excellent explanations, need to keep on reference for the other stuff that I haven't encountered yet. (Couple of hairy bits in the middle, but gets better again towards the end.)<br>
+        Nice example of how to create module with public methods, but is namespaced (see Public and Private methods) Revisit regularly.
+      </li>
+      <li>
+        <a href="http://www.adequatelygood.com/JavaScript-Scoping-and-Hoisting.html">Scope and 'hoisting'</a><br>
+        Seems to be the origin of discussion on hoisting, looks clearly written. Nice example:
+        <pre>
+          function test() {
+            foo(); // TypeError "foo is not a function"
+            bar(); // "this will run!"
+            var foo = function () { // function operator assigns to
+            return statement of local variable 'foo'
+              alert("this won't run!");
+            }
+            function bar() { // function declaration, given the name 'bar'
+              alert("this will run!");
+            }
+          }
+          test();
+        </pre>
+      </li>
+      <li>
+        <a href=""></a><br>
 
-// Git interactive cheat sheet
-http://ndpsoftware.com/git-cheatsheet.html#loc=index;
-	Added to Git session
-	TODO: Add extras to Anki later
+      </li>
+      <li>
+        <a href=""></a><br>
 
-// WWDC CSS docs
-https://docs.webplatform.org/wiki/css
-	Added to MTNL & CSS session
+      </li>
+      <li>
+        <a href=""></a><br>
 
-// Chrome devtools docs
-https://developer.chrome.com/devtools/docs/console
-https://developer.chrome.com/devtools/index
-	Added to Read Later
+      </li>
+      <li>
+        <a href=""></a><br>
 
-// jQuery docs
-http://learn.jquery.com/javascript-101/
-	Read as needed, added JavaScript session
+      </li>
+      <li>
+        <a href=""></a><br>
 
-// JavaScript String Methods
-https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String
-	Read as needed, added main methods page to JavaScript session
+      </li>
 
-// JavaScript Comparing Truthy and Falsey
-http://www.sitepoint.com/javascript-truthy-falsy/
-	Nice article, examples added to Anki
+    </ul>
 
-// Comparison of Dot and Bracket Notation
-http://www.dev-archive.net/articles/js-dot-notation/
-	The example in the lesson (added to Anki cards) was more help, but this article does note the extra bit that crude expressions can be included when using square brackets.
 
-// Validate the JSON
-http://jsonlint.com
-	Added to JavaScript session
-
-// JSON info
-https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_native_JSON
-
-// DOM Intro page
-https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction
-Looks like a better place to start than the reference page below. Add to read it later.
-
-// MDN DOM reference page
-https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model
-		Read as needed, added JavaScript session
-
-// MDN HTML Element interface, all the Properties
-https://developer.mozilla.org/en-US/docs/Web/API/Element
-	Read as needed, added JavaScript session
-
-// MDN CSS Property Reference in JavaScript
-https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Properties_Reference
-	Read as needed, added JavaScript session
-
-// Regular Expressions of MDN, uh oh
-https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
-	Read as needed, added JavaScript session
-	TODO: Learn Regex the hard way
-
-// All about Scope
-http://toddmotto.com/everything-you-wanted-to-know-about-javascript-scope/
-	Excellent explanations, need to keep on reference for the other stuff that I haven't encountered yet. (Couple of hairy bits in the middle, but gets better again towards the end.)
-	Nice example of how to create module with public methods, but is namespaced (see Public and Private methods) Revisit regularly.
-
-// Scope and 'hoisting'
-http://www.adequatelygood.com/JavaScript-Scoping-and-Hoisting.html
-	Seems to be the origin of discussion on hoisting, looks clearly written.
-	Nice example:
-		function test() {
-			foo(); // TypeError "foo is not a function"
-			bar(); // "this will run!"
-			var foo = function () { // function operator assigns to
-			return statement of local variable 'foo'
-				alert("this won't run!");
-			}
-			function bar() { // function declaration, given the name 'bar'
-				alert("this will run!");
-			}
-		}
-		test();
 
 // Git Troubleshooters Flowchart
 http://justinhileman.info/article/git-pretty/
-	Could come in handy.
+  Could come in handy.
 
 // 'loc' clarification on Udacity forums
 http://forums.udacity.com/questions/100255989/re-loc-the-jquery-documentation-link-given-here-doesnt-mention-it
-	This is what I needed, only place I could find it, might need again.
+  This is what I needed, only place I could find it, might need again.
 
 // Google Maps Docs, JavaScript tutorial
 https://developers.google.com/maps/documentation/javascript/tutorial
-	As usual with Google tutes, it looks a bit crap, but might be worth powering through if and when the specific need arises. Hmmm, a video tutorial, something like lynda.com, might be a quicker way of seeing what's available. In truth, you don't see Google Maps being used for much more that Google Maps...
+  As usual with Google tutes, it looks a bit crap, but might be worth powering through if and when the specific need arises. Hmmm, a video tutorial, something like lynda.com, might be a quicker way of seeing what's available. In truth, you don't see Google Maps being used for much more that Google Maps...
 
 // THE Data visualisation for JavaScript library
 http://d3js.org/
-	This is 'the big one' for data vis. Looks complex, but could be great.
+  This is 'the big one' for data vis. Looks complex, but could be great.
 
 // Anonymous Functions # JavaScript on Wikipedia
 http://en.wikipedia.org/wiki/Anonymous_function#JavaScript
-	So (function(){}()) and (function(){})(), are pretty much the same thing - anonymous functions that get executed immediatly. They are almost the same as: var f = function(){}; f();
-	After that, it's gets a bit silly.
+  So (function(){}()) and (function(){})(), are pretty much the same thing - anonymous functions that get executed immediatly. They are almost the same as: var f = function(){}; f();
+  After that, it's gets a bit silly.
 
 // Helefant on Anonymoud functions
 http://helephant.com/2008/08/23/javascript-anonymous-functions/
-	var something = function() {
-		//some code;
-	};
-	Is actually an anonymous function assigned directly to the return value of the variable! I never noticed this before! Note: this is also the difference between creating a function with the function delaration and the function operator (the operator is the anonymous one).
-	Operators are created at runtime, declarations run before any other code is executed. Note, the function declaration uses the function name in order to add it to the current scope as a variable.
-	Revisit this when looking at recursive functions, it builds to a nice example.
-	When you give an anonymous function a name, it still only gets created at runtime - therefore giving them names can really help with debugging as all anonymous functions can look the same.
-	Goddamn, gotta subscribe to helephant!
+  var something = function() {
+    //some code;
+  };
+  Is actually an anonymous function assigned directly to the return value of the variable! I never noticed this before! Note: this is also the difference between creating a function with the function delaration and the function operator (the operator is the anonymous one).
+  Operators are created at runtime, declarations run before any other code is executed. Note, the function declaration uses the function name in order to add it to the current scope as a variable.
+  Revisit this when looking at recursive functions, it builds to a nice example.
+  When you give an anonymous function a name, it still only gets created at runtime - therefore giving them names can really help with debugging as all anonymous functions can look the same.
+  Goddamn, gotta subscribe to helephant!
 
 // Function are Objects, Making library functions
 http://helephant.com/2008/08/19/functions-are-first-class-objects-in-javascript/
-	Nice example of making library functions, review in 2 weeks
+  Nice example of making library functions, review in 2 weeks
 
 // MDN Using dates in JS
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
-	Did this because the guideline suggest using an Interger to represent dates in the education object, but I suspect that's error, although it was a good exercise to do it this way.
+  Did this because the guideline suggest using an Interger to represent dates in the education object, but I suspect that's error, although it was a good exercise to do it this way.
