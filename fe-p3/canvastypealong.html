@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Canvas type along</title>
+    <style>
+    #image-container {
+      display: flex;
+    }
+
+    body {
+      font-family: "Segoe UI", sans-serif;
+    }
+  </style>
+  <!-- This all worked nicely, remember to start a local SimpleHTTPServer from python and go to: http://localhost:8000/canvastypealong.html before trying it again -->
+</head>
+<body>
+
+  <!-- udacity div -->
+  <div>
+    <input type="file" id="file" />
+  </div>
+  <div id="image-container">
+    <canvas width="500" height="500"></canvas>
+    <div>
+      <span>Top Line:</span><br/>
+      <input id="topLineText" type="text"><br/>
+      <span>Bottom Line:</span><br/>
+      <input id="bottomLineText" type="text"><br/>
+      <button id="saveBtn">Save</button>
+    </div>
+  </div>
+
+
+  <!-- Open and close an canvas element, set the width and height and give it an id -->
+  <canvas id="c" width="500" height="500"></canvas>
+  <!-- Open a script tag to start some JS to work on the canvas -->
+  <script>
+  // Get the canvas by ID and assign it to var 'c'
+  // var c = document.querySelector("#c");
+  // use the .getContext() method to get the 2D context of canvas c
+  // more about it here: https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D:
+  // var ctx = c.getContext("2d");
+
+  // Part 1: Use the CanvasRenderingContext2D method to load and get some info on an Image.
+
+/*  // Create a new Image instance (Image seems to be built in to either JavaScript of canvas... It's the DOM method used for creating images, doh!)
+  var image = new Image();
+
+  // Run this anon function with the image loaded event
+  image.onload = function() {
+    // log confirmation to the console
+    console.log("Loaded image");
+    // Use the 2D context method .drawImage() to add the image element to the context ctx
+      ctx.drawImage(image, 0, 0, c.width, c.height);
+      // Use the .toDataUrl() to grab some info about the image and assign it to the savedImage var
+      var savedImage = c.toDataURL();
+      // Print to info in savedImage to the console for a look
+      console.log(savedImage);
+      // Open a new window and load the savedImage data into it, or in other words, open the image in a new window
+      // wow, it load a lovely blob of base64 data:
+      // data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAgAElEQ…5H+WFXUA6Jz8J6JfsMXIC4IRUFN5i/UXRvbGxMwOEa1v8LMOPVQL66qO0AAAAASUVORK5CYII= ... (whatever that means)
+      window.open(savedImage);
+  };
+
+  // set the image element's content to point to some bitmap data via url
+  image.src = "angryyoungman.png";*/
+
+  // Part 2: Draw some rectangles using CanvasRenderingContext2D methods
+
+  // A filled rectangle at left: 100, right: 100, width: 100, height: 100
+  // ctx.fillRect(100, 100, 100, 100);
+
+  // A stroked rectangle at left: 50, top: 50, width: 50, height: 50
+  // Note the stroked rectangle dimensions are internal
+  // ctx.strokeRect(50, 50, 50, 50);
+
+  // Type the following into the console to see it happening live on the page:
+      // ctx.fillStyle = "blue";
+      // Start at (0,0) and draw a 50px x 50px blue rectangle.
+      // ctx.fillRect(0,0,50,50);
+      // Start at (0,0) and clear a 25px x 25px rectangle.
+      // ctx.clearRect(0,0,25,25)
+
+      // Clear the whole canvas:
+      // ctx.clearRect(0,0,c.width,c.height);
+
+      // A slightly shorter way to clear a full canvas is to change either the height or the width on the canvas:
+      // c.width = c.width;
+
+  // Part 3: Draw some paths
+
+  // Use the .beginPath(), .moveTo() and .lineTo() methods to draw
+  // Note you need to use .fill() and .stroke() to set line and fill colors, and acutally draw the geometry.
+  // More here: http://www.w3.org/TR/2dcontext/#building-paths
+
+  // Draw a triangle and draw the icon for the quiz
+  // ctx.beginPath();
+  // ctx.moveTo(75,75);
+  // ctx.lineTo(125,75);
+  // ctx.lineTo(125,125);
+  // ctx.lineTo(75,75);
+  // ctx.fill();
+  // // ctx.stroke();
+
+  // ctx.strokeRect(50,50,100,100);
+
+  // Part 4: Scale, Rotate, Translate
+
+  // .scale(x,y) scales in width first, then height
+  // .translate(x,y) pushes things across, then down
+  // .rotate(angleRadians) rotates CLOCKWISE about the center in radians, remember to convert to / from degrees radians = degrees * (Math.PI / 180)
+
+  // Note these transforms are being applied to the ctx BEFORE the graphics are drawn, this is something you probably would never do...
+
+  // ctx.rotate(0.1);
+  // var rec = ctx.strokeRect(50,50,100,100);
+  // rec;
+
+  // Part 5: Save and Restore
+
+  // Canvas objects contain a stack of drawing states (stacks are data structures that only let you push new items on the end, they work on a 'last on, first off' basis)
+
+  // ctx.save() Saves some drawing setting such as fillStyle, transformations matrix, clipping region etc. See more here: https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.save
+
+  // ctx.restore() resets the drawing state back to default after a .save()
+
+  //  here's a longer list of drawing states that can be saved: The transformation matrix (scale, rotation, translation), strokeStyle, fillStyle, font, globalAlpha, lineWidth, lineCap, lineJoin, miterLimit, shadowOffsetX, shadowOffsetY, shadowBlur, shadowColor, globalCompositeOperation, textAlign, textBaseline and the current clipping region.
+
+  // Part 6: Colors
+
+  // Colors can be passed in as HTML names and hexadecimal encoding, note they are properties, not methods. So they'll be assigned with '='
+  // The order they are declared is important as to how they'll  get applied
+
+  // ctx.beginPath();
+  // ctx.moveTo(75,75);
+  // ctx.lineTo(125,75);
+  // ctx.lineTo(125,125);
+  // ctx.lineTo(75,75);
+  // ctx.fillStyle = 'blue';
+  // ctx.fill();
+  // // ctx.stroke();
+  // ctx.strokeStyle = '#33CC33';
+  // ctx.strokeRect(50,50,100,100);
+
+  // Part 7: Text
+
+  // You can add text with the .fillText() and .strokeText() methods
+  // They both take the parameters: .method("string", x, y); where x distance  from the left and y is distance from the top. The text insertion / anchor / justification / baseline point is 'alphabetic', by default.
+
+  // ctx.fillText("HELLO, COLIN!!",30,30);
+
+  // You can also set optional maxwidth for the text block and there are seperate settings for font, textAlign, textBaseline and direction.
+
+  // ctx.font = "32px serif";
+  // ctx.strokeText("Hello world", 20, 190);
+
+  // Part 8: Recreating meme text
+
+  // ctx.fillStyle = 'white';
+  // ctx.lineWidth = 3;
+  // ctx.textBaseline = 'middle';
+  // ctx.textAlign = 'center';
+  // ctx.font = '36px Impact';
+  // var memeText = "CANVAS MEMES!";
+  // var padding = 20;
+
+  // var fryPic = new Image();
+  // fryPic.src = "angryyoungman.png";
+  // fryPic.onload = function() {
+  //   ctx.drawImage(fryPic,0,0,c.width,c.height);
+  //   ctx.strokeText(memeText, c.width / 2, padding);
+  //   ctx.fillText(memeText, c.width / 2, padding);
+  // };
+
+
+    function textChangeListener (evt) {
+      var id = evt.target.id;
+      var text = evt.target.value;
+
+      if (id === "topLineText") {
+        window.topLineText = text;
+      } else {
+        window.bottomLineText = text;
+      }
+
+      redrawMeme(window.imageSrc, window.topLineText, window.bottomLineText);
+    }
+
+    function redrawMeme(image, topLine, bottomLine) {
+      // Get Canvas2DContext
+      var canvas = document.querySelector('canvas');
+      var ctx = canvas.getContext("2d");
+
+      ctx.fillStyle = 'white';
+      ctx.lineWidth = 3;
+      ctx.textBaseline = 'middle';
+      ctx.textAlign = 'center';
+      ctx.font = '36px Impact';
+      var padding = 20;
+
+      ctx.drawImage(image,0,0,canvas.width,canvas.height);
+      ctx.strokeText(topLine, canvas.width / 2, padding);
+      ctx.fillText(topLine, canvas.width / 2, padding);
+      ctx.strokeText(bottomLine, canvas.width / 2, canvas.height - padding);
+      ctx.fillText(bottomLine, canvas.width / 2, canvas.height - padding);
+    }
+
+    function saveFile() {
+      window.open(document.querySelector('canvas').toDataURL());
+    }
+
+
+    function handleFileSelect(evt) {
+      var canvasWidth = 500;
+      var canvasHeight = 500;
+      var file = evt.target.files[0];
+
+      var reader = new FileReader();
+      reader.onload = function(fileObject) {
+        var data = fileObject.target.result;
+
+        // Create an image object
+        var image = new Image();
+        image.onload = function() {
+
+          window.imageSrc = this;
+          redrawMeme(window.imageSrc, "top line", "bottom line");
+        };
+
+        // Set image data to background image.
+        image.src = data;
+        console.log(fileObject.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    window.topLineText = "";
+    window.bottomLineText = "";
+    var input1 = document.getElementById('topLineText');
+    var input2 = document.getElementById('bottomLineText');
+    input1.oninput = textChangeListener;
+    input2.oninput = textChangeListener;
+    document.getElementById('file').addEventListener('change', handleFileSelect, false);
+    document.querySelector('button').addEventListener('click', saveFile, false);
+
+
+  </script>
+
+  <hr>
+
+  <canvas id="d" width="505" height="500"></canvas>
+
+  <script>
+  var c2 = document.querySelector('#d');
+  var c2ctx = c2.getContext('2d');
+
+  var newPic = new Image();
+  newPic.src = 'angryyoungman.png';
+
+  function imageEffects(imgObj, effect) {
+
+    c2ctx.drawImage(imgObj,0,0,c2.width,c2.height);
+    var imageData = c2ctx.getImageData(0,0,c2.width,c2.height);
+    var data = imageData.data;
+    var values = c2.width * c2.height * 4;
+
+    if (effect === "dots") {
+      for (var i = 40; i < values; i += 40) {
+        data[i] = 0;
+        data[i + 1] = 255;
+        data[i + 2] = 0;
+      }
+    } else if (effect === "grey") {
+      var brightness;
+      for (var i = 0; i < values; i+=4) {
+        brightness = 0.34*data[i] + 0.5*data[i+1] + 0.16*data[i+2];
+        data[i] = brightness;
+        data[i+1] = brightness;
+        data[i+2] = brightness;
+      }
+    }
+
+    c2ctx.putImageData(imageData,0,0);
+  }
+
+  newPic.onload = function() {
+    imageEffects(this,"dots");
+  };
+  </script>
+  <p>Is 100 × 78 − 234 = 780?</p>
+
+</body>
+</html>

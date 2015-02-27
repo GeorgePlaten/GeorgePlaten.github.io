@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Project 3: Resources</title>
+    <style>body {width: 600px;}</style>
+  </head>
+  <body>
+    <p>This is a list of web pages with short notes or descriptions used while preparing the submission for Udacity Front End Developer Nanodegree, Project 3. (For a thorough journal of links, questions, answers, thoughts and notes made during the course see... <!-- <a href="js-basics-reflections.html">js-basics-reflections.html</a> and <a href="jquery-reflections.html">jquery-reflections.html</a>) --></p>
+
+    <ul>
+      <li>
+        <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/prototype">MDN docs on Object prototype properties and Methods</a><br>
+        Preliminary scan and added to read today and read it later.
+      </li>
+      <li>
+        <a href="https://www.udacity.com/course/viewer#!/c-ud015-nd/l-2794468538/m-2765728544">Prototype Ambiguity</a><br>
+        Revisit this and find further discussions.
+      </li>
+      <li>
+        <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call">The <code>.call()</code> method on MDN</a><br>
+        Scanned and add to read-it-later (study it later!)
+      </li>
+      <li>
+        <a href="https://github.com/udacity/fend-office-hours/blob/master/OfficeHoursReview2_5_2015_OOJS/OfficeHoursReview2_5_2015.md">Some awesome sauce, a summary of OOJS from Udacity office hours</a><br>
+        Readit, made notes, and added for review in 2 weeks. Unfortunatly they didn't address super and sub classes, but maybe it is better for now if they do it late and they can be kept seperate and simple.
+      </li>
+      <li>
+        <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D#drawImage%28%29">MDN CanvasRenderingContext2D</a><br>
+        Nice overview of what you can do in the 2D canvas.
+      </li>
+      <li>
+        <a href="https://developer.chrome.com/devtools/index">Chrome devtools docs 2</a><br>
+        Added to Read Later
+      </li>
+      <li>
+        <a href="http://learn.jquery.com/javascript-101/">jQuery docs</a><br>
+        Read as needed, added JavaScript session
+      </li>
+      <li>
+        <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">JavaScript String Methods</a><br>
+        Read as needed, added main methods page to JavaScript session
+      </li>
+      <li>
+        <a href="http://www.sitepoint.com/javascript-truthy-falsy/">JavaScript Comparing Truthy and Falsey</a><br>
+        Nice article, examples added to Anki
+      </li>
+      <li>
+        <a href="http://www.dev-archive.net/articles/js-dot-notation/">Comparison of Dot and Bracket Notation</a><br>
+        The example in the lesson (added to Anki cards) was more help, but this article does note the extra bit that crude expressions can be included when using square brackets.
+      </li>
+      <li>
+        <a href="http://jsonlint.com">Validate the JSON</a><br>
+        Added to JavaScript session
+      </li>
+      <li>
+        <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_native_JSON">JSON info</a><br>
+        For future reference
+      </li>
+      <li>
+        <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction">DOM Intro page</a><br>
+        Looks like a better place to start than the reference page below. Add to read it later.
+      </li>
+      <li>
+        <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model">MDN DOM reference page</a><br>
+        Read as needed, added JavaScript session
+      </li>
+      <li>
+        <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element">MDN HTML Element interface, all the Properties</a><br>
+        Read as needed, added JavaScript session
+      </li>
+      <li>
+        <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Properties_Reference">MDN CSS Property Reference in JavaScript</a><br>
+        Read as needed, added JavaScript session
+      </li>
+      <li>
+        <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions">Regular Expressions on MDN, uh oh</a><br>
+        Nagonna avoid these forever. Read as needed, added to JavaScript session. TODO: Learn Regex the hard way
+      </li>
+      <li>
+        <a href="http://toddmotto.com/everything-you-wanted-to-know-about-javascript-scope/">ToddMotto: All about Scope</a><br>
+        Excellent explanations, need to keep on reference for the other stuff that I haven't encountered yet. (Couple of hairy bits in the middle, but gets better again towards the end.)<br>
+        Nice example of how to create module with public methods, but is namespaced (see Public and Private methods) Revisit regularly.
+      </li>
+      <li>
+        <a href="http://www.adequatelygood.com/JavaScript-Scoping-and-Hoisting.html">Scope and 'hoisting'</a><br>
+        Seems to be the origin of discussion on hoisting, looks clearly written. Nice example:
+        <pre>
+          function test() {
+            foo(); // TypeError "foo is not a function"
+            bar(); // "this will run!"
+            var foo = function () { // function operator assigns to
+            return statement of local variable 'foo'
+              alert("this won't run!");
+            }
+            function bar() { // function declaration, given the name 'bar'
+              alert("this will run!");
+            }
+          }
+          test();
+        </pre>
+      </li>
+      <li>
+        <a href="http://justinhileman.info/article/git-pretty/">Git Troubleshooters Flowchart</a><br>
+        Could come in handy.
+      </li>
+      <li>
+        <a href="http://forums.udacity.com/questions/100255989/re-loc-the-jquery-documentation-link-given-here-doesnt-mention-it">'loc' clarification on Udacity forums</a><br>
+        This is what I needed, only place I could find it, might need again.
+      </li>
+      <li>
+        <a href="https://developers.google.com/maps/documentation/javascript/tutorial">Google Maps Docs, JavaScript tutorial</a><br>
+        As usual with Google docs, it looks a bit crap, but since one of the final projects is about mapping.... Hmmm, a video tutorial, something like lynda.com, might be a quicker way of seeing what's available. In truth, you don't see Google Maps being used for much more that Google Maps...
+      </li>
+      <li>
+        <a href="http://d3js.org/">THE Data visualisation for JavaScript library</a><br>
+        This is 'the big one' for data vis. Looks complex, but could be great.
+      </li>
+      <li>
+        <a href="http://en.wikipedia.org/wiki/Anonymous_function#JavaScript">Anonymous Functions # JavaScript on Wikipedia</a><br>
+        So <code>(function(){}())</code> and <code>(function(){})()</code>, are pretty much the same thing - anonymous functions that get executed immediately. They are almost the same as: <code>var f = function(){}; f();</code><br>
+        After that, it's gets a bit silly.
+      </li>
+      <li>
+        <a href="http://helephant.com/2008/08/23/javascript-anonymous-functions/">Helefant on Anonymous functions</a><br>
+        <pre>
+          var something = function() {
+            //some code;
+          };
+        </pre>
+        <p>Is actually an anonymous function assigned directly to the return value of the variable, I never noticed this before! Note: this is also the difference between creating a function with the function declaration and with a function operator in an expression.</p>
+        <p>Expressions are created at runtime, declarations run before any other code is executed. Revisit this when looking at recursive functions, it builds to a nice example.</p>
+        <p>When you give an function in an expression a name, it still only gets created at runtime - therefore giving them names can really help with debugging as all anonymous functions can look the same.</p>
+      </li>
+      <li>
+        <a href="http://helephant.com/2008/08/19/functions-are-first-class-objects-in-javascript/">Function are Objects, Making library functions</a><br>
+        Nice example of making library functions, review in 2 weeks
+      </li>
+      <li>
+        <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date">MDN Using dates in JS</a><br>
+        Did this because the guideline suggest using an Integer to represent dates in the education object, but I suspect that's error, although it was a good exercise to do it this way.
+      </li>
+      <li>
+        <a href="https://piazza.com/class/i4nat74xz7tsx?cid=210">Udacity Nanodegree P2 Office Hours notes</a><br>
+        This let me get a better understanding of 'encapsulation'. That is, it an object's property method is still encapsulted even if it is not written inside the JSON, which is much neater and will allow the JSON to validate.
+      </li>
+<!--       <li>
+        <a href=""></a><br>
+
+      </li> -->
+<!--       <li>
+        <a href=""></a><br>
+
+      </li> -->
+<!--       <li>
+        <a href=""></a><br>
+
+      </li> -->
+    </ul>
+
+  </body>
+</html>
+
