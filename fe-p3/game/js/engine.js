@@ -40,7 +40,7 @@ var Engine = (function(global) {
          * computer is) - hurray time!
          */
         var now = Date.now(),
-            dt = (now - lastTime) / 1000.0;
+            dt = (now - lastTime) / 1000.0; // converted to milliseconds
 
         /* Call our update/render functions, pass along the time delta to
          * our update function since it may be used for smooth animation.
@@ -94,7 +94,7 @@ var Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
         });
-        player.update();
+        player.update(); // NO DT?
     }
 
     /* This function initially draws the "game level", it will then call
