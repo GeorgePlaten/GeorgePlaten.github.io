@@ -184,5 +184,7 @@ var Engine = (function(global) {
      * object when run in a browser) so that developer's can use it more easily
      * from within their app.js files.
      */
+     // Add reset() too
     global.ctx = ctx;
+    global.reset = reset;
 })(this);
