@@ -100,7 +100,7 @@ Enemy.prototype.update = function(dt) {
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    drawCollisionBox('red', 90, 50);
+    drawCollisionBox('red', this.cdx, this.cdy, 90, 50);
 };
 
 // Now write your own player class
@@ -124,7 +124,7 @@ var Player = function() {
 
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    drawCollisionBox("blue", 35, 50);
+    drawCollisionBox("blue", this.cdx, this.cdy, 35, 50);
 };
 
 Player.prototype.update = function(deltaX, deltaY) {
@@ -222,9 +222,9 @@ var isColliding = function(e) {
 };
 
 // Draw a CD box outline if webpage requests it via checkbox
-var drawCollisionBox = function(color, width, height) {
+var drawCollisionBox = function(color, x, y, width, height) {
     ctx.beginPath();
-    ctx.rect(this.cdx, this.cdy, width, height);
+    ctx.rect(x, y, width, height);
     ctx.lineWidth = 3;
     ctx.strokeStyle = color;
     if (drawCBs.checked) {
