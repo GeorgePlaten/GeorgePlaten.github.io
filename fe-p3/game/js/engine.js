@@ -80,7 +80,7 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
-        checkCollisions();
+        if (checkCollisions()) {reset();}
         updateAllEnemies();
     }
 
@@ -185,5 +185,4 @@ var Engine = (function(global) {
      * from within their app.js files.
      */
     global.ctx = ctx;
-    global.reset = reset;
 })(this);

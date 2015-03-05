@@ -31,8 +31,9 @@ ADVANCED
 
 // General game settings
 var Game = {
-    difficulty: 1.0 // use a multiplier that increases based on time
-                    // elapsed (first) or score (later).
+    // Difficulty: use a multiplier that increases based on time
+    // elapsed (first) or score (later).
+    difficulty: 1.0
 };
 
 var imgHead = 20; // Images seem to have a headspace, don't know why yet.
@@ -99,15 +100,7 @@ Enemy.prototype.update = function(dt) {
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-
-    ctx.beginPath();
-    ctx.rect(this.cdx, this.cdy, 90, 50);
-    ctx.lineWidth = 3;
-    ctx.strokeStyle = 'red';
-    if (drawCBs.checked) {
-        ctx.stroke();
-    }
-
+    drawCollisionBox('red', 90, 50);
 };
 
 // Now write your own player class
@@ -131,14 +124,7 @@ var Player = function() {
 
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-
-    ctx.beginPath();
-    ctx.rect(this.cdx, this.cdy, 35, 50);
-    ctx.lineWidth = 3;
-    ctx.strokeStyle = 'blue';
-    if (drawCBs.checked) {
-        ctx.stroke();
-    }
+    drawCollisionBox("blue", 35, 50);
 };
 
 Player.prototype.update = function(deltaX, deltaY) {
@@ -198,8 +184,8 @@ document.addEventListener('keyup', function(e) {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
     // Note there never seems to be more than 3 enemies at a time
-// Gone to reset()
-// var allEnemies = [];
+// Moved into reset()
+// // var allEnemies = [];
 
 var updateAllEnemies = function() {
     while (allEnemies.length < 3) {
@@ -211,16 +197,17 @@ var updateAllEnemies = function() {
 };
 
 // Place the player object in a variable called player
-// Gone to reset()
-// var player = new Player();
+// Moved into reset()
+// // var player = new Player();
 
+// COLLISION DETECTION
+// mostly taken from
+// https://www.youtube.com/watch?v=ghqD3e37R7E
 var checkCollisions = function() {
-    // allEnemies.forEach(isColliding);
     var len = allEnemies.length;
     for (var i = 0; i < len; i++) {
         if (isColliding(allEnemies[i])) {
-            reset();
-            return;
+            return true;
         }
     }
 };
@@ -232,4 +219,15 @@ var isColliding = function(e) {
                 p.cdY < e.cdy ||
                 e.cdY < p.cdy
             );
+};
+
+// Draw a CD box outline if webpage requests it via checkbox
+var drawCollisionBox = function(color, width, height) {
+    ctx.beginPath();
+    ctx.rect(this.cdx, this.cdy, width, height);
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = color;
+    if (drawCBs.checked) {
+        ctx.stroke();
+    }
 };
