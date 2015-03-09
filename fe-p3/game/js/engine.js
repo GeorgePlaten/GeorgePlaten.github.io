@@ -80,8 +80,7 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
-        if (checkCollisions()) {reset();}
-        updateAllEnemies();
+        checkCollisions();
     }
 
     /* This is called by the update function  and loops through all of the
@@ -92,6 +91,7 @@ var Engine = (function(global) {
      * render methods.
      */
     function updateEntities(dt) {
+        spawnEnemies();
 
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);

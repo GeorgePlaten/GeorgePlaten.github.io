@@ -38,7 +38,8 @@ var Game = {
     difficulty: 1.0
 };
 
-var imgHead = 20; // Images seem to have a headspace, don't know why yet.
+var IMGHEAD = 20; // Images seem to have a headspace, don't know why yet.
+
 
 // Random Integer generator from http://stackoverflow.com/questions/4959975/
 // Used because I was repeating myself making random nums
@@ -48,11 +49,53 @@ var randInt = function(min, max) {
     return Math.floor( (Math.random()*(max-min)) + min);
 };
 
+// Superclass for Enemy and Player to hold x and y properties.
+// Possibly for gems and other items later.
+// And drawImage and drawCollisionBox method.
+var Sprite = function() {
+    this.sprite = '';
+    this.speed = 0;
+    this.x = 0;
+    this.y = 0;
+    // cd = Collision Dectection rectangle
+    this.cdColor = '';
+    // Padding = offset from Sprite border
+    this.cdWidth = 0;
+    this.cdHeight = 0;
+    this.cdLeftPadding = 0;
+    this.cdTopPadding = 0;
+};
+
+Sprite.prototype.render = function() {
+    // the Sprite Image
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    // the Collision Box
+    var cbcb = document.getElementById('drawCBs'); // collision box check box
+    if (cbcb.checked) {
+        ctx.beginPath();
+        ctx.rect(this.cdx, this.cdy, this.cdWidth, this.cdHeight);
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = this.cdColor;
+        ctx.stroke();
+    }
+};
+
+Sprite.prototype.updateCB = function() {
+    // Update Collision Box
+    // lowercase x and y = top-left
+    this.cdx = this.x + this.cdLeftPadding;
+    this.cdy = this.y + this.cdTopPadding;
+    // uppercase x and y = bottom-right
+    this.cdX = this.cdx + this.cdWidth;
+    this.cdY = this.cdy + this.cdHeight;
+
+};
+
 
 // Enemies our player must avoid
 var Enemy = function() {
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
+    // Delegate Enemy to Sprite
+    Sprite.call(this);
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
@@ -74,19 +117,25 @@ var Enemy = function() {
     // So I'll can use a constant value here (for now).
     this.x = -150.0;
 
-    // will need to pick a random row between 0 and 4 (exclusive)
+    // will need to pick a random row from 1 to 3
     // This will not be changed by the update method.
     // Needs a function to pick 1-3 random and multiply by tile-size
     // Video doesn't care about using same row twice
-    this.y = randInt(1,4) * 83 - imgHead;
+    this.y = randInt(1,4) * 83 - IMGHEAD;
 
-    // Collision Detection Bounding Boxes
-    // lower case x and y for top-left, upper case for bottom right
-    this.cdx = this.x + 5;
-    this.cdX = this.cdx + 90;
-    this.cdy = this.y + 85;
-    this.cdY = this.cdy + 50;
+    // Collision Detection Bounding Box (CDBB):
+    // CDBB Color,
+    this.cdColor = 'red';
+    // CDBB Dimensions,
+    this.cdWidth = 90;
+    this.cdHeight = 50;
+    // CDBB location relative to sprite origin
+    this.cdLeftPadding = 5;
+    this.cdTopPadding = 85;
 };
+
+Enemy.prototype = Object.create(Sprite.prototype);
+Enemy.prototype.constructor = Enemy;
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
@@ -95,59 +144,63 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
     this.x += (this.speed * dt);
-    this.cdx = this.x + 5;
-    this.cdX = this.cdx + 90;
+    // The Collision box tracks the x value and width
+    this.updateCB();
+    // this.cdx = this.x + 5;
+    // this.cdX = this.cdx + 90;
 };
 
-// Draw the enemy on the screen, required method for game
-Enemy.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    drawCollisionBox('red', this.cdx, this.cdy, 90, 50);
-};
 
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
 
 var Player = function() {
-    // Start position is tile 3,6. Sprite top-left coord is 2*101, 5*83-imgHead
+    // Delegate Player to Sprite
+    Sprite.call(this);
+
+    // Start position is tile 3,6. Sprite top-left coord is 2*101, 5*83-IMGHEAD
     this.x = 202;
-    this.y = 415 - imgHead;
+    this.y = 415 - IMGHEAD;
     // Add a sprite, this will be choosable later.
     this.sprite = 'images/char-boy.png';
 
-    // Collision Detection Bounding Boxes
-    // lower case x and y for top-left, upper case for bottom right
-    this.cdx = this.x + 35;
-    this.cdX = this.cdx + 35;
-    this.cdy = this.y + 85;
-    this.cdY = this.cdy + 50;
+    // Collision Detection Bounding Box (CDBB):
+    // CDBB Color,
+    this.cdColor = 'blue';
+    // CDBB Dimensions,
+    this.cdWidth = 35;
+    this.cdHeight = 50;
+    // CDBB location relative to sprite origin
+    this.cdLeftPadding = 35;
+    this.cdTopPadding = 85;
 };
 
-Player.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    drawCollisionBox("blue", this.cdx, this.cdy, 35, 50);
-};
+Player.prototype = Object.create(Sprite.prototype);
+Player.prototype.constructor = Player;
 
 Player.prototype.update = function(deltaX, deltaY) {
+    // Use temp newX and newY to test proposed new position is within bounds
+    // before making the move
     var newX = this.x + deltaX;
     var newY = this.y + deltaY;
 
-    // Drown
-    if (newY <= 0 - imgHead) {
+    // Drown: reset the game if player moves to top row of water
+    if (newY <= 0 - IMGHEAD) {
         reset();
     }
 
     // Move
+        // Do move if new coordinated remain within the bounds
+        // of the canvas. (0>x>404, 0>y>415). Also allow for IMGHEAD.
     if (newX <= 404 && newX >= 0 &&
-        newY <= 415 - imgHead && newY >= 0 - imgHead) {
+        newY <= 415 - IMGHEAD && newY >= 0 - IMGHEAD) {
+        // Move the sprite
         this.x = newX;
         this.y = newY;
-        this.cdx = this.x + 35;
-        this.cdX = this.cdx + 35;
-        this.cdy = this.y + 85;
-        this.cdY = this.cdy + 50;
+        // Move the collision detection box
     }
+    this.updateCB();
 };
 
 Player.prototype.handleInput = function(keyName) {
@@ -189,7 +242,7 @@ document.addEventListener('keyup', function(e) {
 // Moved into reset()
 // // var allEnemies = [];
 
-var updateAllEnemies = function() {
+var spawnEnemies = function() {
     while (allEnemies.length < 3) {
         allEnemies.push(new Enemy());
     }
@@ -203,34 +256,26 @@ var updateAllEnemies = function() {
 // // var player = new Player();
 
 // COLLISION DETECTION
-// mostly taken from
-// https://www.youtube.com/watch?v=ghqD3e37R7E
+// Loop through allEnemies array and test for collision with
+// player.
+// TODO: checkColliosions could be on Enemy Class?
 var checkCollisions = function() {
     var len = allEnemies.length;
     for (var i = 0; i < len; i++) {
-        if (isColliding(allEnemies[i])) {
-            return true;
+        if (isColliding(allEnemies[i], player)) {
+            reset();
+            return;
         }
     }
 };
 
-var isColliding = function(e) {
-    var p = player;
-    return !(   p.cdX < e.cdx ||
-                e.cdX < p.cdx ||
-                p.cdY < e.cdy ||
-                e.cdY < p.cdy
+// collision test mostly taken from
+// https://www.youtube.com/watch?v=ghqD3e37R7E
+var isColliding = function(a, b) {
+    return !(
+                b.cdX < a.cdx ||
+                a.cdX < b.cdx ||
+                b.cdY < a.cdy ||
+                a.cdY < b.cdy
             );
-};
-
-// Draw a CD box outline if webpage requests it via checkbox
-var drawCollisionBox = function(color, x, y, width, height) {
-    ctx.beginPath();
-    ctx.rect(x, y, width, height);
-    ctx.lineWidth = 3;
-    ctx.strokeStyle = color;
-    var cbcb = document.getElementById('drawCBs'); // Collision box check box
-    if (cbcb.checked) {
-        ctx.stroke();
-    }
 };
