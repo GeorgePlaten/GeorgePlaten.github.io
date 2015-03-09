@@ -13,6 +13,8 @@ BASIC
     DONE: Add collision detection
     DONE: Add game restart on collision
     DONE: Add game restart on drown
+    TODO: Add a Sprite super class
+        TODO: refactor code to work with improved class structure
 ADVANCED
     Add death modes
         Add water death
@@ -227,7 +229,8 @@ var drawCollisionBox = function(color, x, y, width, height) {
     ctx.rect(x, y, width, height);
     ctx.lineWidth = 3;
     ctx.strokeStyle = color;
-    if (drawCBs.checked) {
+    var cbcb = document.getElementById('drawCBs'); // Collision box check box
+    if (cbcb.checked) {
         ctx.stroke();
     }
 };
