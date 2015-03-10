@@ -57,7 +57,7 @@ var Engine = (function(global) {
          * function again as soon as the browser is able to draw another frame.
          */
         win.requestAnimationFrame(main);
-    };
+    }
 
     /* This function does some initial setup that should only occur once,
      * particularly setting the lastTime variable that is required for the
@@ -97,7 +97,7 @@ var Engine = (function(global) {
             enemy.update(dt);
         });
 
-        player.update(); // NO DT?
+        player.update(dt);
     }
 
     /* This function initially draws the "game level", it will then call

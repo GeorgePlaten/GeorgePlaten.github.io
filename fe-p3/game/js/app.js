@@ -13,8 +13,8 @@ BASIC
     DONE: Add collision detection
     DONE: Add game restart on collision
     DONE: Add game restart on drown
-    TODO: Add a Sprite super class
-        TODO: refactor code to work with improved class structure
+    DONE: Add a Sprite super class
+        DONE: refactor code to work with improved class structure
 ADVANCED
     Add death modes
         Add water death
@@ -80,6 +80,11 @@ Sprite.prototype.render = function() {
     }
 };
 
+Sprite.prototype.move = function(dx, dy) {
+    this.x += dx;
+    this.y += dy;
+};
+
 Sprite.prototype.updateCB = function() {
     // Update Collision Box
     // lowercase x and y = top-left
@@ -143,11 +148,13 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-    this.x += (this.speed * dt);
+    // this.x += (this.speed * dt);
+    this.move(this.speed * dt, 0);
     // The Collision box tracks the x value and width
     this.updateCB();
     // this.cdx = this.x + 5;
     // this.cdX = this.cdx + 90;
+
 };
 
 
@@ -165,6 +172,8 @@ var Player = function() {
     // Add a sprite, this will be choosable later.
     this.sprite = 'images/char-boy.png';
 
+    this.speed = 15; // pixels/millsecond
+
     // Collision Detection Bounding Box (CDBB):
     // CDBB Color,
     this.cdColor = 'blue';
@@ -174,16 +183,19 @@ var Player = function() {
     // CDBB location relative to sprite origin
     this.cdLeftPadding = 35;
     this.cdTopPadding = 85;
+
+    // An array of sprites that are being collided with
+    this.collisions = [];
 };
 
 Player.prototype = Object.create(Sprite.prototype);
 Player.prototype.constructor = Player;
 
-Player.prototype.update = function(deltaX, deltaY) {
+Player.prototype.jump = function(dx, dy) {
     // Use temp newX and newY to test proposed new position is within bounds
     // before making the move
-    var newX = this.x + deltaX;
-    var newY = this.y + deltaY;
+    var newX = this.x + dx;
+    var newY = this.y + dy;
 
     // Drown: reset the game if player moves to top row of water
     if (newY <= 0 - IMGHEAD) {
@@ -191,31 +203,36 @@ Player.prototype.update = function(deltaX, deltaY) {
     }
 
     // Move
-        // Do move if new coordinated remain within the bounds
-        // of the canvas. (0>x>404, 0>y>415). Also allow for IMGHEAD.
-    if (newX <= 404 && newX >= 0 &&
-        newY <= 415 - IMGHEAD && newY >= 0 - IMGHEAD) {
+        // Do move if proposed coordinates remain within the bounds
+        // of the play area. (0>x>404, 0>y>415). Also allow for IMGHEAD.
+    if (newX <= 404 &&
+        newX >= 0 &&
+        newY <= 415 - IMGHEAD &&
+        newY >= 0 - IMGHEAD) {
         // Move the sprite
-        this.x = newX;
-        this.y = newY;
-        // Move the collision detection box
+        this.move(dx, dy);
     }
+};
+
+Player.prototype.update = function(dt) {
+    // Update the collision detection box
     this.updateCB();
+    // this.move(this.speed * dt, this.speed * dt);
 };
 
 Player.prototype.handleInput = function(keyName) {
     switch(keyName) {
         case 'left':
-            player.update(-101, 0);
+            player.jump(-101, 0);
             break;
         case 'right':
-            player.update(101, 0);
+            player.jump(101, 0);
             break;
         case 'up':
-            player.update(0, -83);
+            player.jump(0, -83);
             break;
         case 'down':
-            player.update(0, 83);
+            player.jump(0, 83);
             break;
         default:
             break;
