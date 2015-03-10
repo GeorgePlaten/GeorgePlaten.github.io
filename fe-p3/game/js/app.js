@@ -1,6 +1,6 @@
 /* MileStones:
 
-BASIC
+BASIC TODO:
     DONE: Get game background redering to canvas
     DONE: Get enemies added
     DONE: Get enemies moving
@@ -15,16 +15,17 @@ BASIC
     DONE: Add game restart on drown
     DONE: Add a Sprite super class
         DONE: refactor code to work with improved class structure
-ADVANCED
-    Add death modes
+    DONE: Make collision detection a method of Player
+ADVANCED TODO:
+    Add death modes (just a console.log() for now)
         Add water death
         Add collision death
-    Add difficulty based on time
     Add score
         For moves made
         For Gems collected
             Random Gem adder
             Gem capture remover
+    Add difficulty based on score
     Allow enemies to travel both ways
     Prevent enemies doubling up on line rows
 
@@ -35,7 +36,7 @@ ADVANCED
 var Game = {
     // Difficulty: use a multiplier that increases based on time
     // elapsed (first) or score (later).
-    difficulty: 1.0
+    intensity: 1.0
 };
 
 var IMGHEAD = 20; // Images seem to have a headspace, don't know why yet.
@@ -108,14 +109,14 @@ var Enemy = function() {
 
     // pos/neg speed will give direction. Need to define
     // upper and lower bounds of speed, and random picker.
-    // Speed will increase as a difficulty feature.
+    // Speed will increase as an intensity feature.
     // Start with 3 basic speeds for now.
     // what unit will I use: pixels per x(milliseconds)?
     // 600px/1000ms will cross the canvas in one second.
     // This seems to match the video appox (small canvas!)
     // Should I to use the dt multiplier here: 600/1000*dt?
     // TODO: figure out why it's 0.005 and not 5.0
-    this.speed = randInt(1,4) / 0.005 * Game.difficulty;
+    this.speed = randInt(1,4) / 0.005 * Game.intensity;
 
     // will need to randomise off-stage left or right depending
     // on direction. hmmm... the video only shows one direction.
@@ -184,8 +185,11 @@ var Player = function() {
     this.cdLeftPadding = 35;
     this.cdTopPadding = 85;
 
-    // An array of sprites that are being collided with
-    this.collisions = [];
+    // An object of sprites that are being collided with
+    this.isCollidingWith = {
+        enemy: false,
+        gem: false
+    };
 };
 
 Player.prototype = Object.create(Sprite.prototype);
@@ -214,10 +218,23 @@ Player.prototype.jump = function(dx, dy) {
     }
 };
 
-Player.prototype.update = function(dt) {
+Player.prototype.update = function() {
     // Update the collision detection box
     this.updateCB();
     // this.move(this.speed * dt, this.speed * dt);
+    this.checkCollisions();
+
+};
+
+Player.prototype.checkCollisions = function() {
+    var len = allEnemies.length;
+    for (var i = 0; i < len; i++) {
+        this.isCollidingWith.enemy = isColliding(this, allEnemies[i]);
+        // Doesn't work well without this, I don't understand why.
+        if (this.isCollidingWith.enemy) return;
+    }
+
+    this.isCollidingWith.gem = false;
 };
 
 Player.prototype.handleInput = function(keyName) {
@@ -275,24 +292,20 @@ var spawnEnemies = function() {
 // COLLISION DETECTION
 // Loop through allEnemies array and test for collision with
 // player.
-// TODO: checkColliosions could be on Enemy Class?
+// TODO: checkCollisions could be on Enemy Class?
 var checkCollisions = function() {
-    var len = allEnemies.length;
-    for (var i = 0; i < len; i++) {
-        if (isColliding(allEnemies[i], player)) {
-            reset();
-            return;
-        }
+    if (player.isCollidingWith.enemy) {
+        reset();
+        return;
     }
 };
 
-// collision test mostly taken from
-// https://www.youtube.com/watch?v=ghqD3e37R7E
-var isColliding = function(a, b) {
+
+var isColliding = function(caller, tester) {
     return !(
-                b.cdX < a.cdx ||
-                a.cdX < b.cdx ||
-                b.cdY < a.cdy ||
-                a.cdY < b.cdy
+                caller.cdX < tester.cdx ||
+                tester.cdX < caller.cdx ||
+                caller.cdY < tester.cdy ||
+                tester.cdY < caller.cdy
             );
 };
