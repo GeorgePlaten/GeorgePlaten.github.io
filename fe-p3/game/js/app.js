@@ -17,9 +17,11 @@ BASIC TODO:
         DONE: refactor code to work with improved class structure
     DONE: Make collision detection a method of Player
 ADVANCED TODO:
-    Add death modes (just a console.log() for now)
-        Add water death
-        Add collision death
+    DONE: Add death modes (just a console.log() for now)
+        DONE: Add water death
+        DONE: Add collision death
+        DONE: Add lives counter
+            Show with hearts graphics
     Add score
         For moves made
         For Gems collected
@@ -127,7 +129,7 @@ var Enemy = function() {
     // This will not be changed by the update method.
     // Needs a function to pick 1-3 random and multiply by tile-size
     // Video doesn't care about using same row twice
-    this.y = randInt(1,4) * 83 - IMGHEAD;
+    this.y= randInt(1,4) * 83 - IMGHEAD;
 
     // Collision Detection Bounding Box (CDBB):
     // CDBB Color,
@@ -168,8 +170,12 @@ var Player = function() {
     Sprite.call(this);
 
     // Start position is tile 3,6. Sprite top-left coord is 2*101, 5*83-IMGHEAD
-    this.x = 202;
-    this.y = 415 - IMGHEAD;
+    this.startX = 202;
+    this.startY = 415 - IMGHEAD;
+
+    // Current position
+    this.x = this.startX;
+    this.y = this.startY;
     // Add a sprite, this will be choosable later.
     this.sprite = 'images/char-boy.png';
 
@@ -190,10 +196,19 @@ var Player = function() {
         enemy: false,
         gem: false
     };
+
+    // a lives counter, start with 3, lose one for every death
+    // later gain some as bonuses,
+    this.lives = 3;
 };
 
 Player.prototype = Object.create(Sprite.prototype);
 Player.prototype.constructor = Player;
+
+Player.prototype.reset = function() {
+    this.x = this.startX;
+    this.y = this.startY;
+};
 
 Player.prototype.jump = function(dx, dy) {
     // Use temp newX and newY to test proposed new position is within bounds
@@ -203,7 +218,8 @@ Player.prototype.jump = function(dx, dy) {
 
     // Drown: reset the game if player moves to top row of water
     if (newY <= 0 - IMGHEAD) {
-        reset();
+        this.deathBy('drowning');
+        this.reset();
     }
 
     // Move
@@ -231,7 +247,10 @@ Player.prototype.checkCollisions = function() {
     for (var i = 0; i < len; i++) {
         this.isCollidingWith.enemy = isColliding(this, allEnemies[i]);
         // Doesn't work well without this, I don't understand why.
-        if (this.isCollidingWith.enemy) return;
+        if (this.isCollidingWith.enemy) {
+            this.deathBy('enemy');
+            return;
+        }
     }
 
     this.isCollidingWith.gem = false;
@@ -256,6 +275,28 @@ Player.prototype.handleInput = function(keyName) {
     }
 
 };
+
+Player.prototype.deathBy = function(cause) {
+    this.lives--;
+
+    switch(cause) {
+        case 'enemy':
+            console.log("Bug bite!");
+            break;
+        case 'drowning':
+            console.log("glugugug");
+            break;
+        default:
+            break;
+    }
+
+    this.reset();
+
+    if (!this.lives) {
+        init();
+    }
+};
+
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {
@@ -286,19 +327,13 @@ var spawnEnemies = function() {
 };
 
 // Place the player object in a variable called player
-// Moved into reset()
+// Moved into init()
 // // var player = new Player();
 
 // COLLISION DETECTION
 // Loop through allEnemies array and test for collision with
 // player.
-// TODO: checkCollisions could be on Enemy Class?
-var checkCollisions = function() {
-    if (player.isCollidingWith.enemy) {
-        reset();
-        return;
-    }
-};
+// DONE: moved to player as method
 
 
 var isColliding = function(caller, tester) {

@@ -64,6 +64,7 @@ var Engine = (function(global) {
      * game loop.
      */
     function init() {
+        player = new Player();
         reset();
         lastTime = Date.now();
         main();
@@ -80,7 +81,7 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
-        checkCollisions();
+        // checkCollisions();
     }
 
     /* This is called by the update function  and loops through all of the
@@ -164,7 +165,7 @@ var Engine = (function(global) {
      */
     function reset() {
         allEnemies = [];
-        player = new Player();
+
     }
 
     /* Go ahead and load all of the images we know we're going to need to
@@ -184,7 +185,6 @@ var Engine = (function(global) {
      * object when run in a browser) so that developer's can use it more easily
      * from within their app.js files.
      */
-     // Add reset() too
     global.ctx = ctx;
-    global.reset = reset;
+    global.init = init;
 })(this);
