@@ -21,13 +21,14 @@ ADVANCED TODO:
         DONE: Add water death
         DONE: Add collision death
         DONE: Add lives counter
-            Show with hearts graphics
+            DONE: Show with hearts graphics
     Add score
         For moves made
+            Add graphics
         For Gems collected
             Random Gem adder
             Gem capture remover
-    Add difficulty based on score
+    Add intensity based on score
     Allow enemies to travel both ways
     Prevent enemies doubling up on line rows
 
@@ -35,10 +36,34 @@ ADVANCED TODO:
 */
 
 // General game settings
-var Game = {
+var game = {
     // Difficulty: use a multiplier that increases based on time
     // elapsed (first) or score (later).
-    intensity: 1.0
+    intensity: 1.0,
+    score: 0,
+    topScore: 0
+};
+
+drawScoreBoard = function() {
+    // Current Score
+    var s = game.score.toString();
+    ctx.font = '16px "Press Start 2P"';
+    ctx.textAlign = 'right';
+    ctx.fillStyle = 'black';
+    ctx.fillText(s.toUpperCase(), 497, 80, 200);
+    ctx.fillStyle = 'gold';
+    ctx.fillText(s.toUpperCase(), 495, 78, 200);
+
+    // Top Score
+    var ts = game.topScore.toString();
+    if (game.score > game.topScore) {
+        ts = game.score.toString();
+    }
+    ctx.textAlign = 'center';
+    ctx.fillStyle = 'black';
+    ctx.fillText(ts.toUpperCase(), 258, 80, 200);
+    ctx.fillStyle = 'orange';
+    ctx.fillText(ts.toUpperCase(), 256, 78, 200);
 };
 
 var IMGHEAD = 20; // Images seem to have a headspace, don't know why yet.
@@ -74,7 +99,7 @@ Sprite.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     // the Collision Box
     var cbcb = document.getElementById('drawCBs'); // collision box check box
-    if (cbcb.checked) {
+    if (cbcb.checked && this.cdx) {
         ctx.beginPath();
         ctx.rect(this.cdx, this.cdy, this.cdWidth, this.cdHeight);
         ctx.lineWidth = 3;
@@ -118,7 +143,7 @@ var Enemy = function() {
     // This seems to match the video appox (small canvas!)
     // Should I to use the dt multiplier here: 600/1000*dt?
     // TODO: figure out why it's 0.005 and not 5.0
-    this.speed = randInt(1,4) / 0.005 * Game.intensity;
+    this.speed = randInt(1,4) / 0.005 * game.intensity;
 
     // will need to randomise off-stage left or right depending
     // on direction. hmmm... the video only shows one direction.
@@ -220,6 +245,7 @@ Player.prototype.jump = function(dx, dy) {
     if (newY <= 0 - IMGHEAD) {
         this.deathBy('drowning');
         this.reset();
+        return;
     }
 
     // Move
@@ -231,6 +257,10 @@ Player.prototype.jump = function(dx, dy) {
         newY >= 0 - IMGHEAD) {
         // Move the sprite
         this.move(dx, dy);
+        // only score on road tiles
+        if (newY <= 249 - IMGHEAD) {
+            game.score += 10;
+        }
     }
 };
 
@@ -293,7 +323,33 @@ Player.prototype.deathBy = function(cause) {
     this.reset();
 
     if (!this.lives) {
+        console.log('See you in a milli... seconds....');
+        if (game.score > game.topScore) {
+            game.topScore = game.score;
+        }
+        game.score = 0;
         init();
+    }
+};
+
+var Hearts = function() {
+    Sprite.call(this);
+
+    this.sprite = 'images/Heart.png';
+    this.x = 10;
+    this.y = 50;
+    // image dims: 101 x 171
+};
+
+Hearts.prototype = Object.create(Sprite.prototype);
+Hearts.prototype.constructor = Hearts;
+
+Hearts.prototype.update = function() {
+    var offset = 0;
+    for (var i = player.lives; i>0; i--) {
+        ctx.drawImage(  Resources.get(this.sprite),
+                        this.x + offset, this.y, 20, 35);
+        offset += 20;
     }
 };
 

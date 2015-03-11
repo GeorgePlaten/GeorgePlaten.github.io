@@ -65,6 +65,7 @@ var Engine = (function(global) {
      */
     function init() {
         player = new Player();
+        hearts = new Hearts();
         reset();
         lastTime = Date.now();
         main();
@@ -157,6 +158,10 @@ var Engine = (function(global) {
         });
 
         player.render();
+
+        hearts.update();
+
+        drawScoreBoard();
     }
 
     /* This function does nothing but it could have been a good place to
@@ -165,7 +170,6 @@ var Engine = (function(global) {
      */
     function reset() {
         allEnemies = [];
-
     }
 
     /* Go ahead and load all of the images we know we're going to need to
@@ -177,7 +181,8 @@ var Engine = (function(global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug.png',
-        'images/char-boy.png'
+        'images/char-boy.png',
+        'images/Heart.png'
     ]);
     Resources.onReady(init);
 
