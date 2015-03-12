@@ -276,21 +276,31 @@ Player.prototype.checkCollisions = function() {
         bonus.y += 1000;
         bonus.cdy += 1000;
         game.intensity += 0.1;
-        // if (bonus.sprite === 'images/Key.png') {
-        //     console.log("up, up, down, down, left, right, left, right, B, A")
-        // }
+        if (bonus.sprite === 'images/Key.png') {
+            console.log("up, up, down, down, left, right, left, right, B, A");
+        }
+        if (bonus.sprite === 'images/Heart.png') {
+            player.lives ++;
+        }
         return;
     }
 };
 
-var eegg = {
-    kcode: [],
-    seq: [],
-    check: function() {
-        if (this.seq === this.kcode) {
-            Player.sprite = 'images/char-horn-girl.png';
+var seq = [];
+var eegg = function(key) {
+    var kcode = ['up','up','down','down','left','right','left','right','b','a'];
+    seq.push(key);
+    var add = function(key){
+        for (var i = 0; i < seq.length; i++) {
+            if (seq[i] === kcode[i]) {
+                if (seq.length === kcode.length) {
+                    player.sprite = 'images/char-horn-girl.png';
+                }
+            } else {
+                seq = [];
+            }
         }
-    }
+    }();
 };
 
 
@@ -374,6 +384,7 @@ document.addEventListener('keyup', function(e) {
     };
 
     player.handleInput(allowedKeys[e.keyCode]);
+    eegg(allowedKeys[e.keyCode]);
 });
 
 
