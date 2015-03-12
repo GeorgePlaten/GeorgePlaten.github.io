@@ -22,13 +22,16 @@ ADVANCED TODO:
         DONE: Add collision death
         DONE: Add lives counter
             DONE: Show with hearts graphics
-    Add score
-        For moves made
-            Add graphics
-        For Gems collected
-            Random Gem adder
-            Gem capture remover
-    Add intensity based on score
+    DONE: Add score
+        DONE: For moves made
+            DONE: Add graphics
+    DONE: Add Bonus spawner
+        DONE: Add Bonus values and rarity / frequency
+        DONE: Add random location
+            DONE: Reject player's location
+        DONE: Add timer for spawn and despawn (seems erratic)
+        DONE: Gem capture remover
+    DONE: Add intensity based on bonuses captured
     Allow enemies to travel both ways
     Prevent enemies doubling up on line rows
 
@@ -39,31 +42,9 @@ ADVANCED TODO:
 var game = {
     // Difficulty: use a multiplier that increases based on time
     // elapsed (first) or score (later).
-    intensity: 1.0,
     score: 0,
-    topScore: 0
-};
-
-drawScoreBoard = function() {
-    // Current Score
-    var s = game.score.toString();
-    ctx.font = '16px "Press Start 2P"';
-    ctx.textAlign = 'right';
-    ctx.fillStyle = 'black';
-    ctx.fillText(s.toUpperCase(), 497, 80, 200);
-    ctx.fillStyle = 'gold';
-    ctx.fillText(s.toUpperCase(), 495, 78, 200);
-
-    // Top Score
-    var ts = game.topScore.toString();
-    if (game.score > game.topScore) {
-        ts = game.score.toString();
-    }
-    ctx.textAlign = 'center';
-    ctx.fillStyle = 'black';
-    ctx.fillText(ts.toUpperCase(), 258, 80, 200);
-    ctx.fillStyle = 'orange';
-    ctx.fillText(ts.toUpperCase(), 256, 78, 200);
+    topScore: 0,
+    intensity: 0.5
 };
 
 var IMGHEAD = 20; // Images seem to have a headspace, don't know why yet.
@@ -97,15 +78,15 @@ var Sprite = function() {
 Sprite.prototype.render = function() {
     // the Sprite Image
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+Sprite.prototype.renderCB = function() {
     // the Collision Box
-    var cbcb = document.getElementById('drawCBs'); // collision box check box
-    if (cbcb.checked && this.cdx) {
-        ctx.beginPath();
-        ctx.rect(this.cdx, this.cdy, this.cdWidth, this.cdHeight);
-        ctx.lineWidth = 3;
-        ctx.strokeStyle = this.cdColor;
-        ctx.stroke();
-    }
+    ctx.beginPath();
+    ctx.rect(this.cdx, this.cdy, this.cdWidth, this.cdHeight);
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = this.cdColor;
+    ctx.stroke();
 };
 
 Sprite.prototype.move = function(dx, dy) {
@@ -219,7 +200,7 @@ var Player = function() {
     // An object of sprites that are being collided with
     this.isCollidingWith = {
         enemy: false,
-        gem: false
+        bonus: false
     };
 
     // a lives counter, start with 3, lose one for every death
@@ -259,7 +240,7 @@ Player.prototype.jump = function(dx, dy) {
         this.move(dx, dy);
         // only score on road tiles
         if (newY <= 249 - IMGHEAD) {
-            game.score += 10;
+            this.score(10);
         }
     }
 };
@@ -272,19 +253,46 @@ Player.prototype.update = function() {
 
 };
 
+Player.prototype.score = function(score) {
+    game.score += score;
+};
+
 Player.prototype.checkCollisions = function() {
     var len = allEnemies.length;
     for (var i = 0; i < len; i++) {
         this.isCollidingWith.enemy = isColliding(this, allEnemies[i]);
-        // Doesn't work well without this, I don't understand why.
         if (this.isCollidingWith.enemy) {
             this.deathBy('enemy');
+            game.intensity = 0.5;
             return;
         }
     }
 
-    this.isCollidingWith.gem = false;
+    this.isCollidingWith.bonus = isColliding(this, bonus);
+    if (this.isCollidingWith.bonus) {
+        this.isCollidingWith.bonus = false;
+        console.log("bonus!");
+        this.score(bonus.value);
+        bonus.y += 1000;
+        bonus.cdy += 1000;
+        game.intensity += 0.1;
+        // if (bonus.sprite === 'images/Key.png') {
+        //     console.log("up, up, down, down, left, right, left, right, B, A")
+        // }
+        return;
+    }
 };
+
+var eegg = {
+    kcode: [],
+    seq: [],
+    check: function() {
+        if (this.seq === this.kcode) {
+            Player.sprite = 'images/char-horn-girl.png';
+        }
+    }
+};
+
 
 Player.prototype.handleInput = function(keyName) {
     switch(keyName) {
@@ -360,7 +368,9 @@ document.addEventListener('keyup', function(e) {
         37: 'left',
         38: 'up',
         39: 'right',
-        40: 'down'
+        40: 'down',
+        65: 'a',
+        66: 'b'
     };
 
     player.handleInput(allowedKeys[e.keyCode]);
@@ -400,3 +410,104 @@ var isColliding = function(caller, tester) {
                 tester.cdY < caller.cdy
             );
 };
+
+drawScoreBoard = function() {
+    // Current Score
+    var s = game.score.toString();
+    ctx.font = '16px "Press Start 2P"';
+    ctx.textAlign = 'right';
+    ctx.fillStyle = 'black';
+    ctx.fillText(s.toUpperCase(), 495, 80, 200);
+    ctx.fillStyle = 'gold';
+    ctx.fillText(s.toUpperCase(), 493, 78, 200);
+
+    // Top Score
+    var ts = game.topScore.toString();
+    if (game.score > game.topScore) {
+        ts = game.score.toString();
+    }
+    ctx.textAlign = 'center';
+    ctx.fillStyle = 'black';
+    ctx.fillText(ts.toUpperCase(), 258, 80, 200);
+    ctx.fillStyle = 'gold';
+    ctx.fillText(ts.toUpperCase(), 256, 78, 200);
+};
+
+var bonuses = [
+    {image: 'images/Gem Green.png', value: 50, frequency: 1.0},
+    {image: 'images/Gem Blue.png', value: 200, frequency: 0.2},
+    {image: 'images/Gem Orange.png', value: 100, frequency: 0.5},
+    {image: 'images/Heart.png', value: 50, frequency: 0.1},
+    {image: 'images/Key.png', value: 50, frequency: 0.05}
+];
+
+var Bonus = function() {
+    Sprite.call(this);
+
+    var getRandBonus = function() {
+        return bonuses[randInt(0,5)];
+    };
+
+    var randBonus = getRandBonus();
+    var rand = Math.random();
+
+    while (randBonus.frequency < rand) {
+        randBonus = getRandBonus();
+    }
+
+    this.sprite = randBonus.image;
+    this.value  = randBonus.value;
+
+    this.x = -500;
+    this.y = -500;
+    this.cdColor = 'yellow';
+    // Padding = offset from Sprite border
+    this.cdWidth = 75;
+    this.cdHeight = 60;
+    this.cdLeftPadding = 12;
+    this.cdTopPadding = 80;
+
+    this.updateCB();
+};
+
+Bonus.prototype = Object.create(Sprite.prototype);
+Bonus.prototype.constructor = Bonus;
+
+Bonus.prototype.locate = function() {
+    var newX;
+    var newY;
+    var genNewLoc = function() {
+        newX = randInt(0,5) * 101;
+        newY = randInt(1,4) * 83 - IMGHEAD;
+    };
+    var newLoc = genNewLoc();
+
+    // Check not on player tile
+    while (newX === player.x && newY === player.y) {
+        genNewLoc();
+    }
+
+    this.x = newX;
+    this.y = newY;
+
+    this.updateCB();
+
+};
+
+Bonus.prototype.render = function() {
+    // the Sprite Image with custom width and height
+    ctx.drawImage(  Resources.get(this.sprite),
+                    this.x + 15, this.y + 50,
+                    70, 90);
+};
+
+
+var spawnBonuses = function() {
+    if (bonus.x === -500) {
+        bonus.locate();
+    } else {
+        bonus = new Bonus();
+    }
+};
+
+
