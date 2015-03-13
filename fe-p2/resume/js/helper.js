@@ -176,7 +176,8 @@ function initializeMap() {
 
     // hmmmm, I wonder what this is about...
     google.maps.event.addListener(marker, 'click', function() {
-      infoWindow.open(map,marker);
+      // from W3 schools of all places
+      infoWindow.open(map, marker);
     });
 
     // this is where the pin actually gets added to the map.
@@ -194,6 +195,7 @@ function initializeMap() {
   */
   function callback(results, status) {
     if (status == google.maps.places.PlacesServiceStatus.OK) {
+      // Zeroth index of array, cos they just want the city
       createMapMarker(results[0]);
     }
   }
