@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Georgeplaten.GitHub.io : reading and tinkering">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="../stylesheets/stylesheet.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../stylesheets/style.css">
+
+    <title>GeorgePlaten GitHub.io - Project 3: Canvas Reflections</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+        <a href="../">
+          <img id="biopic" src="../images/biopic.jpg" width="150" height="150">
+        </a>
+          <!-- <a id="forkme_banner" href="https://github.com/GeorgePlaten">View on GitHub</a> -->
+
+          <h1 id="project_title"><a href="../" id="home-link">GeorgieP</a></h1>
+          <p id="project_tagline">reading and tinkering</p>
+
+        </header>
+    </div>
+
+
+    <!-- MAIN GITHUB CONTENT -->
+
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+
+    <!-- MY CONTENT -->
+
+    <h1>Canvas Basics</h1>
+
+      <h2>Creating a Canvas</h2>
+
+        <p>The canvas is a 2D element that can be painted and repainted directly on the HTML in the browser.</p>
+
+        <p>In HTML use the canvas tag <code>&lt;canvas&gt;&lt;/canvas&gt;</code>. It can take optional height and width attributes and is usually given an id attribute too.<pre>
+          &lt;canvas id="the canvas" height="200" width="200"&gt;&lt;/canvas&gt;</pre>
+        </p>
+
+        <p>To use and put content in the canvas, we need to use JavaScript.<pre>
+          &lt;script&gt;&lt;/script&gt;</pre>
+        First we need to get a reference to the HTML canvas element, and then assign a reference to the canvas's 2d context.<pre>
+          &lt;script&gt;
+            var c = document.getElementByID("the canvas");
+            var ctx = c.getContext("2d");
+          &lt;/script&gt;</pre>
+        Note: <code>getContext()</code>'s parameter is a string and yes, we can also call a 3d context.</p>
+
+        <p>Now you have the <code>CanvasRenderingContext2D</code> which provides <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D">many methods to draw and animated text and graphics</a> on the webpage with JavaScript.</p>
+
+      <h2>Canvas coordinate system</h2>
+
+        <p>Note the coordinate system used by canvas has the origin at top left. Left to right on screen increases x-coordinates, top to bottom increases y-coordinates.</p>
+
+      <h2>Loading images</h2>
+
+        <p>To load an image we need to create a new <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/Image">Image Instance</a> which allows us the (optionally set height and width):<pre>
+          var myImage = new Image([width, height]);</pre>
+        and will require a source property to be set:<pre>
+          myImage.src = "/path/file.ext";</pre>
+        </p>
+
+        <p>Images in JavaScript get loaded asynchronously, which means that we will have to do work on the image once it is loaded. We can set that work to be triggered by the image's onload event.<pre>
+          myImage.onload = function() {
+            //do something
+          };</pre>
+        Typically we'd want to draw the image on the canvas with the <code><a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage">drawImage()</a>;</code> method provided by CanvasRenderingContext2D:<pre>
+          myImage.onload = function() {
+            ctx.drawImage(myImage, x, y[, width, height]);
+          };</pre>
+        The <code>drawImage()</code> method requires an image object, and top-left xy coordinates. Optionally it will take width and height.</p>
+
+      <h2>Saving out Images</h2>
+
+        <p>This is a little bit beyond the scope of this course but a quick and dirty method is to use the canvas's <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL"><code>.toDataURL()</code></a> method and open that in new window (this method will require a <code>python -m SimpleHTTPServer [PORT]</code>). Insert the follow code into a function assigned to button or some such...<pre>
+          var imageData = c.toDataURL();
+          window.open(imageData);
+        </pre></p>
+
+        <p>Note that the python SimpleHTTPServer is run by navigating to the directory where the HTML file is stored and then accessed at <a href="http://localhost:8000/">http://localhost:8000/</a>. 8000 is the default port and can changed optionally by appending it to the python command string.</p>
+
+      <h2>Drawing Rectangles</h2>
+
+        <p>To draw a filled rectangle use the 2d context's <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillRect"><code>.fillRect()</code></a> method and to draw a stroke, use <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/strokeRect"><code>.strokeRect()</code></a>. Both take starting xy coordinates, width, and height.</p>
+
+        <p>To delete a part or all of the canvas 'paint' you can call <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/clearRect"><code>.clearRect()</code></a> with the required coordinates, width and height. You could also do this by redrawing a filled rectangle over the area to be cleared with a solid color. To set the fill color, set the <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle"><code>.fillStyle</code></a> propety to the desired color.</p>
+
+        <p>A much faster and simpler way to clear the canvas is to reassign it's height of width:<pre>
+          c.width = c.width;</pre>
+        although this would not be seen as self-documenting code.</p>
+
+      <h2>Drawing Paths</h2>
+
+        <p>To draw a path, a sequence of commands are required. This is similar to a turtle type program. We start the path command with <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/beginPath"><code>.beginPath()</code></a>. We then need to define a start xy coordinate for the pen with the <code>.moveTo(x,y)</code>. Next to define an endpoint xy coordinate for a line we use <code>.drawTo(x,y)</code>. Finally, to end the beginPath command and render the full path to the page we need to call <code>.stroke()</code> or <code>.fill()</code>.</p>
+
+      <h2>Scale, Translate and Rotate</h2>
+
+        <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/scale">Scale</a>, <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/rotate">Rotate</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/translate">Translate</a> are as they say on the tin, just remember they are operating in computer screen coordinate space and not on a  cartesian plane. And that means rotations are clockwise and angles are measured in Radians too.</p>
+
+        <p>Note that all SRT operations shown operate on the whole 2d context, to reset the current transformation matrix to the starting condition use: <pre>
+          ctx.setTransform(1, 0, 0, 1, 0, 0);</pre></p>
+
+      <h2>Saving and Restoring Canvas State</h2>
+
+        <p>The context has a load of properties like fillStyle, transformation matrix, current font etc that can be added to the state stack. To save and restore a state, use the <code><a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/save">.save()</a></code> and <code><a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/restore">.restore()</a></code> methods. For a full list of stackable states follow .save() link above.</p>
+
+        <p>Side note: must learn to set states as variables.</p>
+
+      <h2>Colors!</h2>
+
+        <p>Cam be like... b&w don't stand out. Pfff. Assign .setFillStyle and .setStrokeStyle to a color to make colors. Colors can be names like "blue" or CSS definitions like hex color code etc., for example:<pre>
+          ctx.setFillStyle = "green";</pre>
+        And that'll do it. Just remember that the order of setting properties on the state stack is very important if you want thing to stand out.</p>
+
+      <h2>Text!</h2>
+
+        <p>Text is a matter of setting context properties as you see fit, including stroke and fill styles. To add text to the canvas, use either <code><a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillText">.fillText("My text here", x, y[, maxWidth])</a></code> or <code>.strokeText()</code>. Read all about <a href="http://diveintohtml5.info/canvas.html#text">text from diveinto5</a>.</p>
+
+    <h1>From Pixels to Animation</h1>
+
+      <p>Images hold pixels. Pixels have red, green and blue channels. Some images have Alpha channels.</p>
+
+      <h2>The ImageData() Object</h2>
+
+        <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/ImageData">ImageData</a> contains <code>.width</code> and <code>.height</code> properties. It also contains a <em>Uint8ClampedArray</em> of data at <code>.data</code> that store the red, green, blue and aplha values for each pixel.</p>
+
+        <p>Uint8ClampedArray:<br>
+          U = unsigned, or only positive numbers, <br>
+          int8 = 8 bit, or 2^8, or 256, or 0 to 255 values, <br>
+          Clamped = (not important right now), <br>
+          Array = well... this is a big array of rgba values that looks like this: <code>[r1,g1,b1,a1,r2,g2,b2,a2,r3,g3,b3,a3....rn,gn,bn,an]</code></p>
+
+        <p>Notice that the array does not group pixels together, it just lumps them all into one sequence.</p>
+
+        <p><a href="https://www.youtube.com/playlist?list=PLzH6n4zXuckpbNdFO2WW78evpMBqgqyp8">Great explanations about these Arrays</a> from Computerphile (why isn't it computerfile?).</p>
+
+        <p>The 3 methods we use with ImageData are:
+          <ul>
+            <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/createImageData">CreateImageData</a>: creates a new ImageData object for us to start adding values to.</li>
+            <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/getImageData">GetImageData</a>: retrieve image data</li>
+            <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/putImageData">PutImageData</a>: store image data</li>
+          </ul>
+        </p>
+
+        <p>Psuedocode for manipulating an image might look like:<pre>
+          // get and store the image data array in a variable
+          // count the number of values in the array (pixels*4)
+          // loop through array in steps of 4
+            // for each loop: i = r, i+1 =g, i+2 = b, i+3 = a
+            // manipulate the values and write them back into the variable
+          // set the variable as the image data
+        </pre></p>
+
+      <h2>Other Cool Stuff</h2>
+
+        <p>James gives a demo of how these same methods can be applied to video on a frame by frame basis to such an extent that you can apply filters to live video in real time.</p>
+
+        <p>James goes on to talk about <code>requestAnimationFrame()</code> and explains that it lets your browser render only when it can, making it way more preferrable over <code>setInterval</code> and <code>setTimeout</code>. Note that while requestAnimationFrame looks like it creates an Infinite Loop, the browser knows how to run it only when needed.</p>
+
+        <p>requestAnimationFrame is also perfect for controlling game engine loops.</p>
+
+        <h3>Capturing User Input</h3>
+
+          <p>A link to <a href="https://github.com/marquete/kibo">kibo.js</a> is provided as an example useful library for grabbing user keyboard inputs.</p>
+
+          <p>For capturing mouse inputs, it is noted that the canvas element does capture mouse events, but that a little bit of work is required when you need to know the exact location of those click in relation to the canvas element. The following is ripped directly from the lesson text:</p>
+
+          <p>Mouse click events return <code>clientX</code> and <code>clientY</code> positions that are global to the browser window. Every element knows where it is positioned relative to the browsers (0,0) position (<code>offsetLeft</code> and <code>offsetTop</code>).</p>
+
+          <p>To get the canvas-relative of a click, you need to subtract the <code>offsetLeft</code> and <code>offsetTop</code> values from <code>clientX</code> and <code>clientY</code>. Check out the example code below.</p>
+
+          <p><pre>
+        var c = document.querySelector("canvas");
+
+        function handleMouseClick(evt) {
+                x = evt.clientX - c.offsetLeft;
+                y = evt.clientY - c.offsetTop;
+                console.log("x,y:"+x+","+y);
+        }
+        c.addEventListener("click", handleMouseClick, false);
+          </pre></p>
+
+    <p>And that's it for canvas, for now.</p>
+  </body>
+</html>

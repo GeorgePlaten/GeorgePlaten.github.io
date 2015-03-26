@@ -1,11 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
   <head>
-    <meta charset="utf-8">
-    <title>Project 2: Resources</title>
-    <style>body {width: 600px;}</style>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Georgeplaten.GitHub.io : reading and tinkering">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="../stylesheets/stylesheet.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../stylesheets/style.css">
+
+    <title>GeorgePlaten GitHub.io - Project 2: Resources</title>
   </head>
+
   <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+        <a href="../">
+          <img id="biopic" src="../images/biopic.jpg" width="150" height="150">
+        </a>
+          <!-- <a id="forkme_banner" href="https://github.com/GeorgePlaten">View on GitHub</a> -->
+
+          <h1 id="project_title"><a href="../" id="home-link">GeorgieP</a></h1>
+          <p id="project_tagline">reading and tinkering</p>
+
+        </header>
+    </div>
+
+
+    <!-- MAIN GITHUB CONTENT -->
+
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+
+    <!-- MY CONTENT -->
     <p>This is a list of web pages with short notes or descriptions used while preparing the submission for Udacity Front End Developer Nanodegree, Project 2. (For a thorough journal of links, questions, answers, thoughts and notes made during the course see <a href="js-basics-reflections.html">js-basics-reflections.html</a> and <a href="jquery-reflections.html">jquery-reflections.html</a>)</p>
 
     <ul>
@@ -96,8 +125,7 @@
               alert("this will run!");
             }
           }
-          test();
-        </pre>
+          test();</pre>
       </li>
       <li>
         <a href="http://justinhileman.info/article/git-pretty/">Git Troubleshooters Flowchart</a><br>
@@ -125,8 +153,7 @@
         <pre>
           var something = function() {
             //some code;
-          };
-        </pre>
+          };</pre>
         <p>Is actually an anonymous function assigned directly to the return value of the variable, I never noticed this before! Note: this is also the difference between creating a function with the function declaration and with a function operator in an expression.</p>
         <p>Expressions are created at runtime, declarations run before any other code is executed. Revisit this when looking at recursive functions, it builds to a nice example.</p>
         <p>When you give an function in an expression a name, it still only gets created at runtime - therefore giving them names can really help with debugging as all anonymous functions can look the same.</p>
@@ -157,6 +184,20 @@
 
       </li> -->
     </ul>
+
+    <!-- END MY CONTENT -->
+
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+
 
   </body>
 </html>

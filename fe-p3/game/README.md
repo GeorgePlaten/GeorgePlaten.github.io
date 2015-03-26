@@ -1,6 +1,13 @@
-frontend-nanodegree-arcade-game
+Frogger Clone
 ===============================
 
-Students should use this rubric: https://www.udacity.com/course/viewer#!/c-ud015/l-3072058665/m-3072588797
+If you can avoid the speeding ladybugs, you'll live.
+If you jump in the water, you won't.
 
-for self-checking their submission.
+You're safe on the grass, but you won't score there.
+Your **arrow keys** will get you to where you can.
+
+You can score BIG, if you can capture a gem.
+If you can capture a gem, you'll make the ladybugs mad.
+
+

@@ -1,0 +1,20 @@
+header a{
+  color: white;
+}
+
+header a:hover {
+  color: rgb(109, 218, 232);
+}
+
+header img {
+  border: 0;
+  float: left;
+  margin: -30px 40px 0 -200px;
+}
+
+.follow-up {
+  color: #666;
+  margin-bottom: 20px;
+  padding: 0 0 0 20px;
+  border-left: 3px solid #bbb;
+}

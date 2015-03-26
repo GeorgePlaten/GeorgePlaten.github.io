@@ -1,14 +1,15 @@
 /* MileStones:
 
 BASIC TODO:
-    DONE: Get game background redering to canvas
+    DONE: Get game background rendering to canvas
     DONE: Get enemies added
     DONE: Get enemies moving
         DONE: Refactor code
     DONE: Get Player to render
     DONE: Get Player to move
         DONE: Disallow player to move off screen
-        (weird zogabond painting on top row)
+        (weird zogabond painting on top row
+            repainting with c.width = c.width; would fix this)
         DONE: Add drowning in top row
     DONE: Add collision detection
     DONE: Add game restart on collision
@@ -38,19 +39,28 @@ ADVANCED TODO:
 
 */
 
-// General game settings
+// GAME SETTINGS //
 var game = {
     // Difficulty: use a multiplier that increases based on time
     // elapsed (first) or score (later).
     score: 0,
     topScore: 0,
+    // Intensity setting in video is 1, start at 0.5 so it doesn't get too
+    // difficult too quickly.
     intensity: 0.5
 };
 
-var IMGHEAD = 20; // Images seem to have a headspace, don't know why yet.
+// CONSTANTS //
+// Images seem to have a headspace, don't know why yet.
+var IMGHEAD = 20;
+// Width of columns
+var COLUMNS = 101;
+// Height of rows
+var ROWS = 83;
 
-
-// Random Integer generator from http://stackoverflow.com/questions/4959975/
+// GENERAL FUNCTIONS //
+// Random Integer generator
+// From http://stackoverflow.com/questions/4959975/
 // Used because I was repeating myself making random nums
 // Note: S/O shows a better method using default op |, but I want to understand
 // how it works better before using it.
@@ -58,84 +68,84 @@ var randInt = function(min, max) {
     return Math.floor( (Math.random()*(max-min)) + min);
 };
 
-// Superclass for Enemy and Player to hold x and y properties.
-// Possibly for gems and other items later.
-// And drawImage and drawCollisionBox method.
+// SPRITES //
+// This game uses JavaScript's Pseudoclassical Class pattern (pre-ECMA 6)
+// Enemy, Player and Bonus Classes will delegate failed lookups to the
+// Sprite Superclass. The Sprite superclass holds basic shared properties
+// and move, render, moveCB and renderCB methods.
 var Sprite = function() {
     this.sprite = '';
     this.speed = 0;
     this.x = 0;
     this.y = 0;
-    // cd = Collision Dectection rectangle
+    // cd: Collision Detection rectangle
     this.cdColor = '';
     // Padding = offset from Sprite border
-    this.cdWidth = 0;
-    this.cdHeight = 0;
     this.cdLeftPadding = 0;
     this.cdTopPadding = 0;
+    this.cdWidth = 0;
+    this.cdHeight = 0;
+    // Since none of the above properties are set, I could probably leave these
+    // properties to be set by the subclasses, but I'm do it here to help see
+    // properties in the debugger, and in case I'd like to set them
+    // in a future version.
 };
 
 Sprite.prototype.render = function() {
-    // the Sprite Image
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+// Basic position updating for sprites
+Sprite.prototype.move = function(dx, dy) {
+    // Adding a delta x and y value to current position
+    this.x += dx;
+    this.y += dy;
+};
+
 Sprite.prototype.renderCB = function() {
-    // the Collision Box
+    // Rendering the Collision Box with Context2D methods
     ctx.beginPath();
-    ctx.rect(this.cdx, this.cdy, this.cdWidth, this.cdHeight);
+    ctx.rect(this.cdLeft, this.cdTop, this.cdWidth, this.cdHeight);
     ctx.lineWidth = 3;
     ctx.strokeStyle = this.cdColor;
     ctx.stroke();
 };
 
-Sprite.prototype.move = function(dx, dy) {
-    this.x += dx;
-    this.y += dy;
-};
-
-Sprite.prototype.updateCB = function() {
-    // Update Collision Box
-    // lowercase x and y = top-left
-    this.cdx = this.x + this.cdLeftPadding;
-    this.cdy = this.y + this.cdTopPadding;
-    // uppercase x and y = bottom-right
-    this.cdX = this.cdx + this.cdWidth;
-    this.cdY = this.cdy + this.cdHeight;
-
+Sprite.prototype.moveCB = function() {
+    this.cdLeft = this.x + this.cdLeftPadding;
+    this.cdTop = this.y + this.cdTopPadding;
+    this.cdRight = this.cdLeft + this.cdWidth;
+    this.cdBottom = this.cdTop + this.cdHeight;
 };
 
 
-// Enemies our player must avoid
+// ENEMY //
+
 var Enemy = function() {
-    // Delegate Enemy to Sprite
+    // Delegate failed Enemy lookups to Sprite
     Sprite.call(this);
 
     // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
+    // a helper Udacity provided to easily load images
     this.sprite = 'images/enemy-bug.png';
 
-    // pos/neg speed will give direction. Need to define
-    // upper and lower bounds of speed, and random picker.
+    // TODO: Speed pos/neg  will give direction.
     // Speed will increase as an intensity feature.
-    // Start with 3 basic speeds for now.
-    // what unit will I use: pixels per x(milliseconds)?
+    // Start with 3 basic speeds picked at random.
+    // What unit will I use: pixels per x(milliseconds)?
     // 600px/1000ms will cross the canvas in one second.
-    // This seems to match the video appox (small canvas!)
-    // Should I to use the dt multiplier here: 600/1000*dt?
+    // This seems to match the video approx (small canvas!)
     // TODO: figure out why it's 0.005 and not 5.0
     this.speed = randInt(1,4) / 0.005 * game.intensity;
 
-    // will need to randomise off-stage left or right depending
-    // on direction. hmmm... the video only shows one direction.
-    // So I'll can use a constant value here (for now).
+    // TODO: will need to randomize off-stage left or right depending
+    // on direction. But... the video only shows one direction.
+    // So I'm using a constant value here (for now).
     this.x = -150.0;
 
-    // will need to pick a random row from 1 to 3
-    // This will not be changed by the update method.
-    // Needs a function to pick 1-3 random and multiply by tile-size
-    // Video doesn't care about using same row twice
-    this.y= randInt(1,4) * 83 - IMGHEAD;
+    // Pick a random row from 1 to 3
+    // NB: video doesn't care about using same row twice
+    this.y = randInt(1,4) * ROWS - IMGHEAD;
 
     // Collision Detection Bounding Box (CDBB):
     // CDBB Color,
@@ -148,44 +158,37 @@ var Enemy = function() {
     this.cdTopPadding = 85;
 };
 
+// Superclass method delegation
 Enemy.prototype = Object.create(Sprite.prototype);
 Enemy.prototype.constructor = Enemy;
 
-// Update the enemy's position, required method for game
+// Update the enemy's position
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
+    // Any movement should be multiplies by the dt parameter.
+    // This will ensure the game runs at the same speed for
     // all computers.
-    // this.x += (this.speed * dt);
     this.move(this.speed * dt, 0);
-    // The Collision box tracks the x value and width
-    this.updateCB();
-    // this.cdx = this.x + 5;
-    // this.cdX = this.cdx + 90;
-
+    // Collision box tracking
+    this.moveCB();
 };
 
 
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
+// PLAYER 1 //
 
 var Player = function() {
-    // Delegate Player to Sprite
+    // Delegate failed Player lookups to Sprite
     Sprite.call(this);
 
-    // Start position is tile 3,6. Sprite top-left coord is 2*101, 5*83-IMGHEAD
-    this.startX = 202;
-    this.startY = 415 - IMGHEAD;
+    // Start position is tile 2,5 (Zero based row counting)
+    this.startX = COLUMNS * 2;
+    this.startY = ROWS * 5 - IMGHEAD;
 
     // Current position
     this.x = this.startX;
     this.y = this.startY;
-    // Add a sprite, this will be choosable later.
+    // Add a sprite, this will be choosable later...
     this.sprite = 'images/char-boy.png';
-
-    this.speed = 15; // pixels/millsecond
 
     // Collision Detection Bounding Box (CDBB):
     // CDBB Color,
@@ -197,23 +200,26 @@ var Player = function() {
     this.cdLeftPadding = 35;
     this.cdTopPadding = 85;
 
-    // An object of sprites that are being collided with
+    // A tester object of sprites that are being collided with
     this.isCollidingWith = {
         enemy: false,
         bonus: false
     };
 
     // a lives counter, start with 3, lose one for every death
-    // later gain some as bonuses,
+    // also gain one when heart bonus captured
     this.lives = 3;
 };
 
+// Delegate failed method lookups to Sprite superclass
 Player.prototype = Object.create(Sprite.prototype);
 Player.prototype.constructor = Player;
 
 Player.prototype.reset = function() {
+    // Called after an hitting an enemy
     this.x = this.startX;
     this.y = this.startY;
+    game.intensity = 0.5;
 };
 
 Player.prototype.jump = function(dx, dy) {
@@ -222,38 +228,41 @@ Player.prototype.jump = function(dx, dy) {
     var newX = this.x + dx;
     var newY = this.y + dy;
 
-    // Drown: reset the game if player moves to top row of water
+    // Drown: reset the player if they move to top row of water
     if (newY <= 0 - IMGHEAD) {
         this.deathBy('drowning');
         this.reset();
         return;
     }
 
-    // Move
+    // Make a move
         // Do move if proposed coordinates remain within the bounds
-        // of the play area. (0>x>404, 0>y>415). Also allow for IMGHEAD.
-    if (newX <= 404 &&
+        // of the play area. Also allow for IMGHEAD.
+    if (newX <= COLUMNS * 4 &&
         newX >= 0 &&
-        newY <= 415 - IMGHEAD &&
+        newY <= ROWS * 5 - IMGHEAD &&
         newY >= 0 - IMGHEAD) {
         // Move the sprite
         this.move(dx, dy);
+
+        //SCORE!
         // only score on road tiles
-        if (newY <= 249 - IMGHEAD) {
-            this.score(10);
+        if (newY <= ROWS * 3 - IMGHEAD) {
+            this.scores(10);
         }
     }
 };
 
 Player.prototype.update = function() {
     // Update the collision detection box
-    this.updateCB();
-    // this.move(this.speed * dt, this.speed * dt);
+    this.moveCB();
+    // and check collisions
     this.checkCollisions();
-
 };
 
-Player.prototype.score = function(score) {
+Player.prototype.scores = function(score) {
+    // this looks overly elaborate but it is help the code
+    // self-document elsewhere
     game.score += score;
 };
 
@@ -263,60 +272,56 @@ Player.prototype.checkCollisions = function() {
         this.isCollidingWith.enemy = isColliding(this, allEnemies[i]);
         if (this.isCollidingWith.enemy) {
             this.deathBy('enemy');
-            game.intensity = 0.5;
+            // Kick straight out, when true
             return;
         }
     }
 
+    // Capturing a Bonus with collisions
+    // Set the player property
     this.isCollidingWith.bonus = isColliding(this, bonus);
+
+    // What should happen when you capture a bonus
     if (this.isCollidingWith.bonus) {
+        // reset the player property for the next capture
         this.isCollidingWith.bonus = false;
-        console.log("bonus!");
-        this.score(bonus.value);
-        bonus.y += 1000;
-        bonus.cdy += 1000;
+        // Get some points for it
+        this.scores(bonus.value);
+        // Make the game a bit more fun
         game.intensity += 0.1;
+
+        // Prevent continuous collisions by kicking the Sprite and CB off canvas
+        bonus.y += 1000;
+        bonus.cdTop += 1000;
+
+        // Getting the rare key, gives you a clue
         if (bonus.sprite === 'images/Key.png') {
             console.log("up, up, down, down, left, right, left, right, B, A");
         }
+        // Getting a heart can be a life saver
         if (bonus.sprite === 'images/Heart.png') {
             player.lives ++;
         }
+        // return is required here to keep the game running smoothly
+        // as checkCollisions is being called effectively in loop by
+        // engine.js#requestAnimationFrame
         return;
     }
 };
 
-var seq = [];
-var eegg = function(key) {
-    var kcode = ['up','up','down','down','left','right','left','right','b','a'];
-    seq.push(key);
-    var add = function(key){
-        for (var i = 0; i < seq.length; i++) {
-            if (seq[i] === kcode[i]) {
-                if (seq.length === kcode.length) {
-                    player.sprite = 'images/char-horn-girl.png';
-                }
-            } else {
-                seq = [];
-            }
-        }
-    }();
-};
-
-
 Player.prototype.handleInput = function(keyName) {
     switch(keyName) {
         case 'left':
-            player.jump(-101, 0);
+            player.jump(-COLUMNS, 0);
             break;
         case 'right':
-            player.jump(101, 0);
+            player.jump(COLUMNS, 0);
             break;
         case 'up':
-            player.jump(0, -83);
+            player.jump(0, -ROWS);
             break;
         case 'down':
-            player.jump(0, 83);
+            player.jump(0, ROWS);
             break;
         default:
             break;
@@ -350,6 +355,59 @@ Player.prototype.deathBy = function(cause) {
     }
 };
 
+
+// Nothing to see here, I was more of a mega-drive fan myself
+var seq = [];
+var kcode = ['up','up','down','down','left','right','left','right','b','a'];
+var eegg = function(key) {
+    seq.push(key);
+    var check = function(key){
+        for (var i = 0; i < seq.length; i++) {
+            if (seq[i] === kcode[i]) {
+                if (seq.length === kcode.length) {
+                    player.sprite = 'images/char-horn-girl.png';
+                }
+            } else {
+                seq = [];
+            }
+        }
+    }();
+};
+
+// This listens for key presses and sends the keys to your
+// Player.handleInput() method.
+document.addEventListener('keyup', function(e) {
+    var allowedKeys = {
+        37: 'left',
+        38: 'up',
+        39: 'right',
+        40: 'down',
+        65: 'a',
+        66: 'b'
+    };
+
+    player.handleInput(allowedKeys[e.keyCode]);
+    eegg(allowedKeys[e.keyCode]);
+});
+
+var spawnEnemies = function() {
+    while (allEnemies.length < 3) {
+        allEnemies.push(new Enemy());
+    }
+    allEnemies = allEnemies.filter(function(enemy) {
+        return enemy.x < 650;
+    });
+};
+
+var isColliding = function(caller, tester) {
+    return !(
+                caller.cdRight < tester.cdLeft ||
+                tester.cdRight < caller.cdLeft ||
+                caller.cdBottom < tester.cdTop ||
+                tester.cdBottom < caller.cdTop
+            );
+};
+
 var Hearts = function() {
     Sprite.call(this);
 
@@ -371,58 +429,7 @@ Hearts.prototype.update = function() {
     }
 };
 
-// This listens for key presses and sends the keys to your
-// Player.handleInput() method. You don't need to modify this.
-document.addEventListener('keyup', function(e) {
-    var allowedKeys = {
-        37: 'left',
-        38: 'up',
-        39: 'right',
-        40: 'down',
-        65: 'a',
-        66: 'b'
-    };
-
-    player.handleInput(allowedKeys[e.keyCode]);
-    eegg(allowedKeys[e.keyCode]);
-});
-
-
-// Now instantiate your objects.
-// Place all enemy objects in an array called allEnemies
-    // Note there never seems to be more than 3 enemies at a time
-// Moved into reset()
-// // var allEnemies = [];
-
-var spawnEnemies = function() {
-    while (allEnemies.length < 3) {
-        allEnemies.push(new Enemy());
-    }
-    allEnemies = allEnemies.filter(function(enemy) {
-        return enemy.x < 650;
-    });
-};
-
-// Place the player object in a variable called player
-// Moved into init()
-// // var player = new Player();
-
-// COLLISION DETECTION
-// Loop through allEnemies array and test for collision with
-// player.
-// DONE: moved to player as method
-
-
-var isColliding = function(caller, tester) {
-    return !(
-                caller.cdX < tester.cdx ||
-                tester.cdX < caller.cdx ||
-                caller.cdY < tester.cdy ||
-                tester.cdY < caller.cdy
-            );
-};
-
-drawScoreBoard = function() {
+var drawScoreBoard = function() {
     // Current Score
     var s = game.score.toString();
     ctx.font = '16px "Press Start 2P"';
@@ -478,7 +485,7 @@ var Bonus = function() {
     this.cdLeftPadding = 12;
     this.cdTopPadding = 80;
 
-    this.updateCB();
+    this.moveCB();
 };
 
 Bonus.prototype = Object.create(Sprite.prototype);
@@ -488,8 +495,8 @@ Bonus.prototype.locate = function() {
     var newX;
     var newY;
     var genNewLoc = function() {
-        newX = randInt(0,5) * 101;
-        newY = randInt(1,4) * 83 - IMGHEAD;
+        newX = randInt(0,5) * COLUMNS;
+        newY = randInt(1,4) * ROWS - IMGHEAD;
     };
     var newLoc = genNewLoc();
 
@@ -501,8 +508,7 @@ Bonus.prototype.locate = function() {
     this.x = newX;
     this.y = newY;
 
-    this.updateCB();
-
+    this.moveCB();
 };
 
 Bonus.prototype.render = function() {
@@ -512,7 +518,6 @@ Bonus.prototype.render = function() {
                     70, 90);
 };
 
-
 var spawnBonuses = function() {
     if (bonus.x === -500) {
         bonus.locate();
@@ -521,4 +526,4 @@ var spawnBonuses = function() {
     }
 };
 
-
+// ../index.html engine.js@renderEntities @Sprite ###testme

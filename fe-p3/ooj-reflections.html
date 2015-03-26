@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Georgeplaten.GitHub.io : reading and tinkering">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="../stylesheets/stylesheet.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../stylesheets/style.css">
+
+    <title>GeorgePlaten GitHub.io - Project 3: OOJ Journal</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+        <a href="../">
+          <img id="biopic" src="../images/biopic.jpg" width="150" height="150">
+        </a>
+          <!-- <a id="forkme_banner" href="https://github.com/GeorgePlaten">View on GitHub</a> -->
+
+          <h1 id="project_title"><a href="../" id="home-link">GeorgieP</a></h1>
+          <p id="project_tagline">reading and tinkering</p>
+
+        </header>
+    </div>
+
+
+    <!-- MAIN GITHUB CONTENT -->
+
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+
+    <!-- MY CONTENT -->
+
+    <h1>Scopes</h1>
+
+      <p>Were going to start off really getting to know Scopes and Closures before diving into the more complex ideas of the parameter 'this' and prototypal inheritance. Finally we'll look at a number of different ways of writing classes and sub-classes.</p>
+
+
+      <h2>Lexical Scope</h2>
+
+        <p>This refers to regions in your source code <em>where</em> you can refer to by variable name without getting access errors.</p>
+
+        <p>Since functions create scope in JS, a simple programme with no functions has only one scope: the global scope.</p>
+
+      <h2>Variable Access</h2>
+
+        <p>A new Lexical Scope is created every time you create a Function definition. The function definition spans from the letter 'f' in functions all the way to the end curly brace '{'.</p>
+
+        <p>Between the two curly braces {}, different rules for access to variables apply - this is a new lexical scope.</p>
+
+        <p>Variable delared inside a function definition can only be accessed from inside that definition or from inside child scopes. They cannot be accessed from the parent scoope. So basically you can access a variable from inside the current scope and upwards into parent scopes, but not downwards into child scopes.</p>
+
+      <h2>Scoping Limitations</h2>
+
+        <p>JS allows you to declare a variable without using the var keyword. This actually creates the variable in the global scope, which is never what you would want inside a function's scope.</p>
+
+        <p>Note that not all {} in JS create scopes. Blocks like loops and conditionals use curly  braces, but are not functions and therefore do not create new scopes.</p>
+
+      <h2>Intro: Execution Contexts</h2>
+
+        <p>When a program runs, it builds up a storage system for storing the variables and their values. These in-memory scope structures are called 'Execution Contexts'.</p>
+
+      <h2>Execution Contexts vs. Lexical Scopes</h2>
+
+        <p>Execution Scopes are built as the code runs, not as it is typed like lexical scopes.</p>
+
+      <h2>In-memory scopes and in-memory objects</h2>
+
+        <p>The in-memory execution context and in-memory scopes do not work in the same way and are in no way related and ne'er the twain shall meet, as they are kept completely seperate by the interpreter.</p>
+
+      <h2>NB: The parentheses <code>()</code> after a <code>function()</code> mean 'Invoke This Function Now'.</h2>
+
+    <h1>Closures</h1>
+
+      <p>Any function should have access to all the varibles, from all the scopes, that surround it.</p>
+
+      <p>A Closure is any function, that somehow remains available, after all the outer surrounding scopes have returned.</p>
+
+      <h2>Retaining Access to Functions</h2>
+
+        <ul>
+          <li>Pass the function to setTimeout</li>
+          <li><code>return</code> the function to an outer function</li>
+          <li>assign the function to a global variable</li>
+        </ul>
+
+      <h2>Prediction Closure Output</h2>
+
+        <p>Over the course of these videos a nice example of pushing functions onto an array is used, I will have to come back to this if I need to use Closures. Still, can't figure out what commone problem I have that this solves (of course, since I don't actually USE JavaScript for anything yet, that would explain it!)</p>
+
+        <p><a href="http://www.pythontutor.com/visualize.html#code=var+sagas+%3D+%5B%5D%3B%0Avar+hero+%3D+%5B%22Boy%22,+%22Girl%22,+%22Man%22,%0A++++++++++++%22Mom%22,+%22Wizard%22,+%22Teen%22%0A++++++++++++%5D%5BMath.floor(Math.random()*6)%5D%3B%0A%0Avar+newSaga+%3D+function+()+%7B%0A++++var+foil+%3D+%5B%22Cow%22,+%22Fox%22,+%22Rat%22,%0A++++++++++++++++%22Bear%22,+%22Ghost%22,+%22Banana%22%0A++++++++++++++++%5D%5BMath.floor(Math.random()*6)%5D%3B%0A++++++++++++++++%0A++++sagas.push(function+()+%7B%0A++++++++var+deed+%3D+%5B%22Eats%22,+%22Beats%22,+%22Flees%22,%0A++++++++++++++++++++%22Breaks%22,+%22Scalds%22,+%22Shoos%22%0A++++++++++++++++++++%5D%5BMath.floor(Math.random()*6)%5D%3B%0A++++++++++++++++++++%0A++++++++console.log(%5Bhero,+deed,+foil%5D.join(%22+%22))%3B%0A++++%7D)%3B%0A%7D%3B%0A%0AnewSaga()%3B%0Asagas%5B0%5D()%3B%0Asagas%5B0%5D()%3B%0AnewSaga()%3B%0Asagas%5B0%5D()%3B%0Asagas%5B1%5D()%3B%0Asagas%5B0%5D()%3B&mode=display&origin=opt-frontend.js&cumulative=false&heapPrimitives=true&textReferences=false&py=js&rawInputLstJSON=%5B%5D&curInstr=22">Here's a python visualiser of the lesson</a>, but it doesn't really show the execution contexts very well.</p>
+
+        <p>He says that when you are calling a function a lot and the parameters you are calling with are almost always the same, then that is probably a likely candidate for setting up access from outside the scope.</p>
+
+    <h1>'this' Keyword</h1>
+
+      <p><code>this</code> is NOT referring to:
+        <ul>
+          <li>The function that it appears in.
+            <pre>
+            var fn = function () {
+              return this;
+            };</pre>
+          </li>
+          <li>A new instance of the function it appears in.</li>
+          <li>An object that happens to have that function as a property.
+            <pre>
+            var obj = {
+              fn: function () {
+                return;
+              }
+            };</pre>
+          </li>
+          <li>An object literal that is the function's parent.</li>
+        </ul>
+      </p>
+
+      <p><code>this</code> IS referring to:<br>
+      The object <strong>to the left of the dot</strong> <em>when</em> it is being invoked.
+        <pre>
+        obj.fn(a,b);</pre>
+      That is, the '<code>obj</code>' in the above line (notice the function is being invoked).
+      </p>
+
+      <p>Note that sometimes there won't be a dot because the object's method might be invoked with square bracket notation. e.g.<pre>
+        obj[fn](a,b);</pre>
+      </p>
+
+      <p>WARNING: without an object to the left of the dot, <code>this</code> will become <code>global</code> and will usually be seen as <code>window</code> in the chome debugger.</p>
+
+      <p>The dot is the method by which we pass in the binding for <code>this</code>.</p>
+
+      <p>We can overwrite the dot binding to this by using the <code>.call()</code> method and passing the <em>object to be bound to</em> in as the first parameter.<pre>
+        fn.call(obj, a, b);</pre>
+      </p>
+
+      <p>In summary: the keyword 'this' let's us create one function object and use it as a method on a bunch of different objects. That is, you can write a method once and use on on loads of different objects. If you're really clever you can make sure that method only exists once in memory too...</p>
+
+    <h1>Prototype Chains</h1>
+
+      <p>A method for delegating lookups through a chain of objects. The prototype method lets you define an object with a built-in lookup to another object, instead of duplicating a bunch of methods in the second object.</p>
+
+      <p>Side note: they always go way deep into this idea of inheritance and prototyping, but it is something that has always been really obvious to me. What I do need to learn are the patterns and categories for the different types of prototyping.</p>
+
+      <p><code>Object.create()</code>, is how we specify an object's prototype, i.e. where to direct failed look-ups. e.g.<pre>
+        var obj1 = {color: "red"};
+        var obj2 = Object.create(obj1);
+        obj2.color; // will evaluate to "red"
+      </pre>
+
+      <p>All objects eventually delegate to the Object Prototype. The Object Prototype provides the shared methods we can use on all objects like <code>.toString()</code>, for example. Note that <code>obj.toString()</code> has 'obj' to the left of the dot, this means it is passing 'obj' to be bound to the 'this' parameter of the Object Prototype. </p>
+
+      <p>Some objects, which are 'children' of the Object Prototype (like Array), will have their own methods with the same name as the Object Prototype. These methods will provide enhanced and more specific functionality to the parent's methods. To test for this, use the <code>.hasOwnProperty()</code> method, which will return a Boolean value.</p>
+
+      <p>The <code>object.constructor()</code> property is used to find out the function used to create the calling object, but usually this was is not defined and will look and find the top-level object-prototype's .constructor.
+
+    <h1>Object decorator pattern</h1>
+
+      <p>Talked a lot about the refactoring code, when you recognise you are repeating code. The benefit's of code re-use etc. This seems obvious to me, but I understand why he needs to explain it. This all lead to refactoring code into higher level functions that will be more abstract, but more generalised and reusable.</p>
+
+      <p>A decorator function takes and object in as a parameter, does something to it (like add of set some properties) and returns the modified objects.<pre>
+        var animallike = (obj, legs) {
+          obj.legs = legs;
+          return obj;
+        }</pre>
+      </p>
+
+      <p>It is common to use adjectives when naming decorator functions. They will ofter be an objects name suffixed with 'like', as seen above with animal<em>like</em>.</p>
+
+      <p>When using the decorator pattern, you won't require the keyword 'this' when adding methods. He says it will be more efficient to refer to directly to the objects passed in... must look into this more if I find myself needing to use the decorator pattern. Speaking of which...</p>
+
+      <p>You'll find yourself using the decorator pattern when you want to add some functionality to an object.</p>
+
+    <h1>Functional Classes</h1>
+
+      <p>A class is a catergory of things that you'd like to build. Like Animals of Vehicles etc. The class name is, by convention, usually written Capitalised (ClassNamesLikeThis). A Class function differs from the decorator pattern in that instead of taking an object, enhancing it, and returning - it creates the class and returns it. A class function is also known as a <em>Constructor</em>.<pre>
+        var Car = (loc) {
+          var obj = {};
+          obj.loc = loc;
+          obj.move = function() {
+            loc++;
+          };
+          return obj;
+        }</pre></p>
+
+      <p>The class-type objects created by a invoking a constructor function are called <em>Instances</em> of the Class. Invoking a Class constructor is called <em>Instantiating</em>.</p>
+
+      <p>Creating plain Instances with the function class pattern will result in duplicate functions in memory, because each time an Instance is created it will create duplicates of any of the class's methods (<code>obj.move</code> above).</p>
+
+      <p>To fix this, we will move the method outside the Class again.<pre>
+        var Car = (loc) {
+          var obj = {};
+          obj.loc = loc;
+          obj.move = move;
+          return obj;
+        }
+        var move = function() {
+          this.loc++;
+        };</pre>
+      Notice that we now have to use the keyword 'this' again as we are outside the Car function's scope. This is know as <em>The Functional Shared Pattern</em>.</p>
+
+      <p>There are still some areas that could benefit from optimsation in the pattern shown above, for one thing all of the methods will be named in two places: once in the Class definition (<code>obj.move = move</code>) and once again in the function name (<code>var move ...</code>). When there are multiple methods in a Class this will mean maintaining two lists, which is duplication. Secondly, the <code>move</code> function is also a global variable again, which is never ideal.</p>
+
+      <p>It might be neater to store all of Car's methods in an object and encapsulate them into the Car class...<pre>
+        Car.methods = {
+          move:  function() {
+            this.loc++
+          }
+        };</pre></p>
+
+      <p>Side Note: remember there are no classes in JavaScript, the patterns we are learning here are really Class emulations, but thinking of them as Classes has more value for now.</p>
+
+    <h1>Prototypal Classes</h1>
+
+      <p>To finish off the Functional Shared Pattern above and make it fully prototypal, we need to delgate failed look-ups for methods in the <code>Car</code> object to the <code>Car.method</code>'s object.<pre>
+        var Car = (loc) {
+          var obj = Object.create(Car.methods);
+          obj.loc = loc;
+          return obj;
+        }
+        Car.methods = {
+          this.move = function() {
+            loc++;
+          }
+        };
+      </pre>This is not to be confused with the Psuedoclassical Pattern which is coming up shortly.</p>
+
+      <p>Since this pattern of creating an object to strore all of an objects's methods in an object is so common, JavaScript creates this object for us with every new object. But instead of calling it <code>Object.methods</code>, they called it <code>Object.prototype</code>. The refactore code now looks like:<pre>
+        var Car = (loc) {
+          var obj = Object.create(Car.prototype);
+          obj.loc = loc;
+          return obj;
+        }
+        Car.prototype.move = function() {
+            loc++;
+        };</pre>
+      The object literal that created the methods object can now be removed as it already exists for us, and we can add methods directly.</p>
+
+      <p>There's a final side note about prototype ambiguity that I noted as '<a href="https://www.udacity.com/course/viewer#!/c-ud015-nd/l-2794468538/m-2765728544">revisit</a>' the first time, and I'm going to do the same now.</p>
+
+      <h2><code>.prototype.constructor</code></h2>
+
+        <p>All <code>.prototype</code> objects that are attached to all objects, also come with one more property: <em>constructor</em>. This holds a referernce to the function that was used to create the Instance. So, <code>Car.prototype.constructor</code> is <code>Car</code>.</p>
+
+    <h1>Psuedoclassical Pattern</h1>
+
+      <p>Notice that the bolded lines would be expected to be repeated in every single Prototypal Class:<pre>
+        var Car = (loc) {
+          <strong>var obj = Object.create(Car.prototype);</strong>
+          obj.loc = loc;
+          <strong>return obj;</strong>
+        }</pre>
+      So, JavaScript has a way that of doing these for us so we don't have to keep repeating them.</p>
+
+      <p>To alleviate repeating those lines, JavaScript will implicitly emulate them if we create the Instance of the Class using the special keyword 'new'. e.g.<pre>
+        var toyota = new Car();</pre>
+      This is called invoking the function in <strong>Constructor Mode</strong>.</p>
+
+      <p>However, in Constructor Mode the actual lines that get added implicity, look more like these bolded below:<pre>
+      var Car = (loc) {
+        <strong>this = Object.create(Car.prototype);</strong>
+        obj.loc = loc;
+        <strong>return this;</strong>
+      }</pre>So the final psuedoclassical class would look like this:<pre>
+      var Car = (loc) {
+        this.loc = loc;
+      }
+      Car.prototype.move = function() {
+          loc++;
+      };</pre>
+      When instances are being created in Constructor mode with the keyword 'new'.</p>
+
+      <p>There is very little difference between the prototypal pattern and the psuedoclassical patter other than some sythactical variations, however: the some JavaScript engines have made further optimisations that suit the psuedoclassical pattern.</p>
+
+      <p>When deciding what properties will belong to a Class constructor function, it is good to ask "Which properties will define the instances as unique from each other?"</p>
+
+      <p>When deciding which properies belong to the prototype object, it is good to ask "Which properties and methods will be common to all instances?"</p>
+
+    <h1>Superclass and subclasses (functional pattern)</h1>
+
+      <p>Not much to see here really. <a href="https://www.youtube.com/watch?v=cFV3ltQY4ro">Return if it ever comes up</a>.</p>
+
+    <h1>Superclasses, psuedoclassical style</h1>
+
+      <p>To set unique properties from parameters on a psuedocalssical subclass and maintain the Superclasses assignment rules, we need to set it up like this:<pre>
+        var Car = function(loc) {
+          this.loc = loc;
+        };
+        var Van = function(loc) {
+          Car.call(this, loc);
+        };</pre>
+      If we were to simply assign a new <code>this.loc = loc</code> in <code>Van</code>, then that property would be an extra loc property that had nothing to do with its parent class. And changes to the parent class wouldn't filter down to the child classes. So we need to send the loc property to Car, and also send the Van's context ('this').</p>
+
+      <p>To set similar or shared methods from a child class to delegate failed lookup to the parent, we need to set it's prototype object to be created from the parent prototype.<pre>
+        Van.prototype = Object.create(Car.prototype);</pre>
+      Although this is the recommended way of delegating failed method lookups to the parent, it is a fairly new language feature and most documentation that one will come across on the internet will show using the old and wrong method like this:<pre>
+        Van.prototype = new Car();</pre></p>
+
+      <p>Because we overwrote the Van's prototype object with Object.create(Car.prototype), we also blitzed the prototype's .constructor property, which will now fall through to Car, which is wrong. To fix this, we can simple reassign it like so:<pre>
+        Van.prototype.constructor = Van;</pre></p>
+
+      <p>And that's it!</p>
+
+  </body>
+</html>
