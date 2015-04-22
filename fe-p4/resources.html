@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Georgeplaten.GitHub.io : reading and tinkering">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="../stylesheets/stylesheet.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../stylesheets/style.css">
+
+    <title>GeorgePlaten GitHub.io - Project 4: Resources</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+        <a href="../">
+          <img id="biopic" src="../images/biopic.jpg" width="150" height="150">
+        </a>
+          <!-- <a id="forkme_banner" href="https://github.com/GeorgePlaten">View on GitHub</a> -->
+
+          <h1 id="project_title"><a href="../" id="home-link">GeorgieP</a></h1>
+          <p id="project_tagline">reading and tinkering</p>
+
+        </header>
+    </div>
+
+
+    <!-- MAIN GITHUB CONTENT -->
+
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+
+    <!-- MY CONTENT -->
+    <p>This is a list of web pages with short notes or descriptions used while preparing the submission for Udacity Front End Developer Nanodegree, Project 3. (For a thorough journal of links, questions, answers, thoughts and notes made during the course see... <!-- <a href="js-basics-reflections.html">js-basics-reflections.html</a> and <a href="jquery-reflections.html">jquery-reflections.html</a>) --></p>
+
+    <ul>
+      <li>
+        <a href="https://github.com/airbnb/javascript/blob/master/README.md?utm_source=javascriptweekly&utm_medium=email">AirBnB JavaScript Style guide</a><br>
+        Has nice code examples explaining each style choice, seems to be very popular.
+      </li>
+      <!--  -->
+      <li>
+        <a href="https://www.udacity.com/course/viewer#!/c-ud015-nd/l-2794468538/m-2765728544">Prototype Ambiguity</a><br>
+        Revisit this and find further discussions.
+      </li>
+      <li>
+        <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call">The <code>.call()</code> method on MDN</a><br>
+        Scanned and add to read-it-later (study it later!)
+      </li>
+      <li>
+        <a href="https://github.com/udacity/fend-office-hours/blob/master/OfficeHoursReview2_5_2015_OOJS/OfficeHoursReview2_5_2015.md">A summary of OOJS from Udacity office hours</a><br>
+        Readit, made notes, and added for review in 2 weeks. Unfortunatly they didn't address super and sub classes, but maybe it is better for now if they do it late and they can be kept seperate and simple.
+      </li>
+      <li>
+        <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D#drawImage%28%29">MDN CanvasRenderingContext2D</a><br>
+        Nice overview of what you can do in the 2D canvas.
+      </li>
+      <li>
+        <a href="http://www.kirupa.com/html5/animating_with_requestAnimationFrame.htm">Kirupa.com explantion for requestAnimationFrame</a><br>
+        Also includes how to pause and cancel animation and a small mention of time-stamping.
+        Nicely written explanations and lots more HTML5 stuff explained besides. Re-read later today and consider adding to Anki. Added site to read-it-later calendar.
+      </li>
+      <li>
+        <a href="https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame">MDN docs on requestAnimationFrame</a><br>
+        Scanned, add to calendar to revisit in a few weeks.
+      </li>
+      <li>
+        <a href="https://github.com/marquete/kibo">JavaScript Keyboard event handling library, sounds quite nifty</a><br>
+        Bookmarked.
+      </li>
+      <li>
+        <a href="http://stackoverflow.com/questions/4959975/generate-random-value-between-two-numbers-in-javascript">StackOverflow thread on generating random numbers in JS</a><br>
+        Handy, bookmarked, might add to Anki later.
+      </li>
+      <li>
+        <a href="https://www.youtube.com/watch?v=ghqD3e37R7E">Simple collision detection "AABB" video.</a><br>
+        Very nicely explained video, hand-written and JavaScript oriented, bookmarked on YT. Pity he doesn't have more.
+      </li>
+      <li>
+        <a href="https://www.youtube.com/watch?v=NZHzgXFKfuY">Coding Math: E14 - Collision Detection</a><br>
+        More in-depth video about CD, Subscribed to Channel on YouTube, looks good.
+      </li>
+      <li>
+        Functions are just Objects Working examples (pythontutor)<br>
+        Revision of Helephant.com
+        <iframe width="1100" height="650" frameborder="0" src="http://pythontutor.com/iframe-embed.html#code=//+HELEPHANT.COM%0A//+FUNCTIONS+ARE+FIRST+CLASS+OBJECTS+IN+JAVASCRIPT%0A%0Afunction+feedCat()+%7B%0A++++console.log(%22Kibble,+tinned+food+and+water%22)%3B%0A%7D%0A//+a+function+is+an+Object%0Aconsole.log(feedCat+instanceof+Object)%3B%0A%0A//+a+function+can+have+properties%0AfeedCat.food+%3D+%22kibble%22%3B%0Aconsole.log(feedCat.food)%3B%0A%0A//+and+had+a+link+back+to+its+constructor+method%0Aconsole.log(feedCat.constructor)%3B%0A%0A//+You+can+store+the+function+in+a+variable%0Avar+eveningChore+%3D+feedCat%3B%0AeveningChore()%3B%0A%0A//+You+can+pass+the+function+as+a+variable+as+a%0A//+parameter+to+another+function%0Afunction+doEveningChores(chores)+%7B%0A++++for+(var+x%3D0%3B+x%3Cchores.length%3B+x%2B%2B)+%7B%0A++++++++chores%5Bx%5D()%3B%0A++++%7D%0A%7D%0AdoEveningChores(%5BfeedCat%5D)%3B%0A%0A//+You+can+return+the+function+from+a+function%0Afunction+tonightChores()+%7B%0A++++return+feedCat%3B%0A%7D%0Avar+tonight+%3D+tonightChores()%3B%0Atonight()%3B%0A%0A//+Example%3A+Building+a+library+function%0A//+See+more+discussion+and+explanation+at+helephant%0Avar+chocolateBars+%3D+%5B%0A++++%7Bname%3A+%22Mars%22,+manufacturer%3A+%22Mars%22%7D,%0A++++%7Bname%3A+%22Galaxy%22,+manufacturer%3A+%22Nestle%22%7D%0A++++%5D%3B%0Avar+array_helper+%3D+%7B%0A++++filter%3A+function+(list,+filterFunc)+%7B%0A++++++++var+matches+%3D+%5B%5D%3B%0A++++++++for+(var+x%3D0%3B+x%3Clist.length%3B+x%2B%2B)+%7B%0A++++++++++++if+(filterFunc(list%5Bx%5D))+%7B%0A++++++++++++++++matches.push(list%5Bx%5D)%3B%0A++++++++++++%7D%0A++++++++%7D%0A++++++++return+matches%3B%0A++++%7D%0A%7D%3B%0Avar+marsChocolate+%3D+array_helper.filter(chocolateBars,+%0A++++function(item)+%7Breturn+item.manufacturer+%3D%3D%3D+%22Mars%22%0A%7D)%3B&origin=opt-frontend.js&cumulative=false&heapPrimitives=true&textReferences=true&py=js&rawInputLstJSON=%5B%5D&curInstr=0&codeDivWidth=350&codeDivHeight=400"> </iframe>
+      </li>
+      <li>
+        Anonymous Functions (declaration Vs operator) working examples on pythontutor<br>
+        Helephant revision.
+        <iframe width="1100" height="650" frameborder="0" src="http://pythontutor.com/iframe-embed.html#code=//+HELEPHANT.COM%0A//+FUNCTION+DECLARATION+AND+OPERATOR%0A%0A//+An+anonymous+function+assigned+to+the+flyToTheMoon%0A//+variable+with+the+function+operator.%0Avar+flyToTheMoon+%3D+function()+%7B%0A++++console.log(%22Here+we+go!%22)%3B%0A%7D%0AflyToTheMoon()%3B%0A%0A//+A+named+function+assigned+to+a+variable+with%0A//+the+function+operator,+with+the+same+name%0Avar+flyToMars+%3D+function+flyToMars()+%7B%0A++++console.log(%22Up,+up+and+away!%22)%3B%0A%7D%0AflyToMars()%3B%0A%0A//+They+don't+have+to+have+the+same+name%0Avar+flyToJupiter+%3D+function+goFurther()+%7B%0A++++console.log(%22Gooodbyyyeeeeeeeee!%22)%3B%0A%7D%0AflyToJupiter()%3B%0A%0A//+WHY+HAVE+A+NAME%3F%0A//+Having+a+name+can+let+you+make+recursive+calls%0Avar+thingsToDoToday+%3D+function+flyToTheMoon()+%7B%0A++++if(!ontheMoon)+%7B%0A++++++++flyToTheMoon()%3B%0A++++%7D+else+%7B%0A++++++++console.log(%22One+small+step...%22)%3B%0A++++%7D%0A%7D%0AthingsToDoToday()%3B%0A//+It+can+also+be+useful+for+debugging+because+anon%0A//+functions+all+look+the+same+on+the+stack%0A%0A//+The+function+operator+can+be+a+lot+more+flexible%0A//+because+it+can+be+used+anywhere+it+is+valid+to%0A//+use+an+expression.+Like+while+creating+an+object%0A//+as+a+property+method,+or+in+a+list,+or+as+a+parameter%0A//+while+calling+another+function+(see+library+example).%0A%0A//+You+can+also+use+it+inside+if+and+loop+blocks&origin=opt-frontend.js&cumulative=false&heapPrimitives=true&textReferences=true&py=js&rawInputLstJSON=%5B%5D&curInstr=0&codeDivWidth=350&codeDivHeight=400"> </iframe>
+      </li>
+      <li>
+        pythontutor kick-off with closures<br>
+        Still don't get it, need more practical and relevant examples, what problem that I face frequently does this solve?
+        <iframe width="1100" height="650" frameborder="0" src="http://pythontutor.com/iframe-embed.html#code=//+HELEPHANT.COM%0A//+CLOSURES%0A%0A//+A+closure+is+a+link+from+an+inner+function+to+its+outer%0A//+function+from+the+time+when+the+outer+functions+exited.%0A//+It+is+created+to+save+the+state+of+the+variable+from+the%0A//+outer+function+so+that+they+are+available+when+the+inner%0A//+function+is+run...+an+example+is+needed...%0A%0Avar+globalZ+%3D+10%3B%0A%0Afunction+outerFunction(y)+%7B%0A++++var+otherVar%3B%0A++++function+innerFunction(x)+%7B%0A++++++++globalZ+%2B%3D+100%3B%0A++++++++return+x+%2B+y+%2B+globalZ%3B%0A++++%7D%0A++++return+innerFunction%3B%0A%7D%0A%0Avar+codevar+%3D+outerFunction(1)%3B%0Acodevar(2)%3B%0A//+when+outerFunction+runs,+it+notices+that+innerFunction%0A//+uses+the+y+parameter,+and+creates+the+closure+for+later+use.%0A//+if+there+were+no+uses+of+outerFunction's+variable+like+otherVar,%0A//+it+does+not+have+create+them.%0A%0A//+NB%3A+if+the+innerFunction+has+a+variable+with+the+same+name+as%0A//+a+variable+or+parameter+from+the+outerFunction,+it+will+not+create%0A//+the+closure.%0A%0A//+You+can+use+this+to+make+everything+in+innerFunction+available%0A//+but+kept+protected+from+Global+clashes+by+outerFunction.%0A%0A//+Nope,+still+don't+get+it,+revisit+later....&origin=opt-frontend.js&cumulative=false&heapPrimitives=true&textReferences=true&py=js&rawInputLstJSON=%5B%5D&curInstr=0&codeDivWidth=350&codeDivHeight=400"> </iframe>
+      </li>
+      <li>
+        pythontutor testing for Frogger game<br>
+        Test and build of code used to pick random bonuses with a specific frequency.
+        <iframe width="1100" height="650" frameborder="0" src="http://pythontutor.com/iframe-embed.html#code=//+Random+Gem+Picker%0A%0Avar+bonuses+%3D+%5B%0A++++%7Bname%3A+%221%22,+frequency%3A+1.0%7D,%0A++++%7Bname%3A+%222%22,+frequency%3A+0.2%7D,%0A++++%7Bname%3A+%223%22,+frequency%3A+0.5%7D,%0A++++%7Bname%3A+%224%22,+frequency%3A+0.1%7D,%0A++++%7Bname%3A+%225%22,+frequency%3A+0.05%7D%0A%5D%3B%0A%0Avar+bonus+%3D+function()+%7B%0A++++return+bonuses%5BMath.floor(Math.random()*5)%5D%3B%0A%7D%3B%0A%0Avar+num+%3D+Math.random()%3B%0Avar+tryBonus+%3D+bonus()%3B%0A%0Awhile+(tryBonus.frequency+%3C+num)+%7B%0A++++console.log(%22Rejected%3A+%22+%2B+tryBonus.name)%3B%0A++++tryBonus+%3D+bonus()%3B%0A%7D%0A%0Aconsole.log(%22Accepted%3A+%22+%2B+tryBonus.name)%3B&origin=opt-frontend.js&cumulative=false&heapPrimitives=true&textReferences=true&py=js&rawInputLstJSON=%5B%5D&curInstr=0&codeDivWidth=350&codeDivHeight=400"> </iframe>
+      </li>
+    </ul>
+
+    <!-- END MY CONTENT -->
+
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+
+
+  </body>
+</html>
+
