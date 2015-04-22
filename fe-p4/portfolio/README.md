@@ -12,7 +12,6 @@
   <li>Analyze the page via ngrok in PageSpeed Insights web site.
 </ol>
 
-
 <h3>First run and observations</h3>
 <p>The rating is already 89/100 for desktop and is 74/100 for mobile. Interestingly it reports that images are already optimized when it would appear from the slow progressive rendering that at least one of them is not.</p>
 
@@ -22,7 +21,9 @@
   <li>M77, D91 <strong>Optimize CSS delivery.</strong> Remove webfont from critical rendering path.
   <li>M87, D93 <strong>Optimize CSS delivery.</strong> Minify and inline main CSS.
   <li>M94, D97 <strong>Reduce Server Response, Leverage Browser Caching, Enable Compression.</strong> I have no control over these with SimpleHTTPServer/ngrok (at least I don't think I do), am hoping when I serve via github pages that they will already be nicely configured for me. <strong>Minify HTML.</strong> Use pagespeed extension to grab optimized HTML, also delete 'author' and 'description' meta tags.
-  <li><strong>M96, D97 final score</strong> before server side optimizations.
+  <li>M96, D97 <strong>ngrok final score</strong> before server side optimizations.
+  <li>M30, D30 <strong>Served page via github pages.</strong> Now the images are correctly marked as not optimized, download and replace optimized all resources as provided by PageSpeed Insights website (js, css and 2 images).
+  <li>
 </ol>
 
 <p>TODO: lazyload fonts, server-side optimizations and use build tools to minify and inline.</p>
