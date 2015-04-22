@@ -26,7 +26,7 @@
   <li>M96, D97 <strong>Final github pages score.</strong>
 </ol>
 
-<p>TODO: lazyload fonts, server-side optimizations and use build tools to minify and inline.</p>
+<p>Possible TODOs: lazyload fonts, server-side optimizations and use build tools to minify and inline.</p>
 
 
 
