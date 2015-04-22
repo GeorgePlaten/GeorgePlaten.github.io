@@ -21,9 +21,9 @@
   <li>M77, D91 <strong>Optimize CSS delivery.</strong> Remove webfont from critical rendering path.
   <li>M87, D93 <strong>Optimize CSS delivery.</strong> Minify and inline main CSS.
   <li>M94, D97 <strong>Reduce Server Response, Leverage Browser Caching, Enable Compression.</strong> I have no control over these with SimpleHTTPServer/ngrok (at least I don't think I do), am hoping when I serve via github pages that they will already be nicely configured for me. <strong>Minify HTML.</strong> Use pagespeed extension to grab optimized HTML, also delete 'author' and 'description' meta tags.
-  <li>M96, D97 <strong>ngrok final score</strong> before server side optimizations.
+  <li>M96, D97 <strong>Final ngrok score</strong> before server side optimizations.
   <li>M30, D30 <strong>Served page via github pages.</strong> Now the images are correctly marked as not optimized, download and replace optimized all resources as provided by PageSpeed Insights website (js, css and 2 images).
-  <li>
+  <li>M96, D97 <strong>Final github pages score.</strong>
 </ol>
 
 <p>TODO: lazyload fonts, server-side optimizations and use build tools to minify and inline.</p>
