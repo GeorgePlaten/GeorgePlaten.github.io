@@ -8,20 +8,37 @@
   <li>Copied the repository
   <li>Setup and run python's SimpleHTTPServer (already prepped from HTML5 Canvas course).
   <li>Setup and run ngrok.<br>
+<<<<<<< HEAD
   <li>Install the PageSpeed Insights extension for Chrome.
   <li>Load the page via ngrok to PageSpeed Insights web site.
+=======
+    As always these things are poorly documented for Windows, although ngrok, not the worst. I couldn't figure out how to install this so I just dropped the .exe into the project folder and ran the command line on it from there.
+  <li>Install the PageSpeed Insights extension for Chrome, and see it doesn't give scores. Extension 'help' suggests watching a 'get started' video, which helpfully doesn't exist. GOOGLE!!!!!!
+  <li>Use the pagespeed insights web site and everything seems to be working now.
+>>>>>>> 51b6e87ef6390fa0d3b41b4cd622d81591da33ce
 </ol>
 
 
 <h3>First run and observations</h3>
+<<<<<<< HEAD
 <p>The rating is already 89/100 for desktop and is 74/100 for mobile. Interestingly it reports that images are already optimized when it would appear from the slow progressive rendering that at least one of them is not.</p>
+=======
+<p>The rating is already 90/100 for desktop and is 77/100 for mobile. Amazingly it reports that images are already optimized when it is clear from the super slow progressing loading and rendering that one of them (and probably all) is not.</p>
+
+>>>>>>> 51b6e87ef6390fa0d3b41b4cd622d81591da33ce
 
 <h3>Optimizations as per PageSpeed reports</h3>
 <ol>
   <li>M74, D89. <strong>Eliminate render blocking JavaScript and CSS above the fold.</strong> Note the listed script is an analytics script, so it is async'd. Add media attributes to the CSS links to inform the browser of criticality.
+<<<<<<< HEAD
   <li>M77, D91 <strong>Optimize CSS delivery.</strong> Remove webfont from critical rendering path.
   <li>M87, D93 <strong>Optimize CSS delivery.</strong> Minify and inline main CSS.
   <li>M94, D97 <strong>Reduce Server Response, Leverage Browser Caching, Enable Compression.</strong> I have no control over these with SimpleHTTPServer/ngrok (at least I don't think I do), am hoping when I serve via github pages that they will already be nicely configured for me. <strong>Minify HTML.</strong> Use pagespeed extension to grab optimized HTML, also delete 'author' and 'description' meta tags.
+=======
+  <li>M77, D91 <strong>Optimize CSS delivery.</strong> Remove webfont from critical rendering path. (TODO: lazyload it afterwards)
+  <li>M87, D93 <strong>Optimize CSS delivery.</strong> Minify and inline main CSS.
+  <li>M94, D97 <strong>Reduce Server Response, Leverage Browser Caching, Enable Compression.</strong> I have no control over these with SimpleHTTPServer (at least I don't think I do), am hoping when I serve via github pages that they will already be nicely configured for me. <strong>Minify HTML.</strong> Use pagespeed extension to grab optimized HTML, also delete 'author' and 'description' meta tags.
+>>>>>>> 51b6e87ef6390fa0d3b41b4cd622d81591da33ce
   <li><strong>M96, D97 final score</strong> before server side optimizations.
   <li>TODO: lazyload fonts, server-side optimizations and use build tools to minify and inline.
 </ol>
