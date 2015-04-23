@@ -8,3 +8,4 @@ form{display:inline-block;}
 .randomPizzaContainer{float:left;display:flex;}
 .randomPizzaContainer:after{content:"";display:table;clear:both;}
 .container{background-color:rgba(240, 60, 60, 0.8);}
+#movingpizzas1{will-change:transform;}
