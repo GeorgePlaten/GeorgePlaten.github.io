@@ -510,7 +510,11 @@ function updatePositions() {
     // debugger;
     phase = Math.sin((shift / 1250) + (i % 5));
     // items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+<<<<<<< HEAD
     items[i].style.transform = "translateX(" + items[i].basicLeft + 100 * phase + ")";
+=======
+    items[i].style.transform = "translate(" + items[i].basicLeft + 100 * phase + ")";
+>>>>>>> 3beb4213ca0fe8713570be1877b736fd683b7845
   }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
