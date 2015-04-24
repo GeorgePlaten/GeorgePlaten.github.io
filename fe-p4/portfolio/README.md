@@ -26,15 +26,30 @@
   <li>M96, D97 <strong>Final github pages score.</strong>
 </ol>
 
-<p>Possible TODOs: server-side optimizations and use build tools to minify and inline.</p>
-
+<p>Post TODOs DONE: server-side optimizations (github pages provides gzipping, but not direct control over caching) and used build tools (node, gulp) to automate, minify and inline. See Part 3 below for more information.</p>
 
 
 <h2>Part 2: Optimize Frames per Second in pizza.html</h2>
 
-To optimize views/pizza.html, you will need to modify views/js/main.js until your frames per second rate is 60 fps or higher. You will find instructive comments in main.js.
+<p>To optimize views/pizza.html, I edited the main.js file with the following steps.</p>
 
-You might find the FPS Counter/HUD Display useful in Chrome developer tools described here: [Chrome Dev Tools tips-and-tricks](https://developer.chrome.com/devtools/docs/tips-and-tricks).
+<ol>
+  <li>Change all querySelectors* to getElement*
+  <li>Remove the initialization of variables from for loops.
+  <li>Change the number of background moving pizza generated from 200 to 60
+  <li>Optimize changePizzaSizes()
+  <ol>
+    <li>Create a new var <code>pizzas</code> to save creating an array with <code>document.getElementsByClassName("randomPizzaContainer")</code> for each loop iteration.
+    <li>Removed other var initializations from the for loop (in Step 2) and modified them to use new <code>pizzas</code> array.
+    <li>Use new var <code>len</code> from pizzas array to speed up the for loop.
+  </ol>
+  <li>Optimize updatePositions()
+  <ol>
+    <li>Create a new vars <code>len</code>, <code>phase</code> and <code>shift</code> to save performing full document queries from inside the for loop or initializing new variables when reassignment is better.
+    <li>Removed other var initializations from the for loop (in Step 2) and modified them to use new <code>pizzas</code> array.
+    <li>Use new var <code>len</code> from pizzas array to speed up the for loop.
+  </ol>
+</ol>
 
 ### Optimization Tips and Tricks
 * [Optimizing Performance](https://developers.google.com/web/fundamentals/performance/ "web performance")

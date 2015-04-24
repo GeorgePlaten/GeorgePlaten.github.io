@@ -398,8 +398,6 @@ var pizzaElementGenerator = function(i) {
   return pizzaContainer;
 };
 
-var PIZZAS = 100;
-
 // resizePizzas(size) is called when the slider in the "Our Pizzas" section of the website moves.
 var resizePizzas = function(size) {
   window.performance.mark("mark_start_resize");   // User Timing API function
@@ -453,10 +451,12 @@ var resizePizzas = function(size) {
 
   // Iterates through pizza elements on the page and changes their widths
   function changePizzaSizes(size) {
-    var dx = determineDx(document.getElementsByClassName("randomPizzaContainer")[0], size);
-    var newwidth = (document.getElementsByClassName("randomPizzaContainer")[0].offsetWidth + dx) + 'px';
-    for (var i = 0; i < PIZZAS; i++) {
-      document.getElementsByClassName("randomPizzaContainer")[i].style.width = newwidth;
+    var pizzas = document.getElementsByClassName("randomPizzaContainer");
+    var dx = determineDx(pizzas[0], size);
+    var newwidth = (pizzas[0].offsetWidth + dx) + 'px';
+    var len = pizzas.length;
+    for (var i = 0; i < len; i++) {
+      pizzas[i].style.width = newwidth;
     }
   }
 
@@ -473,7 +473,7 @@ window.performance.mark("mark_start_generating"); // collect timing data
 
 // This for-loop actually creates and appends all of the pizzas when the page loads
 var pizzasDiv = document.getElementById("randomPizzas");
-for (var i = 2; i < PIZZAS; i++) {
+for (var i = 2; i < 100; i++) {
   pizzasDiv.appendChild(pizzaElementGenerator(i));
 }
 
@@ -502,17 +502,17 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 
 // Moves the sliding background pizzas based on scroll position
 function updatePositions() {
-var items = document.getElementsByClassName('mover');
-var shift = document.body.scrollTop;
   frame++;
   window.performance.mark("mark_start_frame");
 
+  var items = document.getElementsByClassName('mover');
+  var len = items.length;
   var phase = 0;
-  for (var i = 0; i < items.length; i++) {
+  var shift = document.body.scrollTop;
+  for (var i = 0; i < len; i++) {
     // debugger;
     phase = Math.sin((shift / 1250) + (i % 5));
     items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
-    // items[i].style.transform = "translateX(20)";
   }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
