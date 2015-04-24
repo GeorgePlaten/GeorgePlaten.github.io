@@ -37,52 +37,17 @@
   <li>Change all querySelectors* to getElement*
   <li>Remove the initialization of variables from for loops.
   <li>Change the number of background moving pizza generated from 200 to 60
-  <li>Optimize changePizzaSizes()
+  <li>Optimize <code>changePizzaSizes()</code>
   <ol>
     <li>Create a new var <code>pizzas</code> to save creating an array with <code>document.getElementsByClassName("randomPizzaContainer")</code> for each loop iteration.
     <li>Removed other var initializations from the for loop (in Step 2) and modified them to use new <code>pizzas</code> array.
     <li>Use new var <code>len</code> from pizzas array to speed up the for loop.
   </ol>
-  <li>Optimize updatePositions()
-  <ol>
-    <li>Create a new vars <code>len</code>, <code>phase</code> and <code>shift</code> to save performing full document queries from inside the for loop or initializing new variables when reassignment is better.
-    <li>Removed other var initializations from the for loop (in Step 2) and modified them to use new <code>pizzas</code> array.
-    <li>Use new var <code>len</code> from pizzas array to speed up the for loop.
-  </ol>
+  <li>Optimize <code>updatePositions()</code> by creating new vars <code>len</code>, <code>phase</code> and <code>shift</code> to save performing full document queries from inside the for loop or initializing new variables when reassignment is better.
 </ol>
 
-### Optimization Tips and Tricks
-* [Optimizing Performance](https://developers.google.com/web/fundamentals/performance/ "web performance")
-* [Analyzing the Critical Rendering Path](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/analyzing-crp.html "analyzing crp")
-* [Optimizing the Critical Rendering Path](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/optimizing-critical-rendering-path.html "optimize the crp!")
-* [Avoiding Rendering Blocking CSS](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/render-blocking-css.html "render blocking css")
-* [Optimizing JavaScript](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/adding-interactivity-with-javascript.html "javascript")
-* [Measuring with Navigation Timing](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/measure-crp.html "nav timing api"). We didn't cover the Navigation Timing API in the first two lessons but it's an incredibly useful tool for automated page profiling. I highly recommend reading.
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/eliminate-downloads.html">The fewer the downloads, the better</a>
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/optimize-encoding-and-transfer.html">Reduce the size of text</a>
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/image-optimization.html">Optimize images</a>
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching.html">HTTP caching</a>
+<h2>Part 3: Using Build Tools to optimize resources</h2>
 
-### Customization with Bootstrap
-The portfolio was built on Twitter's <a href="http://getbootstrap.com/">Bootstrap</a> framework. All custom styles are in `dist/css/portfolio.css` in the portfolio repo.
+<p>To minify the CSS, JavaScript and HTML files, I used <strong>gulp</strong> running on <strong>node</strong>. Gulp also allowed me to <em>inline</em> specific CSS files in the head of HTML during the build process. Most of the "Optimizations as per PageSpeed reports" as listed in Step 1 are now automated by gulp.</p>
 
-* <a href="http://getbootstrap.com/css/">Bootstrap's CSS Classes</a>
-* <a href="http://getbootstrap.com/components/">Bootstrap's Components</a>
-
-### Sample Portfolios
-
-Feeling uninspired by the portfolio? Here's a list of cool portfolios I found after a few minutes of Googling.
-
-* <a href="http://www.reddit.com/r/webdev/comments/280qkr/would_anybody_like_to_post_their_portfolio_site/">A great discussion about portfolios on reddit</a>
-* <a href="http://ianlunn.co.uk/">http://ianlunn.co.uk/</a>
-* <a href="http://www.adhamdannaway.com/portfolio">http://www.adhamdannaway.com/portfolio</a>
-* <a href="http://www.timboelaars.nl/">http://www.timboelaars.nl/</a>
-* <a href="http://futoryan.prosite.com/">http://futoryan.prosite.com/</a>
-* <a href="http://playonpixels.prosite.com/21591/projects">http://playonpixels.prosite.com/21591/projects</a>
-* <a href="http://colintrenter.prosite.com/">http://colintrenter.prosite.com/</a>
-* <a href="http://calebmorris.prosite.com/">http://calebmorris.prosite.com/</a>
-* <a href="http://www.cullywright.com/">http://www.cullywright.com/</a>
-* <a href="http://yourjustlucky.com/">http://yourjustlucky.com/</a>
-* <a href="http://nicoledominguez.com/portfolio/">http://nicoledominguez.com/portfolio/</a>
-* <a href="http://www.roxannecook.com/">http://www.roxannecook.com/</a>
-* <a href="http://www.84colors.com/portfolio.html">http://www.84colors.com/portfolio.html</a>
+<p>I decided against using build tools to optimize images, however, as image optimization is an 'art' (as also described in Ilya's web fundamentals documentation), and I have enough personal experience with image optimization to prepare the images in specialized applications.</p>
