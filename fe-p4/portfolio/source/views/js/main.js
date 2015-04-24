@@ -398,6 +398,8 @@ var pizzaElementGenerator = function(i) {
   return pizzaContainer;
 };
 
+var PIZZAS = 100;
+
 // resizePizzas(size) is called when the slider in the "Our Pizzas" section of the website moves.
 var resizePizzas = function(size) {
   window.performance.mark("mark_start_resize");   // User Timing API function
@@ -451,9 +453,9 @@ var resizePizzas = function(size) {
 
   // Iterates through pizza elements on the page and changes their widths
   function changePizzaSizes(size) {
-    for (var i = 0; i < document.getElementsByClassName("randomPizzaContainer").length; i++) {
-      var dx = determineDx(document.getElementsByClassName("randomPizzaContainer")[i], size);
-      var newwidth = (document.getElementsByClassName("randomPizzaContainer")[i].offsetWidth + dx) + 'px';
+    var dx = determineDx(document.getElementsByClassName("randomPizzaContainer")[0], size);
+    var newwidth = (document.getElementsByClassName("randomPizzaContainer")[0].offsetWidth + dx) + 'px';
+    for (var i = 0; i < PIZZAS; i++) {
       document.getElementsByClassName("randomPizzaContainer")[i].style.width = newwidth;
     }
   }
@@ -471,7 +473,7 @@ window.performance.mark("mark_start_generating"); // collect timing data
 
 // This for-loop actually creates and appends all of the pizzas when the page loads
 var pizzasDiv = document.getElementById("randomPizzas");
-for (var i = 2; i < 100; i++) {
+for (var i = 2; i < PIZZAS; i++) {
   pizzasDiv.appendChild(pizzaElementGenerator(i));
 }
 
@@ -499,9 +501,9 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 // https://www.igvita.com/slides/2012/devtools-tips-and-tricks/jank-demo.html
 
 // Moves the sliding background pizzas based on scroll position
+function updatePositions() {
 var items = document.getElementsByClassName('mover');
 var shift = document.body.scrollTop;
-function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
 
@@ -509,8 +511,8 @@ function updatePositions() {
   for (var i = 0; i < items.length; i++) {
     // debugger;
     phase = Math.sin((shift / 1250) + (i % 5));
-    // items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
-    items[i].style.transform = "translateX(" + items[i].basicLeft + 100 * phase + ")";
+    items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+    // items[i].style.transform = "translateX(20)";
   }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
@@ -530,7 +532,7 @@ window.addEventListener('scroll', updatePositions);
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
-  for (var i = 0; i < 30; i++) {
+  for (var i = 0; i < 60; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
