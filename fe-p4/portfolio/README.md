@@ -18,7 +18,7 @@
 <h3>Optimizations as per PageSpeed reports</h3>
 <ol>
   <li>M74, D89. <strong>Eliminate render blocking JavaScript and CSS above the fold.</strong> Note the listed script is an analytics script, so it is async'd. Add media attributes to the CSS links to inform the browser of criticality.
-  <li>M77, D91 <strong>Optimize CSS delivery.</strong> Remove webfont to inlined CSS.
+  <li>M77, D91 <strong>Optimize CSS delivery.</strong> Change webfont to inlined CSS.
   <li>M87, D93 <strong>Optimize CSS delivery.</strong> Minify and inline main CSS.
   <li>M94, D97 <strong>Reduce Server Response, Leverage Browser Caching, Enable Compression.</strong> I have no control over these with SimpleHTTPServer/ngrok (at least I don't think I do), am hoping when I serve via github pages that they will already be nicely configured for me. <strong>Minify HTML.</strong> Use pagespeed extension to grab optimized HTML, also delete 'author' and 'description' meta tags.
   <li>M96, D97 <strong>Final ngrok score</strong> before server side optimizations.
