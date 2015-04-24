@@ -48,6 +48,8 @@
 
 <h2>Part 3: Using Build Tools to optimize resources</h2>
 
-<p>To minify the CSS, JavaScript and HTML files, I used <strong>gulp</strong> running on <strong>node</strong>. Gulp also allowed me to <em>inline</em> specific CSS files in the head of HTML during the build process. Most of the "Optimizations as per PageSpeed reports" as listed in Step 1 are now automated by gulp.</p>
+<p>To minify the CSS, JavaScript and HTML files, I used <strong>gulp</strong> running on <strong>node</strong>.</p>
+
+<p>Gulp also allowed me to <em>inline</em> specific CSS files in the head of HTML during the build process.</p>
 
 <p>I decided against using build tools to optimize images, however, as image optimization is an 'art' (as also described in Ilya's web fundamentals documentation), and I have enough personal experience with image optimization to prepare the images in specialized applications.</p>
