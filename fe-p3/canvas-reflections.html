@@ -81,7 +81,7 @@
 
       <h2>Saving out Images</h2>
 
-        <p>This is a little bit beyond the scope of this course but a quick and dirty method is to use the canvas's <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL"><code>.toDataURL()</code></a> method and open that in new window (this method will require a <code>python -m SimpleHTTPServer [PORT]</code>). Insert the follow code into a function assigned to button or some such...<pre>
+        <p>This is a little bit beyond the scope of this course but a quick and dirty method is to use the canvas's <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL"><code>.toDataURL()</code></a> method and open that in new window (this method will require a <code>python -m SimpleHTTPServer [PORT]</code>) or <code>python -m http.server [PORT]</code> in Python 3x. Insert the follow code into a function assigned to button or some such...<pre>
           var imageData = c.toDataURL();
           window.open(imageData);
         </pre></p>
