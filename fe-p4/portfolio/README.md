@@ -52,4 +52,4 @@
 
 <p>Gulp also allowed me to <em>inline</em> specific CSS files in the head of HTML during the build process.</p>
 
-<p>I decided against using build tools to optimize images, however, as image optimization is an 'art' (as also described in Ilya's web fundamentals documentation), and I have enough personal experience with image optimization to prepare the images in specialized applications.</p>
+<p>I decided against using build tools to optimize images, however, as image optimization is an 'art' (as also described in Ilya's web fundamentals documentation), and I have enough personal experience with image optimization to prepare the images in specialized applications. Also, image optimization is done once, it is not a constantly repeating procedure (except on the server, but that's not what were doing here).</p>

@@ -35,8 +35,304 @@
       <section id="main_content" class="inner">
 
     <!-- MY CONTENT -->
+    <h1>Web Fundamentals: Critical Rendering Path</h1>
+      <p>Goal: Prioritize and display the content the visitor wants to read first.</p>
 
-    <p>notes to follow</p>
+      <p>Also, making sure it bloody works! See my old hero <a href="https://www.youtube.com/watch?v=r38al1w-h4k">Eric Meyer getting 'a bit antsy' about modern web sites</a>.</p>
 
+      <h2>Constructing the Object Model</h2>
+        <p>Before the browser can render it needs to construct th DOM and CSSOM. It does it's processing in this order:<br>
+        bytes-characters-tokens-nodes-object model</p>
+
+        <p>HTML => DOM, CSS => CSSOM</p>
+        <p>The DOM and CSSOM are independent of each other.</p>
+
+        <p>The DOM is the browser's representation of the HTML. The browser builds the HTML incrementally.</p>
+
+      <h2>Render Tree Construction, Layout and Paint</h2>
+        <p>DOM + CSSOM = Render Tree</p>
+        <p>The render tree only consists of items it requires, that is, it won't have items set to <code>display:none</code> or the <code>head</code>.</p>
+        <p><strong>Layout</strong> computes exact pixel positions.</p>
+        <p>Paint is the last step.</p>
+
+        <h3>Render Tree Construction Process:</h3>
+          <ol>
+            <li>Traverse the DOM, check for visible nodes, check CSS for more nodes to be hidden.</li>
+            <li>Apply CSS rules to visible nodes.</li>
+            <li>Emit visible nodes (emit to the next step) NB: <code>visiblity:hidden</code> != <code>display:none</code></li>
+          </ol>
+        <p>The browser is now ready to being the <strong>Layout</strong> process. (painting or 'rasterizing' follows after that)</p>
+
+        <p>NB: Always include: <pre><code>&lt;meta name="viewport" content="width=device-width"&gt;</code></pre> to get accurate widths.</p>
+
+        <p>Modifying the DOM or CSS will restart the whole Render Tree construction, Layout and Paint process!</p>
+
+      <h2>Render Blocking CSS</h2>
+        <p>CSS is a render blocking resource, so:</p>
+        <ul>
+          <li>Make it lean</li>
+          <li>Deliver it a quick as possible</li>
+          <li>Use media types and queries</li>
+          <li>Deliver the CSS file as early as possible.</li>
+        </ul>
+
+      <h2>Adding Interactivity with JavaScript</h2>
+        <p>Note that JavaScript can manipulate CSS style, so the browser must wait for the CSSOM model to be built before it can process any JavaScript.</p>
+
+        <p>Make sure to async any JavaScript where possible to prevent it being Render Blocking.</p>
+
+        <p>Important points about JavaScript in the CRP:</p>
+        <ol>
+          <li>The location in the file (the "when") is very important.</li>
+          <li>DOM construction is paused until a script is finished.</li>
+          <li>JavaScript can query and modify the DOM and CSSOM</li>
+          <li>JavaScript is delayed until the CSSOM is ready.</li>
+        </ol>
+
+        <p>Optimizing the Critical Rendering Path is optimizing the relationship graph of CSS, HTML and JavaScript.</p>
+
+      <h2>Measuring the CRP with Navigation Timing</h2>
+        <p>The following time stamps tell us about the timing of key events:</p>
+        <ul>
+          <li>domLoading: browser ready to start parsing first received bytes of HTML</li>
+          <li>domInteractive: (DOM ready) finished parsing all HTML and DOM construction complete</li>
+          <li>domContentLoaded: (DOM &amp; CSS ready) DOM ready and no stylesheets blocking JavaScript execution, ready to start making the render tree.</li>
+          <li>domComplete: all downloaded, spinner has stopped spinning</li>
+          <li>loadEvent: "onload" event gets fired</li>
+        </ul>
+
+      <h2>Analyzing CRP Performance</h2>
+        <p>In the Network Profile in Chrome Dev Tools: the Blue Line = DOMContentLoaded, the Red Line = "onload" event.</p>
+
+        <p>Note: async JavaScript doesn't block the CRP and inlined CSS is faster.</p>
+
+        <p>Some CRP vocabulary:</p>
+        <ul>
+          <li>Critical Resource: resource that blocks page rendering</li>
+          <li>Critical Path Length: number of round trips, or total time required to fetch all resources</li>
+          <li>Critical Bytes: total byte required to get to first render, which is the sum of file sizes of all Critical Resources.</li>
+        </ul>
+
+      <h2>Optimizing the CRP</h2>
+        <ol>
+          <li>Minimize the number of critical resources</li>
+          <li>Minimize the number of critical bytes</li>
+          <li>Minimize the critical path length</li>
+        </ol>
+
+        <h3>General sequence of steps to optimize CRP:</h3>
+          <ol>
+            <li>Analyze the critical path: number of resources, bytes, length</li>
+            <li>Minimize number of critical resources: eliminate, defer download, async</li>
+            <li>Optimize order - critical assets: first and early</li>
+            <li>Optimize size: reduce bytes in critical resources (and reduces roundtrips.</li>
+          </ol>
+
+      <h2>PageSpeed Rules and Recommendations</h2>
+        <ul>
+          <li>Eliminate Render blocking JavaScript and CSS</li>
+          <li>Optimize JavaScript, use async if possible</li>
+          <li>Optimize CSS usage, put CSS as early as possible, avoid CSS @import (extra roundtrips on discovery) and consider inlining render blocking CSS.</li>
+        </ul>
+
+    <h1>Optimizing Performance</h1>
+
+      <h2>Eliminating Unnecessary Downloads</h2>
+        <p>The fastest and most optimized resource, is a resource not sent.</p>
+        <ul>
+          <li>List and actively maintain a all your own and 3rd party resources.</li>
+          <li><strong>Measure</strong> performance of each.</li>
+          <li>Decide if each is providing value</li>
+        </ul>
+
+      <h2>Optimizing Encoding and Transfer of textual assets</h2>
+        <p>Data compression 101</p>
+        <ul>
+          <li>encoding data into fewer bits</li>
+          <li>eliminiation is always better than compression</li>
+          <li>many diffferent tools and techniques</li>
+          <li>a variety of tools and techniques will do the best job</li>
+        </ul>
+
+        <p>Minification: Preprocessing & context specific optimizations</p>
+        <ul>
+          <li>comment stripping</li>
+          <li>whitepace stripping</li>
+          <li>code optimization like rule collapsing</li>
+        </ul>
+        <p>All best done as part of a build / release cycle</p>
+
+      <h2>Text Compression with Gzip</h2>
+        <ul>
+          <li>Gzip performs best on text-based assets like JavaScript, CSS and HTML</li>
+          <li>All browsers support it</li>
+          <li>Server needs to be configured to enable GZip</li>
+          <li>Some CDNs require special care</li>
+        </ul>
+        <p>HTML5 Boilerplate project contains sample config files for all common servers. NB: really really small files, might actually grow with GZip.</p>
+
+    <h1>Image Optimization</h1>
+
+        <h3>Eliminating and Replacing Images</h3>
+          <ul>
+            <li>Eliminate unneccesary images</li>
+            <li>Leverage CSS3 effects where possible (gradients, shadows, corner-radius)</li>
+            <li>Use web-fonts instead of encoding text in images</li>
+          </ul>
+
+        <h3>Vector Vs Raster Images</h3>
+          <ul>
+            <li>SVG is the vector based format supported by browsers</li>
+            <li>GIF, PNG &amp; JPG are the old raster formats, the new ones are JPEG-XR and WebP</li>
+            <li>Vectors for geometric images, reaster for photos, PNG for small color palettes, GIF for animations (almost never). JPEG for full on photos.</li>
+          </ul>
+
+        <h3>Implications of High Res Screens</h3>
+          <p>HRSs have multiple device pixels per CSS pixel. High resolution images require significantly higher number of bytes per pixel. Image optimization techniquesare the same regardless of resolution.</p>
+          <p>Fore high DPI, deliver multiple versions / variants of raster images (not so for vectors).</p>
+          <p>Vectors should be minified and Gzipped (svgo).</p>
+
+        <h3>Lossy Vs Lossless Image compressoin</h3>
+          <p>Every image will benefit differently from each different compressor, find the best one for each image.</p>
+
+        <h3>Fomats</h3>
+          <ul>
+            <li>gif, jpg and png: all browsers</li>
+            <li>jpef-xr: internet explorer</li>
+            <li>WebP: Chrome, Opera, Android</li>
+            <li>Safari?</li>
+          </ul>
+
+        <h3>Tools</h3>
+          <p>gifsicle, jpegtran, optipng (lossless), pngquant (lossy)</p>
+
+        <h3>Deliverying Scaled Image Assets</h3>
+          <p>NB: Hovering over an image in Dev Tools will show the displayed and natural images dimensions. Resizing images takes processor time as well as showing unneccesary pixels that have shipped.</p>
+
+      <h2>Summary for Image Optimization</h2>
+        <ol>
+          <li>Prefer vectors</li>
+          <li>Minify SVGs and GZip 'em too</li>
+          <li>Pick the best raster format for the image</li>
+          <li>Remove unneccesary meta data</li>
+          <li>Serve scaled images</li>
+          <li>Automate, automate, automate</li>
+        </ol>
+
+    <h1>Webfont Optimization</h1>
+      <p>Webfont are selectable, zoomable, searchable, high DPI friendly, and can actually reduce loading times - if done correctly.</p>
+
+      <h2>Formats:</h2>
+        <ul>
+          <li>WOFF2 (WIP)</li>
+          <li>WOFF (not on old browsers)</li>
+          <li>*EOT (internet explorer only)</li>
+          <li>*TTF (partial internet explorer support)</li>
+        </ul>
+        <p><em>* need to be compressed</em></p>
+        <p>Serve WOFF2 when possible.</p>
+
+      <h2>Defining Font-Family with @font-face</h2>
+        <ul>
+          <li>use the 'woff2' hint to specify multiple variants</li>
+          <li>order matters, as the browser will use the first one that it is able to use</li>
+          <li>Avoid relying on font-synthesis</li>
+          <li>Be aware of font ranges and internationalization</li>
+        </ul>
+        <p>Paste links like this into the browser to get the full CSS for inlining into a CSS file back: <code>fonts.googleapis.com/css?family=Pacifico</code> returns:<pre>
+/* latin */
+@font-face {
+font-family: 'Pacifico';
+font-style: normal;
+font-weight: 400;
+src: local('Pacifico Regular'), local('Pacifico-Regular'), url(http://fonts.gstatic.com/s/pacifico/v7/Q_Z9mv4hySLTMoMjnk_rCXYhjbSpvc47ee6xR_80Hnw.woff2) format('woff2');
+unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+        </pre></p>
+
+      <h2>Optimizing Loading and Rendering</h2>
+        <ul>
+          <li>Font requests are delayed until the render tree is built</li>
+          <li>Font loading API may let us override lazy font loading</li>
+          <li>Font inlining allows us to override lazyload in old browsers</li>
+        </ul>
+        <p>Painting of fonts is different in browsers and can cause blank text (temporarily) or font-repaints after it has downloaded.</p>
+
+      <h2>Font loading API</h2>
+        <p>Can tell the browser to fetch and load a font before it's too late. CSS inlining in CSS stylesheets overrides lazyload. Put the fonts in separate CSS file to prevent redownloads when regular CSS gets some changes.</p>
+
+      <h2>Optimize font reuse with HTTP Caching</h2>
+        <p>Give them a long max-age expiry. Specify both: conditional ETag header, and optimal Cache-Control policy (don't use localStorage).</p>
+
+      <h2>Webfonts Summary Checklist</h2>
+        <ol>
+          <li>Audit and Monitor Font use, use few fonts and few variants.</li>
+          <li>Subset font resources, unicode ranges.</li>
+          <li>Deliver optimized formats (WOFF etc) and ZIP when possible.</li>
+          <li>Specify revalidation and optimal caching policies</li>
+          <li>Use Font Loading API and optimize the CRP</li>
+        </ol>
+
+    <h1>HTTP Caching</h1>
+      <p>The ability to cache and reuse previously fetched resources is critical.</p>
+
+      <h2>Validating Cached Responses with ETags</h2>
+        <ul>
+          <li>Validation token is emitted by the serversas ETag HTTP Header</li>
+          <li>Tokens enable efficient update checks, no transfer if resource has not changed.</li>
+        </ul>
+
+        <p>Client sends the next requests with <code>if-none-match:</code> headers, if resource has not changed it responds with <code>304 Not Modified</code>.</p>
+
+        <p>The browser and server do all this work, we just need to ensure the server is properly set up (HTML5 Boilerplate) and is in fact, providing theETag tokens.</p>
+
+      <h2>Cache-Control</h2>
+        <ul>
+          <li>Each resource can define its own caching policy via Cache-Control HTTP header.</li>
+          <li>Cache-Control directives control who can cache the response, under which conditions, and for how long.</li>
+        </ul>
+
+        <p>The best request doesn't go to the server, a local copy can avoid this.</p>
+
+        <p>"no-cache" forces the lient to always check for a change first befre goingto the ocla copy, if allowd to.<br>
+        "no-store" forces re-download every time (good for banking and things like that).</p>
+
+      <h2>"Public" and "Private"</h2>
+        <p>Public - can be cached</p>
+        <p>Private - intended for a single user, not allowed to be cached by an intermediate like a CDN.</p>
+
+      <h2>"max-age"</h2>
+        <p>Max time in seconds that the fetched response is allowed to be used e.g. "max-age - 60" means the response can be cached and reused for the next 60 seconds.</p>
+
+        <p>Ideally you should try to Cache as many responses as possible for as long as possible, and provide validation tokens for each response.</p>
+
+      <h2>Summary</h2>
+        <p>Audit your pages to identify which resources can be cached and for how long, and ensure they are returning appropriate Cahce-Control and ETag headers.</p>
+
+      <h2>Invalidating and Updating Cached Responses</h2>
+        <ul>
+          <li>Locally cached responses are used until the resource expires</li>
+          <li>Embedding a file content fingerprint in the URL enables us to force the client to update to a new version fo the response</li>
+          <li>Each application needs to define its own cache hierarchy for optimal performance.</li>
+        </ul>
+
+        <p>We can't force an update to a cached resource without changing its URL. This is done by embedding a version number or date in the file name.</p>
+
+      <h2>Caching Checklist</h2>
+        <ol>
+          <li>Use consistent URLs to allow things to get cached</li>
+          <li>Ensure server is providing valid ETags</li>
+          <li>Identify which resources can be cached by intermediaries like CDNs</li>
+          <li>Determine optimal cache lifetime for each resource</li>
+          <li>Determine best cache hierarchy, HTML -> "no-cache", fingerprinted UTLs etc.</li>
+          <li>Minimize "churn" files that get updated frequently might be delivered separately like or less frequently like CSS with @font-face definitions.</li>
+        </ol>
+
+    <h1>Rendering Performance</h1>
+
+
+
+      </section>
+    </div>
   </body>
 </html>
