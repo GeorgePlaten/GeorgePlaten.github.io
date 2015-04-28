@@ -187,22 +187,22 @@ var drawScoreBoard = function() {
 };
 
 // Nothing to see here, I was more of a mega-drive fan myself
-    var seq = [];
-    var kcode = ['up','up','down','down','left','right','left','right','b','a'];
-    var eegg = function(key) {
-        seq.push(key);
-        var check = function(key){
-            for (var i = 0; i < seq.length; i++) {
-                if (seq[i] === kcode[i]) {
-                    if (seq.length === kcode.length) {
-                        player.sprite = 'images/char-horn-girl.png';
-                    }
-                } else {
-                    seq = [];
+var seq = [];
+var kcode = ['up','up','down','down','left','right','left','right','b','a'];
+var eegg = function(key) {
+    seq.push(key);
+    var check = function(key){
+        for (var i = 0; i < seq.length; i++) {
+            if (seq[i] === kcode[i]) {
+                if (seq.length === kcode.length) {
+                    player.sprite = 'images/char-horn-girl.png';
                 }
+            } else {
+                seq = [];
             }
-        }();
-    };
+        }
+    }();
+};
 
 // SPRITES (SUPERCLASS for Player, Enemy, Bonus, and Hearts) //
 
@@ -306,7 +306,7 @@ Enemy.prototype.constructor = Enemy;
 // Update the enemy's position //
 // Parameter dt: a time delta between ticks
 Enemy.prototype.update = function(dt) {
-    // Any movement should be multiplies by the dt parameter.
+    // Any movement should be multiplied by the dt parameter.
     // This will ensure the game runs at the same speed for
     // all computers.
     this.move(this.speed * dt, 0);
