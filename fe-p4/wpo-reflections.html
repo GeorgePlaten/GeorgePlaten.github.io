@@ -329,7 +329,121 @@ unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-
         </ol>
 
     <h1>Rendering Performance</h1>
+      <p>Pages should be as smooth as butter and stick to the finger like glue.</p>
 
+      <p>60FPS: Most devices refresh the screen 60 times per second. That is 16.66 milliseconds per frame, which should be the target. The best practice target is 10ms.</p>
+
+      <h2>The Pixel Pipeline</h2>
+        <p>JS -> Style -> Layout -> Paint -> Composite</p>
+
+        <p>PERFORMANCE is the <em>Art of Avoiding Work</em>, and making work that you have to do efficient.</p>
+
+        <p>Some of the <strong>Types</strong> of recalculations that can be costly:
+        <ul>
+          <li>reflow => repaint, composite</li>
+          <li>repaint => composite</li>
+          <li>composite* (animations or scrolling)</li>
+        </ul>
+        *best</p>
+
+      <h2>Optimize JavaScript Execution</h2>
+        <p>Badly timed or long-running JS can cause bottlenecks.</p>
+
+        <ul>
+          <li>use requestAnimationFrame()</li>
+          <li>move long-running JS off the main thread to Web Workers</li>
+          <li>Use micro-tasks to make DOM changes over several frames</li>
+          <li>Use Dev Tools Timeline &amp; Profiler to make assessments</li>
+        </ul>
+
+        <p>NB: The JavaScript you write looks <em>nothing</em> like the JavaScript that gets executed.</p>
+
+        <p><strong>Scrolling Animation Target</strong>: 3-4ms</p>
+
+        <p>Web Workers and task-splitting let you keep the main thread active while processing data (for example) in the background (use a spinner or progress bar to tell the user it is working).</p>
+
+        <p>Beware: of micro-optimizations that don't actually help a lot.</p>
+
+      <h2>Reduce Speed and Complexity of Style Calculations</h2>
+        <p>Changing the DOM by adding, removing, attributes, classes, animations, all recalculate the Render Tree with reflow etc.
+        <ul>
+          <li>Reduce the complexity of selectors, maybe use BEM (bem.info)</li>
+          <li>Reduce number of elements on which style calculations must be computed on.</li>
+        </ul>
+        <em>50% of time is <strong>finding</strong> the element, 50% is rendering</em>.</p>
+
+      <h2>Avoid Large, Complex Layouts and Layout Thrashing</h2>
+        <ul>
+          <li>Layout is scoped to the whole document</li>
+          <li>Avoid triggering it as much as possible</li>
+          <li>Assess layout model performance, new Flexbox is faster than older Flexbox</li>
+          <li>Avoid forced synchronous layouts and thrashing; read style values and <em>then</em> make changes.</li>
+        </ul>
+
+        <h3>The 2 Biggest Concerns / Factors</h3>
+          <ul>
+            <li>The Number of Elements using Layout</li>
+            <li>The Complexity of the Layouts</li>
+          </ul>
+
+        <p>FastDOM automatically batches reads and writes for layout, and prevents triggering forced synchronous layouts.</p>
+
+      <h2>Simplify Paint Complexity And Reduce Paint Areas</h2>
+        <p><strong>Painting is often the biggest delay of all</strong>, avoid it if at all possible.</p>
+
+        <ul>
+          <li>Everything except transforms and opacity trigger paint</li>
+          <li>Paint is the most expensive part of the pixel pipeline - AVOID</li>
+          <li>Reduce paint areas through layer promotion, and orchestration of animations</li>
+          <li>Use Dev Tools paint profiler to assess what's going on (show paint rectangles)</li>
+        </ul>
+
+        <p>In sum: Layout -> Always triggers paint<br>
+        NB: If using paint in Profile <em>only</em> use Paint, because it has a significant profiler performance hit.</p>
+
+      <h2>Promote Elements to Move or Fade</h2>
+        <p>Make use of the layer compositing</p>
+        <p>Using the CSS property <code>will-change: transform;</code> will effectively make the element a layer</p>
+
+        <p>For browsers like mobile Safari (mis)use a 3D <code>transform: translate: translateZ(0);</code></p>
+        <p>NB: Don't create too many layers as they all require separate memory management. Beware: Don't promote elements without profiling to prove performance improvement.</p>
+
+        <ul>
+          <li>Browsers Union paint areas, meaning a paint at top and bottom will repaint the whole page.</li>
+          <li>Try to keep transitions and animations from overlapping</li>
+          <li>Shadows and blurs are really expensive</li>
+        </ul>
+
+        <p>Avoid paint during animations in particular, as the 10ms you have is not usually enough, especially on mobile.</p>
+
+      <h2>Stick to Composite-Only Properties and Manage Layer Content</h2>
+        <ul>
+          <li>Stick to transform and opacity changes for animation</li>
+          <li>Promote moving elements with will-change or translateZ</li>
+          <li>Avoid over-promoting</li>
+        </ul>
+
+        <ul>
+          <li>POSITION transform: translate(Npx, Npx);</li>
+          <li>SCALE transform: scale(N);</li>
+          <li>ROTATION transform: rotate(Ndeg);</li>
+          <li>SKEW transform: skew(X|Y)(Ndeg);</li>
+          <li>MATRIX transform: matrix(3d)(...);</li>
+          <li>OPACITY: 0 ... 1;</li>
+        </ul>
+
+        <p>NB: Also look at FLIP animation principle from Google and Udacity</p>
+
+        <p>Dev Tools > Profiler > Paint. Can show what layers are being used and how many.</p>
+
+      <h2>Debounce Your Input Handlers (WTF?)</h2>
+        <p>Input handlers can cause additional layout and block frames from completing.</p>
+
+        <ul>
+          <li>Avoid long-running handlers, they can block scrolling</li>
+          <li>Do not make style changes in handlers</li>
+          <li>Debounce handlers, store event values and deal with style changes in the next requestAnimationFrame callback.</li>
+        </ul>
 
 
       </section>
