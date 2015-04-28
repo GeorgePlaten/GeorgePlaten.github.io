@@ -373,7 +373,7 @@ var pizzaElementGenerator = function(i) {
   pizzaDescriptionContainer = document.createElement("div");
 
   pizzaContainer.classList.add("randomPizzaContainer");
-  pizzaContainer.style.width = "33.33%";
+  pizzaContainer.classList.add("resizer");
   pizzaContainer.style.height = "325px";
   pizzaContainer.id = "pizza" + i;                // gives each pizza element a unique id
   pizzaImageContainer.classList.add("col-md-6");
@@ -400,6 +400,9 @@ var pizzaElementGenerator = function(i) {
 
 // resizePizzas(size) is called when the slider in the "Our Pizzas" section of the website moves.
 var pizzaSize = document.getElementById("pizzaSize");
+var oldwidth = null; // get this onload
+var windowwidth = null; // get this onload
+
 var resizePizzas = function(size) {
   window.performance.mark("mark_start_resize");   // User Timing API function
 
@@ -423,13 +426,11 @@ var resizePizzas = function(size) {
 
   changeSliderLabel(size);
 
-  // Returns the size difference to change a pizza element from one size to another. Called by changePizzaSlices(size).
-  function determineDx (elem, size) {
-    var oldwidth = elem.offsetWidth;
-    var windowwidth = document.getElementById("randomPizzas").offsetWidth;
+  // Returns the size difference to change a pizza element from one size to
+  // another. Called by changePizzaSlices(size).
+  function determineDx (size) {
     var oldsize = oldwidth / windowwidth;
 
-    // TODO: change to 3 sizes? no more xl?
     // Changes the slider value to a percent width
     function sizeSwitcher (size) {
       switch(size) {
@@ -452,13 +453,10 @@ var resizePizzas = function(size) {
 
   // Iterates through pizza elements on the page and changes their widths
   function changePizzaSizes(size) {
-    var pizzas = document.getElementsByClassName("randomPizzaContainer");
-    var dx = determineDx(pizzas[0], size);
-    var newwidth = (pizzas[0].offsetWidth + dx) + 'px';
-    var len = pizzas.length;
-    for (var i = 0; i < len; i++) {
-      pizzas[i].style.width = newwidth;
-    }
+    var dx = determineDx(size);
+    var newwidth = (oldwidth + dx) + 'px';
+    document.styleSheets[2].cssRules[0].style.width = newwidth;
+    oldwidth += dx;
   }
 
   changePizzaSizes(size);
@@ -473,10 +471,14 @@ var resizePizzas = function(size) {
 window.performance.mark("mark_start_generating"); // collect timing data
 
 // This for-loop actually creates and appends all of the pizzas when the page loads
-var pizzasDiv = document.getElementById("randomPizzas");
+// Add all the pizzas at once instead of one by one
+var pizzas = document.getElementById("randomPizzas");
+var allPizzas = pizzas;
 for (var i = 2; i < 100; i++) {
-  pizzasDiv.appendChild(pizzaElementGenerator(i));
+  allPizzas.appendChild(pizzaElementGenerator(i));
 }
+pizzas = allPizzas;
+
 
 // User Timing API again. These measurements tell you how long it took to generate the initial pizzas
 window.performance.mark("mark_end_generating");
@@ -502,17 +504,16 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 // https://www.igvita.com/slides/2012/devtools-tips-and-tricks/jank-demo.html
 
 // Moves the sliding background pizzas based on scroll position
+var items = document.getElementsByClassName('mover');
 function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
 
-  var items = document.getElementsByClassName('mover');
-  var len = items.length;
+  var shift = document.body.scrollTop / 1250;
   var phase = 0;
-  var shift = document.body.scrollTop;
-  for (var i = 0; i < len; i++) {
+  for (var i = 0; i < items.length; i++) {
     // debugger;
-    phase = Math.sin((shift / 1250) + (i % 5));
+    phase = Math.sin(shift + (i % 5));
     items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
   }
 
@@ -543,5 +544,8 @@ document.addEventListener('DOMContentLoaded', function() {
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
     document.getElementById("movingPizzas1").appendChild(elem);
   }
-  updatePositions();
+  // updatePositions();
+
+oldwidth = document.getElementById("pizza0").offsetWidth;
+windowwidth = document.getElementById("randomPizzas").offsetWidth;
 });
