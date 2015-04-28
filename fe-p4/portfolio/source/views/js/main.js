@@ -544,7 +544,7 @@ document.addEventListener('DOMContentLoaded', function() {
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
     document.getElementById("movingPizzas1").appendChild(elem);
   }
-  // updatePositions();
+  updatePositions();
 
 oldwidth = document.getElementById("pizza0").offsetWidth;
 windowwidth = document.getElementById("randomPizzas").offsetWidth;
