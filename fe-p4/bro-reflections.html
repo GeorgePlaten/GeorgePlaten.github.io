@@ -4,10 +4,13 @@
   <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="Georgeplaten.GitHub.io : reading and tinkering">
+    <meta name="description" 
+    content="Georgeplaten.GitHub.io : reading and tinkering">
 
-    <link rel="stylesheet" type="text/css" media="screen" href="../stylesheets/stylesheet.css">
-    <link rel="stylesheet" type="text/css" media="screen" href="../stylesheets/style.css">
+    <link rel="stylesheet" type="text/css" media="screen" 
+    href="../stylesheets/stylesheet.css">
+    <link rel="stylesheet" type="text/css" media="screen" 
+    href="../stylesheets/style.css">
 
     <title>GeorgePlaten GitHub.io - Project 4: BRO Journal</title>
   </head>
@@ -20,7 +23,8 @@
         <a href="../">
           <img id="biopic" src="../images/biopic.jpg" width="150" height="150">
         </a>
-          <!-- <a id="forkme_banner" href="https://github.com/GeorgePlaten">View on GitHub</a> -->
+          <!-- <a id="forkme_banner" 
+          href="https://github.com/GeorgePlaten">View on GitHub</a> -->
 
           <h1 id="project_title"><a href="../" id="home-link">GeorgieP</a></h1>
           <p id="project_tagline">reading and tinkering</p>
@@ -36,7 +40,170 @@
 
     <!-- MY CONTENT -->
     
+    <h2>The Critical Rendering Path</h2>
     
+      <h3>Intros, 1 & 3</h3>
+        <p>The goal is to run apps at 60 frames per second, and it's more than 
+        just JavaScritp to think about to get there.</p>
+        <p>A demo to help us <em>experience</em> judder and jank, later we'll 
+        learn to <em>diagnose and solve</em> those issues.</p>
+        
+      <h3>Judder</h3>
+        <p>A discussion on why judder is bad, how it effects users experiences 
+        and choices, and how much users care about it (a lot).</p>
+        
+      <h3>60 fps</h3>
+        <p>Reinforcement that the target for smooth scorlling and other 
+        animations is 60fps. Most devices run at 60fps and people notice when 
+        a when a frame is skipped.</p>
+        
+        <p>This leaves us with 16 milliseconds to render each frame, but as 
+        the browser has some overheads to take care of, it's more realistic 
+        to aim for <strong>10 to 12 milliseconds</strong> per frame.</p>
+        
+      <h3>What goes into a frame</h3>
+        <p>This explains much of the previous course but in summary:
+          <ul>
+            <li><strong>Parse HTML</strong> in the browser means building the 
+            DOM</li>
+            <li><strong>Recalculate Styles</strong> means build the Render 
+            Tree</li>
+          </ul>
+        Note that elements not displayed such as <code>display: none</code> are 
+        not added to the Render Tree. Also, elements added by CSS such as  
+        <code>p:after {content: "some text"}</code> <em>will</em> get added to 
+        the Render Tree.
+          <ul>
+            <li><strong>Layout</strong> is when the browser calculates the 
+            sizes and positions of each element in the Render Tree.</li>
+            <li><strong>Paint</strong> is the process of rasterizing the 
+            document to be painted on the screen. This has many sub-steps 
+            and which can be viewed in Dev Tools, and is very expensive.</li>
+            <li><strong>Image Decode</strong> happens inside Paint and is 
+            the process of decoding and painting bitmaps to screen.</li>
+            <li><strong>Composite Layers</strong> is the process of 
+            handling multiple <em>layers</em>. This can be more efficient than 
+            painting the whole page to screen at once (especially for pages 
+            with animations or scrolling objects).</li>
+          </ul></p>
+          
+        <p>Take Away: Layout Process is complicated and it's always best to 
+        assume that the entire DOM is always in scope, even though the 
+        number of <em>nodes</em> effected may be different.</p>
+        
+      <h3>Layout and Paint</h3>
+        <p>A typical frame pipeline for anything other than a static page 
+        looks like:</p>
+        
+        <p><strong>JavaScript > Style > Layout > Paint > Composite</strong></p>
+        
+        <p>The first step (javascript, although it could be CSS anim or Web 
+        Animation API) is any visual changes to the page. And it usually 
+        triggers all of the next steps to be performed. But we want to avoid 
+        triggering as a many and as often as possible.</p>
+        
+        <p>If you use JavaScript to change a Layout property, such as the 
+        width of an element, then all the steps will be run.</p>
+        
+        <p>If you change a Paint-only property, like font color or 
+        swapping an image, then the Layout step is skipped.</p>
+        
+        <p>The 3rd way to make changes just making Composite changes. 
+        This can skip both Layout and Paint. Note that skipping Paint 
+        can be a huge benefit.</p>
+        
+      <h3>CSS Triggers</h3>
+      
+        <p><a href="http://csstriggers.com/">A list of all CSS triggering 
+        changes can be found here.</a> Use this to ensure CSS changes 
+        trigger the least amount of work for the browser as possible.</p>
+        
+      <h3>Summary for Part 1: what we learned</h3>
+        <ul>
+          <li>Why we care about hitting 60fps</li>
+          <li>What browser work goes into making a frame</li>
+          <li>Different property changes have different levels of impact</li>
+        </ul>
+        
+    <h2>App Lifecycles</h2>
+      <p>Picking and choosing your battles of when to achieve 60fps (and 
+      what other targets to have and when to aim for them).</p>
+      
+      <h3>RAIL</h3>
+        <p>Response - Animation - Idle - Load<br>
+        (could also be <em>LIAR</em> in a normal first pageload timeline).</p>
+        
+        <ul>
+          <li><strong>Load: 1 Second.</strong> Defer anything non-critical 
+          until after the page has loaded.</li>
+          <li><strong>Idle: 50 ms.</strong> Idle time usually comes in chunks 
+           of 50 ms which is the ideal time to add more stuff to the page.</li>
+          <li><strong>Animate: 10-12 ms.</strong> (60 fps) For scrolling and 
+          animations.</li>
+          <li><strong>Response: 100 ms.</strong> This is the response to 
+          any user inputs or actions, like clicks or keypresses.</li>
+        </ul>
+        
+        <p>See <a href="https://github.com/udacity/devsummit/blob/master/src/static/scripts/components/card.js">
+        FLIP</a> for super-fast animation tricks.</p>
+        
+        <p>Remember that both Layout and Paint are severly effected by 
+        the number of elements that they have to be applied to. There 
+        is not an unlimited budget, even when code seems to work within 
+        the target timespan. Here's some budgeting guidelines:</p>
+        
+        <img src="img/time-table.jpg" alt="">
+          
+    <h2>The Dejudderification Toolbox</h2>
+      <p>Chrome Dev Tools - Timeline</p>
+      
+      <h3>DevTools</h3>
+        <p>A look at the timeline, with flame view,waterfall view 30/60 fps 
+        lines. Make selections in the frames area on top and use W, A, S and 
+        D to navigate (also mouse wheel).</p>
+         
+        <p>The records are color coded; blue for Parse HTML (which is never 
+        really a bottleneck). Purple for Recalculate Style and Layout. Green 
+        for Paint and Composite, and Orange for JavaScipt execution. 
+        </p>
+         
+        <p>In the flame view you can see which records are children of 
+        other records (on the line directly below) and which records lead 
+        to others (directly after on the same line).</p>
+         
+        <p>The Details payne will show you more information about the 
+        record you have selected. They're all different depending on the 
+        type of record. For example JavaScript records will give you a 
+        link back to the line in the code where the JavaScript was called. 
+        The details payne can also give more detail about warning and 
+        errors.</p>
+         
+      <h3>Test all the Devices!</h3>
+        <p>A timely reminder to test on actual devices because the desktop 
+        (and the device emulators on desktop) will far out-perform real 
+        devices and give you a false impression of a non-performant app.</p>
+        
+      <h3>Testing Strategies</h3>
+        <p>Make sure you're collecting <em>clean</em> data.</p>
+        <ol>
+          <li>Quit any other apps</li>
+          <li>Open an incognito window</li>
+          <li>Focus on cause of bottlenecks, not the symptoms</li>
+          <li>Measure first, then optimize</li>
+        </ol>
+        
+      <p>That was basically it, just a deeper dive into DevTools.</p>
+      
+    <h2>JavaScript Performance</h2>
+      <p>A look at the common causes of jank. Find, fix and text with  
+      DevTools. Starting with JavaScript.</p>
+      
+      <h3></h3>
+        
+        
+          
+        
+        
     
     <!-- END MY CONTENT -->
 
