@@ -546,6 +546,6 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   updatePositions();
 
-// oldwidth = document.getElementById("pizza0").offsetWidth;
-// windowwidth = document.getElementById("randomPizzas").offsetWidth;
+oldwidth = document.getElementById("pizza0").offsetWidth;
+windowwidth = document.getElementById("randomPizzas").offsetWidth;
 });
