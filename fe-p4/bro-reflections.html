@@ -195,10 +195,69 @@
       <p>That was basically it, just a deeper dive into DevTools.</p>
       
     <h2>JavaScript Performance</h2>
-      <p>A look at the common causes of jank. Find, fix and text with  
+      <p>A look at the common causes of jank. Find, fix and test with  
       DevTools. Starting with JavaScript.</p>
       
-      <h3></h3>
+      <h3>Just In Time (JIT)</h3>
+        <p>Because JavaScript is compiled just-in-time, there is no point 
+        chasing micro-optimizations.</p>
+        
+      <h3>Request Animation Frame</h3>
+        <p>During animated frames we typically, really only have about 10 ms 
+        to finish a frame. The JavaScript part can only get 2 to 3 of those 
+        milliseconds to its thing.</p>
+        
+        <p>requestAnimationFrame schedules the JavaScript to run at the
+        earliest opportunity of each frame, it also manages how often 
+        it will be called, to make itself as efficient as possible.</p>
+        
+        <p>Older code uses setTimeout() and setInterval(), but this is not 
+        effiecient at all. IE9 doesn't understand rAF, so a <a 
+        href="https://gist.github.com/paulirish/1579671">polyfill</a> is 
+        needed for it.</p>
+        
+        <p>To use requestAnimationFrame you make a call to it and tell it 
+        which function you want to call, for example:<pre>
+        requestAnimationFrame(someFunc);</pre>
+        Inside the function that it calls, at the end, you need recall it 
+        in the same way again, to schedule the next run. The browser takes 
+        care of the 'when' and 'how' it should run for you.<pre>
+        someFunc() {
+        
+          // some code;
+        
+          requestAnimationFrame(someFunc);
+        }</pre></p>
+        
+      <h3>JavaScript Profile</h3>
+        <p>The JavaScript profiler in DevTools will display in-depth 
+        information about what function calls are being made within
+        the JavaScript. The profiler should only be turned on on its
+        own as the Timeline recording takes a hit when gathering the
+        extra information.</p>
+        
+      <h3>Web Workers</h3>
+        <p>Web workers provide a means to use a different processor thread 
+        to run seperated JavaScript code asychronously from the main thread.
+        This will help priortize interface updates to make an app or page 
+        feel responsive and snappy.</p>
+        
+        <p>Web workers can post and recieve messages with the main
+        JavaScript thread via an event listener. You can't use the 'window' 
+        shortcut in a Worker to get the global context, because they don't run 
+        in the window. You must use 'this' instead. For the same reason, you 
+        can't do DOM manipulations in a Web Worker.</p>
+        
+        <p>Data is sent back and forth via the <code>postMessage()</code> 
+        method, and is received via the <code>onmessage</code> event 
+        handler. The message is contained within the Message event's 
+        <code>.data</code> attribute. (Note that the data is copied rather 
+        than shared.</p>
+        
+        <p><em>Note that <code>onmessage</code> and <code>postMessage()</code>
+        need to be hung off the Worker object when used in the main script 
+        thread, but not when used in the worker. This is because inside the 
+        worker, the worker is effectively the global scope.</em></p>
         
         
           
