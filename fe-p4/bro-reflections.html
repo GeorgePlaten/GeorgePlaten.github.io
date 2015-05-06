@@ -242,6 +242,11 @@
         This will help priortize interface updates to make an app or page 
         feel responsive and snappy.</p>
         
+        <p>Worker files are downloaded asychronously and when they fail, 
+        they fail silently. A new worker is created with the Worker 
+        constructor function <code>var worker = new Worker('wrkrfile.js')
+        </code>.</p>
+        
         <p>Web workers can post and recieve messages with the main
         JavaScript thread via an event listener. You can't use the 'window' 
         shortcut in a Worker to get the global context, because they don't run 
@@ -252,12 +257,32 @@
         method, and is received via the <code>onmessage</code> event 
         handler. The message is contained within the Message event's 
         <code>.data</code> attribute. (Note that the data is copied rather 
-        than shared.</p>
+        than shared. The <code>postMessage()</code> method can accept 
+        either a string or a JSON object.</p>
         
         <p><em>Note that <code>onmessage</code> and <code>postMessage()</code>
         need to be hung off the Worker object when used in the main script 
         thread, but not when used in the worker. This is because inside the 
         worker, the worker is effectively the global scope.</em></p>
+        
+        <p>You can also terminate workers, set them to terminate themselves 
+        handles errors, spawn subworkers and import other scripts and 
+        libraries. You can also spawn SharedWorkers which are a little 
+        more complex and require a port to opened.</p>
+        
+        <p>You can also create 'inline' workers like this: <pre>
+          var blob = new Blob([
+            "onmessage = function(e) { postMessage('msg from worker'); }"]);
+        
+            // Obtain a blob URL reference to our worker 'file'.
+            var blobURL = window.URL.createObjectURL(blob);
+            
+            var worker = new Worker(blobURL);
+            worker.onmessage = function(e) {
+              // e.data == 'msg from worker'
+          };
+          worker.postMessage(); // Start the worker
+        </pre></p>
         
         
           
