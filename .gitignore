@@ -3,6 +3,8 @@ Thumbs.db
 /fe-p1/IntroToHTMLandCSS/
 /fe-p3/codequizzes.js
 /fe-p4/ngrok.exe
-/fe-p4/portfolio/node_modules/
-/fe-p4/portfolio/package.json
+node_modules
+package.json
 /fe-p4/portfolio/original/
+.tmp
+app/service-worker.js
