@@ -284,9 +284,117 @@
           worker.postMessage(); // Start the worker
         </pre></p>
         
+      <h3>Memory Management</h3>
+        <p>JavaScript automatically collects garbage while it works. This 
+        is not in your control, and it's not really possible to predict 
+        when and where it will happen. To get an indication of what is 
+        happening, turn on the memory profiler in the Timeline tools.</p>
         
-          
+    <h2>Styles & Layout</h2>
+      <p>Note that the number of elements to be styles will effect 
+      performance on a linear basis. That is, 1000 (same) elements will 
+      take 10 times longer to calculate than 100.</p>
+      
+      <p>Secondly note that, Selector Matching specificity has a vey big impact 
+      on performance too. Using <a href="https://en.bem.info/">
+      Block-Element-Modifier (BEM)</a> naming guidelines is quite good for 
+      performance.</p>
+      
+      <p>But remember, the only way to really tell what matching pattern is 
+      fastest, is by measuring!</p>
+      
+      <h3>Layout Thrashing</h3>
+        <p>Layout thrashing is probably the most common issue when styles 
+        cause bad performance. This will happen when you query an element's 
+        position, like with <code>element.offSetWidth</code> and then use
+        it it to perform a new layout, all inside a loop. Unintuitively, 
+        using <code>.offSetWidth</code> causes a layout re-calculation on 
+        it's own, even if you don't change anything. To avoid this, hoist 
+        such queries of styles out of loops, as the result will probably 
+        be an invariant.</p>
         
+        <p>This is also called a "Forced Synchronous Layout" by Dev Tools 
+        and it will be highlighted in the Timeline records for you.</p>
+        
+        <p>Remember to check out <a href="http://csstriggers.com">CSS 
+        Triggers</a> for a list of which CSS properties trigger which 
+        browser actions.</p>
+        
+        <p>The main principle to avoid Forced Synchronous Layour is to 
+        batch queries and style update together, don't alterneate them. 
+        Also, there's a script out there for batching... in my other 
+        notes....</p>
+        
+        <p>For a concise list of CSS properties that trigger layout 
+        see <a href="http://gent.ilcore.com/2011/03/how-not-to-trigger-layout-in-webkit.html">
+        this post</a> by Mr. Gentilcore.</p>
+        
+      <h3>Summary</h3>
+        <p>Remember, although we are trying very hard to prevent triggering 
+        Layout, the main reason not to trigger it, is that is <em>always</em>
+        triggers Paint - which is super-expensive when trying to animate at 
+        60 fps.</p>
+        
+        <p>Remember the RAIL budgets: Response 100 ms, Animate 10-12 ms, 
+        Idle 50 ms, and Load 1000 ms.</p>
+        
+    <h2>Painting and Compositing</h2>
+      <p>Not all styles are equal, some trigger Layout, Paint and Composite, 
+      some trigger just Paint and Composite, and a couple only trigger 
+      Composite.</p>
+      
+      <h3>Paint Optimization</h3>
+        <p>The Tools: In Dev Tools, you open the console (Esc key), and 
+        switch to the Paint tab. This tab's pane has a few checkboxes, one
+        of which is "Show Paint Rectangles". This paints a semi-opaque 
+        green rectangle over repaints. During a page scroll, the only thing
+        that should be getting repainted is the scroll bar. If the whole
+        page is being repainted, then there is a problem to hunt down.</p>
+        
+        <p>By turning on Paint in the Timeline profiler you can get an in-
+        depth review of all the paint commands that are run during a Paint
+        event. This a sub-timeline in the Paint Profiler tab's pane.</p>
+        
+      <h3>Compositing</h3>
+        <p>Compositing is the act of layering the content to allow ovelays 
+        of different layers to get repainted without effecting the whole 
+        page. This the same concept as Image and Video editing software.</p>
+        
+        <p>In Dev Tools the 2 records associated with Compositing are 
+        "Update Layer Tree" and "Composite Layers". Update is where Chrome
+        calculate how many layers it needs, and Composite is the act of 
+        putting them on screen. The more layers you have, the more time 
+        will be spent in layer management.</p>
+        
+        <p>Layer management is mostly automatically controlled by the 
+        browser, but we can force it to generate layers and even better, when
+        it is supported by browsers, we can give it hints about what might
+        be good places to create layers. <strong>Always check to see
+        if and element aleady has its own layer before creating one for it!
+        </strong></p>
+        
+        <p>In the console you can check the box "Show Composited Layer 
+        borders" to see what's going on. Blue lines represent the tiles that
+        each layer is split into, and orange lines represent elements 
+        on their own compositor layers. </p>
+        
+        <p>To hint to the browser to give an element its own layer: <code>
+        element {will-change: transform;}</code>. <br>
+        To force an element onto its own layer (hacky) <code>element 
+        {transform: translateZ(0);}</code>. Don't put everything on its
+        own layer, think carefully where to apply, and test for improvement
+        before using. Note this still relies on the hacky method to work 
+        in all browsers, so it should not be relied on at all.</p>
+        
+        <p>More Cool Tools: when you create a Paint profile in the Timeline
+        you can also view the number of layers created, and the <em>reason</em>
+        each was created. You can also view a 3D representation of the layer
+        structure, which is very helpful.</p>
+        
+        <p>When you force a layer to be created, you need to be careful 
+        because it can trigger other elements to become layers too.</p>
+        
+        <strong>And that's about it for that course, for now.</strong>
         
     
     <!-- END MY CONTENT -->
