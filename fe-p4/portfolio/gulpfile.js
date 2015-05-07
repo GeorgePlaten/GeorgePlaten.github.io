@@ -44,6 +44,7 @@ gulp.task('jshint', function () {
 // Optimize images
 gulp.task('images', function () {
   return gulp.src('app/**/*')
+    .pipe($.sourcemaps.init())
     .pipe($.cache($.imagemin({
       progressive: true,
       interlaced: true
@@ -153,6 +154,9 @@ gulp.task('html', function () {
 
 // Clean output directory
 gulp.task('clean', del.bind(null, ['.tmp', 'dist/*', '!dist/.git'], {dot: true}));
+
+// Clear out cache
+gulp.task('clear', function (done) {return $.cache.clearAll(done);});
 
 // Watch files for changes & reload
 gulp.task('serve', ['styles'], function () {
