@@ -7,4 +7,4 @@ node_modules
 package.json
 /fe-p4/portfolio/original/
 .tmp
-app/service-worker.js
+service-worker.js
