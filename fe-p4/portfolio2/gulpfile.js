@@ -43,12 +43,13 @@ gulp.task('jshint', function () {
 
 // Optimize images
 gulp.task('images', function () {
-  return gulp.src('app/images/**/*')
+  return gulp.src('app/**/*')
     .pipe($.cache($.imagemin({
       progressive: true,
       interlaced: true
     })))
-    .pipe(gulp.dest('dist/images'))
+    .pipe($.sourcemaps.write())
+    .pipe(gulp.dest('dist'))
     .pipe($.size({title: 'images'}));
 });
 
@@ -56,8 +57,7 @@ gulp.task('images', function () {
 gulp.task('copy', function () {
   return gulp.src([
     'app/*',
-    '!app/*.html',
-    'node_modules/apache-server-configs/dist/.htaccess'
+    '!app/*.html'
   ], {
     dot: true
   }).pipe(gulp.dest('dist'))
@@ -87,19 +87,13 @@ gulp.task('styles', function () {
     'bb >= 10'
   ];
 
-
-
   // For best performance, don't add Sass partials to `gulp.src`
   return gulp.src([
     'app/**/*.scss',
-    'app/styles/**/*.css'
+    'app/**/*.css'
   ])
     .pipe($.changed('.tmp/styles', {extension: '.css'}))
-    .pipe($.sourcemaps.init())
-    .pipe($.sass({
-      precision: 10,
-      onError: console.error.bind(console, 'Sass error:')
-    }))
+//    .pipe($.sourcemaps.init())
     .pipe($.autoprefixer(AUTOPREFIXER_BROWSERS))
     .pipe(gulp.dest('.tmp'))
     // Concatenate and minify styles
@@ -109,17 +103,18 @@ gulp.task('styles', function () {
     .pipe($.size({title: 'styles'}));
 })
 
-// Concatenate and minify JavaScript
+// Minify JavaScript
 gulp.task('scripts', function () {
   var sources = [
     // Scripts
-    'app/scripts/**/*.js'
+    'app/**/*.js'
   ];
   return gulp.src(sources)
-    .pipe($.concat('main.min.js'))
+//    .pipe($.sourcemaps.init())
     .pipe($.uglify({preserveComments: 'some'}))
     // Output files
-    .pipe(gulp.dest('dist/scripts'))
+    .pipe($.sourcemaps.write())
+    .pipe(gulp.dest('dist'))
     .pipe($.size({title: 'scripts'}));
 });
 
