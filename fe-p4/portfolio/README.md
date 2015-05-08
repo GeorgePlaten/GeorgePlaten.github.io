@@ -23,11 +23,16 @@ Steps taken to get started:
 Steps taken to achieve PSI scores of 90+:
 
 1. Refactor project to be built with WSK for automatic Code Minification and
-Image Optimization.<br>	_From: Mobile/Dektop 60/67 To: 61/68 **Change: +1/+1**_
+Image Optimization.
+<br>_From: Mobile/Dektop 60/67 To: 61/68 **Change: +1/+1**_
 2. Optimize Images
---1. profile.jpg: replace file with optimized version as provided by PSI
---2. pizzeria.jpg:  hoist the optimized copy provided by PSI to the root images directory, further resize the image to allow it be served at natural dimensions.
---3. Content section thumbnails: use local copies resized to be served at natural dimensions and provided with width and height attributes. Fix CSS to serve image at natural size.
+  1. profile.jpg: replace file with optimized version as provided by PSI
+  2. pizzeria.jpg:  hoist the optimized copy provided by PSI to the root images directory, further resize the image to allow it be served at natural dimensions.
+  3. Content section thumbnails: use local copies and fix CSS to serve images at natural dimensions.
+  4. All images: add height and width attributes
+<br>_From: Mobile/Dektop 61/68 To: 76/89 **Change: +15/+21**_
+3. Eliminate render-blocking JavaScript and CSS in above-the-fold content:
+  1. 
 
 
 
