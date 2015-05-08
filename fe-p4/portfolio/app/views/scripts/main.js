@@ -18,6 +18,7 @@ cameron *at* udacity *dot* com
 
 // As you may have realized, this website randomly generates pizzas.
 // Here are arrays of all possible pizza ingredients.
+console.log('hi there');
 var pizzaIngredients = {};
 pizzaIngredients.meats = [
   "Pepperoni",
