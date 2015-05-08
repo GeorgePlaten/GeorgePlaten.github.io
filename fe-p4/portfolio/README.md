@@ -32,7 +32,12 @@ Image Optimization.
   4. All images: add height and width attributes
 <br>_From: Mobile/Dektop 61/68 To: 76/89 **Change: +15/+21**_
 3. Eliminate render-blocking JavaScript and CSS in above-the-fold content:
-  1. 
+  1. Add media attribute to print stylesheet, to allow it to load asychronously.
+  2. Inline the webfonts in the CSS file.
+  3. Inline the CSS in the HTML
+  4. Inline perfmatters.js in the HTML, before CSS to ensure it is not render blocking. This JavaScript could be loaded asynchronously but it is small enough to be inlined in the head.
+  5. Remove Google Analytics scripts. Again they could be async'd, if they were needed.
+  6. Remove unneccessary meta tags from head.
 
 
 
