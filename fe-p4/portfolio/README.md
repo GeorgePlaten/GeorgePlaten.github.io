@@ -77,4 +77,25 @@ Steps taken to achieve PSI scores of 90+:
   1. Use uncss to remove unused styles from bootstrap-grid.css
   2. Inline all CSS into head of pizza.html
   3. Add device-with content meta tag to assist consistent layout
+4. <strong>main.js</strong>: Fix Layout Thrashing caused by updatePositions()
+  1. Hoist <code>phase</code> invariant from for loop.
+  2. Hoist <code>items = document.querySelectorAll('.mover')</code> query 
+  from function scope to global scope so it is not called with each scroll
+  event. Rename <code>items</code> to <code>movingPizzas</code> as it need to 
+  make more sense in global context. <code>movingPizzas</code> is then set 
+  during the <code>DOMContentLoaded</code> event after all the pizzas are 
+  added.
+  3. Remove <code>document.body.scrollTop</code> layout tiggering query
+  to new intermediate calling <code>scroller()</code> function and pass it as 
+  parameter <code>shift</code>.
+  4. Make <code>shift</code> a global variable with default value of 5
+  to prevent layout thrashing on first page load.
+5. <strong>main.js</strong>: Improve painting performance
+  1. Dynamically set the number of background pizzas based on screen size
+  inside <code>DOMContentLoaded</code> event, as painting performance scales
+  with element quantity. Used maximum screen size to save having to recalculate
+  with each window resize. 
+  2. Add <code>backface-visibility: hidden</code> hack to CSS for mover class, 
+  and <code>will-change: transform</code> hint for browsers that can use it.
 
+<em>PageSpeed Results: Mobile/Dektop <strong>96/98</strong></em>  

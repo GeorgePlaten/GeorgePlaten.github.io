@@ -18,7 +18,6 @@ cameron *at* udacity *dot* com
 
 // As you may have realized, this website randomly generates pizzas.
 // Here are arrays of all possible pizza ingredients.
-console.log('hi there');
 var pizzaIngredients = {};
 pizzaIngredients.meats = [
   "Pepperoni",
@@ -499,14 +498,18 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 // https://www.igvita.com/slides/2012/devtools-tips-and-tricks/jank-demo.html
 
 // Moves the sliding background pizzas based on scroll position
-function updatePositions() {
+
+var movingPizzas; // make global (item = document.querySelectorAll('.mover');) so it is not rebuilt with each scroll event. Set in DOMContentLoaded event funtion
+var shift = 5; // New global variable to prevent thrashing on first load.
+
+function updatePositions(shift) {
   frame++;
   window.performance.mark("mark_start_frame");
 
-  var items = document.querySelectorAll('.mover');
-  for (var i = 0; i < items.length; i++) {
-    var phase = Math.sin((document.body.scrollTop / 1250) + (i % 5));
-    items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+  var phase = 0;
+  for (var i = 0; i < movingPizzas.length; i++) {
+    phase = Math.sin(shift + (i % 5)); // layout triggering document query hoisted out of loop and function, and replaced by 'shift' parameter.
+    movingPizzas[i].style.left = movingPizzas[i].basicLeft + 100 * phase + 'px';
   }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
@@ -519,22 +522,35 @@ function updatePositions() {
   }
 }
 
+// New intermediate function to send a cached shift value to updatePositions
+// with each scroll event. This prevents Layout Thrashing.
+var scroller = function () {
+  shift = document.body.scrollTop / 1250;
+  updatePositions(shift);
+};
+
 // runs updatePositions on scroll
-window.addEventListener('scroll', updatePositions);
+window.addEventListener('scroll', scroller);
 
 // Generates the sliding pizzas when the page loads.
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
-  for (var i = 0; i < 200; i++) {
+  var movingPizzasContainer = document.querySelector("#movingPizzas1");   // hoist document query invariant from for loop
+  // Generate just enough background pizzas to fill to background if 
+  // browser window maximized. 
+  var x = screen.width / s + 1;
+  var y = screen.height / s + 1;
+  for (var i = 0; i < x * y; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
-    elem.src = "images/pizza77x100.png";
+    elem.src = "images/pizza73x100.png";
     elem.style.height = "100px";
     elem.style.width = "73px";
     elem.basicLeft = (i % cols) * s;
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
-    document.querySelector("#movingPizzas1").appendChild(elem);
+    movingPizzasContainer.appendChild(elem);
   }
+  movingPizzas = movingPizzasContainer.childNodes; // set this global now instead of making query during updatePositions
   updatePositions();
 });
