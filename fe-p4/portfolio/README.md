@@ -101,6 +101,8 @@ Steps taken to achieve PSI scores of 90+:
 7. <strong>main.js</strong>: Optimize resizePizzas function
   1. Hoist invariants from functions from changePizzaSizes.
   2. Change determineDx function to return simple percentage value and
-  assignment for use in changePizzaSizes. 
+  assignment for use in changePizzaSizes.
+  3. Use a style change to change all pizzas at once instead of looping one
+  by one.
 
 <em>PageSpeed Results: Mobile/Dektop <strong>96/98</strong></em>  

@@ -373,7 +373,7 @@ var pizzaElementGenerator = function(i) {
   pizzaDescriptionContainer = document.createElement("div");
 
   pizzaContainer.classList.add("randomPizzaContainer");
-  pizzaContainer.style.width = "33.33%";
+  pizzaContainer.classList.add("resizer");
   pizzaContainer.style.height = "325px";
   pizzaContainer.id = "pizza" + i;                // gives each pizza element a unique id
   pizzaImageContainer.classList.add("col-md-6");
@@ -421,31 +421,19 @@ var resizePizzas = function(size) {
 
   changeSliderLabel(size);
 
-  // Returns the size difference to change a pizza element from one size to another. Called by changePizzaSlices(size).
-  function determineDx (size) {
-    switch(size) {
-      case "1":
-        return 25;
-      case "2":
-        return 33.33;
-      case "3":
-        return 50;
-      default:
-        console.log("bug in sizeSwitcher");
-    }
-  }
+// Use straight percentage for new width
+// change style rule instead of iterating through each element
 
-  // Iterates through pizza elements on the page and changes their widths
-  var randomPizzaContainer = document.querySelectorAll(".randomPizzaContainer"); 
-  var dx = determineDx(size);
-  var newwidth = dx + '%'; //  use straight percentage for new width
-  function changePizzaSizes(size) {
-    for (var i = 0; i < randomPizzaContainer.length; i++) {
-      randomPizzaContainer[i].style.width = newwidth;
-    }
+  switch(size) {
+    case "1":
+      return document.styleSheets[2].cssRules[0].style.width = '25%';
+    case "2":
+      return document.styleSheets[2].cssRules[0].style.width = '33.33%';
+    case "3":
+      return document.styleSheets[2].cssRules[0].style.width = '50%';
+    default:
+      console.log("bug in sizeSwitcher");
   }
-
-  changePizzaSizes(size);
 
   // User Timing API is awesome
   window.performance.mark("mark_end_resize");

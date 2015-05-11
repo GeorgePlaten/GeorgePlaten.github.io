@@ -4,7 +4,11 @@
   <meta name=viewport content="width=device-width, initial-scale=1">  
   <link inline href="styles/style.css" rel="stylesheet">
   <link inline href="styles/bootstrap-grid.css" rel="stylesheet">
-
+    <style>
+    .resizer {
+      width: 33.33%;
+    }
+  </style>
 </head>
 
 <body>
@@ -103,7 +107,7 @@
           </div>
         </div>
         <div id="randomPizzas" class="row">
-          <div id="pizza0" class="randomPizzaContainer" style="width:33.33%;">
+          <div class="randomPizzaContainer resizer" id="pizza0" style="height: 325px;">
             <div class="col-md-6">
               <img src="images/pizza.png" class="img-responsive">
             </div>
@@ -120,7 +124,7 @@
               </ul>
             </div>
           </div>
-          <div id="pizza1" class="randomPizzaContainer" style="width:33.33%;">
+          <div class="randomPizzaContainer resizer" id="pizza1" style="height: 325px;">
             <div class="col-md-6">
               <img src="images/pizza.png" class="img-responsive">
             </div>
