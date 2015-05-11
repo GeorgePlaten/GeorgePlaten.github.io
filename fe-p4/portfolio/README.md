@@ -105,4 +105,4 @@ Steps taken to achieve PSI scores of 90+:
   3. Use a style change to change all pizzas at once instead of looping one
   by one.
 
-<em>PageSpeed Results: Mobile/Dektop <strong>96/98</strong></em>  
+<em>PageSpeed Results for pizza.html: Mobile/Dektop <strong>98/98</strong></em>  

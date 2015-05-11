@@ -528,5 +528,5 @@ document.addEventListener('DOMContentLoaded', function() {
     movingPizzasContainer.appendChild(elem);
   }
   movingPizzas = movingPizzasContainer.childNodes; // set this global now instead of making query during updatePositions
-  updatePositions();
+  setTimeout(updatePositions, 50); // fixes occasional bug on first load, not seen with refresh, or full refresh
 });
