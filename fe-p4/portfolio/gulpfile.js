@@ -111,11 +111,18 @@ gulp.task('scripts', function () {
     .pipe($.size({title: 'scripts'}));
 });
 
+// Inline CSS and JS as marked
+gulp.task('inline', function () {
+  return gulp.src('app/**/*.html')
+    .pipe($.inlineSource({compress: false}))
+})
+
 // Scan your HTML for assets & optimize them
 gulp.task('html', function () {
   var assets = $.useref.assets({searchPath: '{.tmp,app}'});
 
   return gulp.src('app/**/*.html')
+    .pipe($.inlineSource())
     .pipe(assets)
     // Concatenate and minify JavaScript
     .pipe($.if('*.js', $.uglify({preserveComments: 'some'})))
@@ -132,13 +139,11 @@ gulp.task('html', function () {
         /.app-bar.open/
       ]
     })))
-
     // Concatenate and minify styles
     // In case you are still using useref build blocks
     .pipe($.if('*.css', $.csso()))
     .pipe(assets.restore())
     .pipe($.useref())
-
     // Minify any HTML
     .pipe($.if('*.html', $.minifyHtml()))
     // Output files

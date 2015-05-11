@@ -90,12 +90,17 @@ Steps taken to achieve PSI scores of 90+:
   parameter <code>shift</code>.
   4. Make <code>shift</code> a global variable with default value of 5
   to prevent layout thrashing on first page load.
-5. <strong>main.js</strong>: Improve painting performance
+5. <strong>main.js</strong>: Improve painting performance while scrolling
   1. Dynamically set the number of background pizzas based on screen size
-  inside <code>DOMContentLoaded</code> event, as painting performance scales
+  during <code>DOMContentLoaded</code> event, as painting performance scales
   with element quantity. Used maximum screen size to save having to recalculate
   with each window resize. 
   2. Add <code>backface-visibility: hidden</code> hack to CSS for mover class, 
   and <code>will-change: transform</code> hint for browsers that can use it.
+6. <strong>main.js</strong>: Hoist invariant from Random Pizza generator loop
+7. <strong>main.js</strong>: Optimize resizePizzas function
+  1. Hoist invariants from functions from changePizzaSizes.
+  2. Change determineDx function to return simple percentage value and
+  assignment for use in changePizzaSizes. 
 
 <em>PageSpeed Results: Mobile/Dektop <strong>96/98</strong></em>  
