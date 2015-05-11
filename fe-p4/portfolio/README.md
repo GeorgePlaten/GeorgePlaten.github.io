@@ -1,26 +1,28 @@
-## Website Performance Optimization portfolio project
+<h2>Website Performance Optimization portfolio project</h2>
 
-This is my second run-through of this project, the first was done very
+<p>This is my second run-through of this project, the first was done very
 manually and as part of a progressive learning experience. I decided
 I would like to redo the project from the start while applying the tools
-and techniques I have learned on the first run-through.
+and techniques I have learned on the first run-through.</p>
 
-In particular, I discovered the concept of using build tools and from 
-there I found Google's [Web Starter Kit](https://developers.google.com/web/starter-kit/)
-(WSK), which I have decided to use this time.
+<p>In particular, I discovered the concept of using build tools and from 
+there I found Google's <a 
+href="https://developers.google.com/web/starter-kit/">Web Starter Kit</a>
+(WSK), which I have decided to use this time.</p>
 
 
-### Getting started
-Steps taken to get started:
+<h3>Getting started</h3>
+<p>Steps taken to get started:</p>
+<ol>
+  <li>Clone the WSK repository</li>
+  <li>Clone the project repository into WSK.</li>
+  <li>Refactor project code to work with WSK file and directory structure.</li>
+  <li>Remove unwanted and unneeded utilities from WSK.</li>
+  <li>Edit and test gulpfile.js to serve and build/serve </li>
+</ol>
 
-1. Clone the WSK repository
-2. Clone the project repository into WSK.
-3. Refactor project code to work with WSK file and directory structure.
-4. Remove unwanted and unneeded utilities from WSK.
-5. Edit and test gulpfile.js to serve and build/serve 
-
-###Part 1: Optimize PageSpeed Insights (PSI) score for index.html
-Steps taken to achieve PSI scores of 90+:
+<h3>Part 1: Optimize PageSpeed Insights (PSI) score for index.html</h3>
+<p>Steps taken to achieve PSI scores of 90+:</p>
 
 <ol>
   <li>Refactor project to be built with WSK for automatic Code Minification 
@@ -56,53 +58,80 @@ Steps taken to achieve PSI scores of 90+:
       <li>Remove unneccessary meta tags from head.</li>
     </ol>
   </li>
-  <em>From: Mobile/Dektop 76/89 To: 95/96 <strong>Change: +19/+7</strong></em>  
+  <em>From: Mobile/Dektop 76/89 To: 95/96 <strong>Change: +19/+7</strong></em>
+  <p><strong>Final PageSpeed Results for index.html: Mobile/Dektop
+  95/96</strong></p>
 </ol>
 
+<h3>Part 2: Optimize Frames per Second in pizza.html</h3>
 
-
-
-###Part 2: Optimize Frames per Second in pizza.html
-
-1. Image optimization
-  1. Replace pizzeria.jpg with PSI optimized resource
-  2. Downsample pizza.png to 35 color palette (10kb)
-  3. Create smaller version of pizza.png for the backgroung without
-  transparency and to be served at natural size.
-2. Optimize HTML, CSS and JavaScript with WSK and gulp
-  1. Use uglify for JavaScript
-  2. Use csso to optimize and minify CSS 
-  3. Use minify-html to minify pizza.html
-3. Eliminate render-blocking JavaScript and CSS in above-the-fold content
-  1. Use uncss to remove unused styles from bootstrap-grid.css
-  2. Inline all CSS into head of pizza.html
-  3. Add device-with content meta tag to assist consistent layout
-4. <strong>main.js</strong>: Fix Layout Thrashing caused by updatePositions()
-  1. Hoist <code>phase</code> invariant from for loop.
-  2. Hoist <code>items = document.querySelectorAll('.mover')</code> query 
-  from function scope to global scope so it is not called with each scroll
-  event. Rename <code>items</code> to <code>movingPizzas</code> as it need to 
-  make more sense in global context. <code>movingPizzas</code> is then set 
-  during the <code>DOMContentLoaded</code> event after all the pizzas are 
-  added.
-  3. Remove <code>document.body.scrollTop</code> layout tiggering query
-  to new intermediate calling <code>scroller()</code> function and pass it as 
-  parameter <code>shift</code>.
-  4. Make <code>shift</code> a global variable with default value of 5
-  to prevent layout thrashing on first page load.
-5. <strong>main.js</strong>: Improve painting performance while scrolling
-  1. Dynamically set the number of background pizzas based on screen size
-  during <code>DOMContentLoaded</code> event, as painting performance scales
-  with element quantity. Used maximum screen size to save having to recalculate
-  with each window resize. 
-  2. Add <code>backface-visibility: hidden</code> hack to CSS for mover class, 
-  and <code>will-change: transform</code> hint for browsers that can use it.
-6. <strong>main.js</strong>: Hoist invariant from Random Pizza generator loop
-7. <strong>main.js</strong>: Optimize resizePizzas function
-  1. Hoist invariants from functions from changePizzaSizes.
-  2. Change determineDx function to return simple percentage value and
-  assignment for use in changePizzaSizes.
-  3. Use a style change to change all pizzas at once instead of looping one
-  by one.
-
-<em>PageSpeed Results for pizza.html: Mobile/Dektop <strong>98/98</strong></em>  
+<ol>
+  <li>
+    Image Optimization
+    <ol>
+      <li>Replace pizzeria.jpg with PSI optimized resource</li>
+      <li>Downsample pizza.png to 35 color palette (10kb)</li>
+      <li>Create smaller version of pizza.png for the backgroung without
+      transparency and to be served at natural size.</li>
+    </ol>
+  </li>
+  <li>
+    Optimize HTML, CSS and JavaScript with WSK and gulp
+    <ol>
+      <li>Use uglify for JavaScript</li>
+      <li>Use csso to optimize and minify CSS </li>
+      <li>Use minify-html to minify pizza.html</li>
+    </ol>
+  </li>
+  <li>
+    Eliminate render-blocking JavaScript and CSS in above-the-fold content
+    <ol>
+      <li>Use uncss to remove unused styles from bootstrap-grid.css</li>
+      <li>Inline all CSS into head of pizza.html and JavaScript into body.</li>
+      <li>Add device-with content meta tag to assist consistent layout</li>
+    </ol>
+  </li>
+  <li>
+    <strong>main.js</strong>: Fix Layout Thrashing caused by updatePositions()
+    <ol>
+      <li>Hoist <code>phase</code> invariant from for loop.</li>
+      <li>Hoist <code>items = document.querySelectorAll('.mover')</code> query 
+      from function scope to global scope so it is not called with each scroll
+      event. Rename <code>items</code> to <code>movingPizzas</code> as it need
+      to make more sense in global context. <code>movingPizzas</code> is then
+      set during the <code>DOMContentLoaded</code> event after all the pizzas
+      are added.</li>
+      <li>Remove <code>document.body.scrollTop</code> layout tiggering query
+      to new intermediate calling <code>scroller()</code> function and pass it
+      as parameter <code>shift</code>.</li>
+      <li>Make <code>shift</code> a global variable with default value of 5
+      to prevent layout thrashing on first page load.</li>
+    </ol>
+  </li>
+  <li>
+    <strong>main.js</strong>: Improve painting performance while scrolling
+    <ol>
+      <li>Dynamically set the number of background pizzas based on screen size
+      during <code>DOMContentLoaded</code> event, as painting performance scales
+      with element quantity. Used maximum screen size to save having to 
+      recalculate with each window resize.</li>
+      <li>Add <code>backface-visibility: hidden</code> hack to CSS for mover
+      class, and <code>will-change: transform</code> hint for browsers that can
+      use it.</li>
+    </ol>
+  </li>
+  <li><strong>main.js</strong>: Hoist invariant from Random Pizza generator
+  loop</li>
+  <li>
+    <strong>main.js</strong>: Optimize resizePizzas function
+    <ol>
+      <li>Hoist invariants from functions changePizzaSizes.</li>
+      <li>Change determineDx function to return simple percentage value and
+      assignment for use in changePizzaSizes.</li>
+      <li>Use a style change to change all pizzas at once instead of looping one
+      by one. (determineDx function not now required).</li>
+    </ol>
+  </li>
+</ol>
+<p><strong>Final PageSpeed Results for pizza.html: Mobile/Dektop
+98/98</strong></p>
