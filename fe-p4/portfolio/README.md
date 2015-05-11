@@ -129,7 +129,8 @@ href="https://developers.google.com/web/starter-kit/">Web Starter Kit</a>
       <li>Change determineDx function to return simple percentage value and
       assignment for use in changePizzaSizes.</li>
       <li>Use a style change to change all pizzas at once instead of looping one
-      by one. (determineDx function not now required).</li>
+      by one. (determineDx function not now required, and possibly broke the 
+      timing function with its terrible speed).</li>
     </ol>
   </li>
 </ol>
