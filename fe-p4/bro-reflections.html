@@ -218,16 +218,16 @@
 
 				<p>To use requestAnimationFrame you make a call to it and tell it
 				which function you want to call, for example:<pre>
-				requestAnimationFrame(someFunc);</pre>
+	requestAnimationFrame(someFunc);</pre>
 				Inside the function that it calls, at the end, you need recall it
 				in the same way again, to schedule the next run. The browser takes
 				care of the 'when' and 'how' it should run for you.<pre>
-				someFunc() {
+	someFunc() {
 
-					// some code;
+		// some code;
 
-					requestAnimationFrame(someFunc);
-				}</pre></p>
+		requestAnimationFrame(someFunc);
+	}</pre></p>
 
 			<h3>JavaScript Profile</h3>
 				<p>The JavaScript profiler in DevTools will display in-depth
@@ -271,17 +271,17 @@
 				more complex and require a port to opened.</p>
 
 				<p>You can also create 'inline' workers like this: <pre>
-					var blob = new Blob([
-						"onmessage = function(e) { postMessage('msg from worker'); }"]);
+	var blob = new Blob([
+		"onmessage = function(e) { postMessage('msg from worker'); }"]);
 
-						// Obtain a blob URL reference to our worker 'file'.
-						var blobURL = window.URL.createObjectURL(blob);
+		// Obtain a blob URL reference to our worker 'file'.
+		var blobURL = window.URL.createObjectURL(blob);
 
-						var worker = new Worker(blobURL);
-						worker.onmessage = function(e) {
-							// e.data == 'msg from worker'
-					};
-					worker.postMessage(); // Start the worker
+		var worker = new Worker(blobURL);
+		worker.onmessage = function(e) {
+			// e.data == 'msg from worker'
+	};
+	worker.postMessage(); // Start the worker
 				</pre></p>
 
 			<h3>Memory Management</h3>
