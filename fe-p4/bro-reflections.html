@@ -1,413 +1,413 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" 
-    content="Georgeplaten.GitHub.io : reading and tinkering">
+	<head>
+		<meta charset='utf-8'>
+		<meta http-equiv="X-UA-Compatible" content="chrome=1">
+		<meta name="description"
+		content="Georgeplaten.GitHub.io : reading and tinkering">
 
-    <link rel="stylesheet" type="text/css" media="screen" 
-    href="../stylesheets/stylesheet.css">
-    <link rel="stylesheet" type="text/css" media="screen" 
-    href="../stylesheets/style.css">
+		<link rel="stylesheet" type="text/css" media="screen"
+		href="../stylesheets/stylesheet.css">
+		<link rel="stylesheet" type="text/css" media="screen"
+		href="../stylesheets/style.css">
 
-    <title>GeorgePlaten GitHub.io - Project 4: BRO Journal</title>
-  </head>
+		<title>GeorgePlaten GitHub.io - Project 4: BRO Journal</title>
+	</head>
 
-  <body>
-	  
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-        <a href="../">
-          <img id="biopic" src="../images/biopic.jpg" width="150" height="150">
-        </a>
-          <!-- <a id="forkme_banner" 
-          href="https://github.com/GeorgePlaten">View on GitHub</a> -->
+	<body>
 
-          <h1 id="project_title"><a href="../" id="home-link">GeorgieP</a></h1>
-          <p id="project_tagline">reading and tinkering</p>
+		<!-- HEADER -->
+		<div id="header_wrap" class="outer">
+				<header class="inner">
+				<a href="../">
+					<img id="biopic" src="../images/biopic.jpg" width="150" height="150">
+				</a>
+					<!-- <a id="forkme_banner"
+					href="https://github.com/GeorgePlaten">View on GitHub</a> -->
 
-        </header>
-    </div>
+					<h1 id="project_title"><a href="../" id="home-link">GeorgieP</a></h1>
+					<p id="project_tagline">reading and tinkering</p>
+
+				</header>
+		</div>
 
 
-    <!-- MAIN GITHUB CONTENT -->
+		<!-- MAIN GITHUB CONTENT -->
 
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
+		<div id="main_content_wrap" class="outer">
+			<section id="main_content" class="inner">
 
-    <!-- MY CONTENT -->
-    
-    <h2>The Critical Rendering Path</h2>
-    
-      <h3>Intros, 1 & 3</h3>
-        <p>The goal is to run apps at 60 frames per second, and it's more than 
-        just JavaScritp to think about to get there.</p>
-        <p>A demo to help us <em>experience</em> judder and jank, later we'll 
-        learn to <em>diagnose and solve</em> those issues.</p>
-        
-      <h3>Judder</h3>
-        <p>A discussion on why judder is bad, how it effects users experiences 
-        and choices, and how much users care about it (a lot).</p>
-        
-      <h3>60 fps</h3>
-        <p>Reinforcement that the target for smooth scorlling and other 
-        animations is 60fps. Most devices run at 60fps and people notice when 
-        a when a frame is skipped.</p>
-        
-        <p>This leaves us with 16 milliseconds to render each frame, but as 
-        the browser has some overheads to take care of, it's more realistic 
-        to aim for <strong>10 to 12 milliseconds</strong> per frame.</p>
-        
-      <h3>What goes into a frame</h3>
-        <p>This explains much of the previous course but in summary:
-          <ul>
-            <li><strong>Parse HTML</strong> in the browser means building the 
-            DOM</li>
-            <li><strong>Recalculate Styles</strong> means build the Render 
-            Tree</li>
-          </ul>
-        Note that elements not displayed such as <code>display: none</code> are 
-        not added to the Render Tree. Also, elements added by CSS such as  
-        <code>p:after {content: "some text"}</code> <em>will</em> get added to 
-        the Render Tree.
-          <ul>
-            <li><strong>Layout</strong> is when the browser calculates the 
-            sizes and positions of each element in the Render Tree.</li>
-            <li><strong>Paint</strong> is the process of rasterizing the 
-            document to be painted on the screen. This has many sub-steps 
-            and which can be viewed in Dev Tools, and is very expensive.</li>
-            <li><strong>Image Decode</strong> happens inside Paint and is 
-            the process of decoding and painting bitmaps to screen.</li>
-            <li><strong>Composite Layers</strong> is the process of 
-            handling multiple <em>layers</em>. This can be more efficient than 
-            painting the whole page to screen at once (especially for pages 
-            with animations or scrolling objects).</li>
-          </ul></p>
-          
-        <p>Take Away: Layout Process is complicated and it's always best to 
-        assume that the entire DOM is always in scope, even though the 
-        number of <em>nodes</em> effected may be different.</p>
-        
-      <h3>Layout and Paint</h3>
-        <p>A typical frame pipeline for anything other than a static page 
-        looks like:</p>
-        
-        <p><strong>JavaScript > Style > Layout > Paint > Composite</strong></p>
-        
-        <p>The first step (javascript, although it could be CSS anim or Web 
-        Animation API) is any visual changes to the page. And it usually 
-        triggers all of the next steps to be performed. But we want to avoid 
-        triggering as a many and as often as possible.</p>
-        
-        <p>If you use JavaScript to change a Layout property, such as the 
-        width of an element, then all the steps will be run.</p>
-        
-        <p>If you change a Paint-only property, like font color or 
-        swapping an image, then the Layout step is skipped.</p>
-        
-        <p>The 3rd way to make changes just making Composite changes. 
-        This can skip both Layout and Paint. Note that skipping Paint 
-        can be a huge benefit.</p>
-        
-      <h3>CSS Triggers</h3>
-      
-        <p><a href="http://csstriggers.com/">A list of all CSS triggering 
-        changes can be found here.</a> Use this to ensure CSS changes 
-        trigger the least amount of work for the browser as possible.</p>
-        
-      <h3>Summary for Part 1: what we learned</h3>
-        <ul>
-          <li>Why we care about hitting 60fps</li>
-          <li>What browser work goes into making a frame</li>
-          <li>Different property changes have different levels of impact</li>
-        </ul>
-        
-    <h2>App Lifecycles</h2>
-      <p>Picking and choosing your battles of when to achieve 60fps (and 
-      what other targets to have and when to aim for them).</p>
-      
-      <h3>RAIL</h3>
-        <p>Response - Animation - Idle - Load<br>
-        (could also be <em>LIAR</em> in a normal first pageload timeline).</p>
-        
-        <ul>
-          <li><strong>Load: 1 Second.</strong> Defer anything non-critical 
-          until after the page has loaded.</li>
-          <li><strong>Idle: 50 ms.</strong> Idle time usually comes in chunks 
-           of 50 ms which is the ideal time to add more stuff to the page.</li>
-          <li><strong>Animate: 10-12 ms.</strong> (60 fps) For scrolling and 
-          animations.</li>
-          <li><strong>Response: 100 ms.</strong> This is the response to 
-          any user inputs or actions, like clicks or keypresses.</li>
-        </ul>
-        
-        <p>See <a href="https://github.com/udacity/devsummit/blob/master/src/static/scripts/components/card.js">
-        FLIP</a> for super-fast animation tricks.</p>
-        
-        <p>Remember that both Layout and Paint are severly effected by 
-        the number of elements that they have to be applied to. There 
-        is not an unlimited budget, even when code seems to work within 
-        the target timespan. Here's some budgeting guidelines:</p>
-        
-        <img src="img/time-table.jpg" alt="">
-          
-    <h2>The Dejudderification Toolbox</h2>
-      <p>Chrome Dev Tools - Timeline</p>
-      
-      <h3>DevTools</h3>
-        <p>A look at the timeline, with flame view,waterfall view 30/60 fps 
-        lines. Make selections in the frames area on top and use W, A, S and 
-        D to navigate (also mouse wheel).</p>
-         
-        <p>The records are color coded; blue for Parse HTML (which is never 
-        really a bottleneck). Purple for Recalculate Style and Layout. Green 
-        for Paint and Composite, and Orange for JavaScipt execution. 
-        </p>
-         
-        <p>In the flame view you can see which records are children of 
-        other records (on the line directly below) and which records lead 
-        to others (directly after on the same line).</p>
-         
-        <p>The Details payne will show you more information about the 
-        record you have selected. They're all different depending on the 
-        type of record. For example JavaScript records will give you a 
-        link back to the line in the code where the JavaScript was called. 
-        The details payne can also give more detail about warning and 
-        errors.</p>
-         
-      <h3>Test all the Devices!</h3>
-        <p>A timely reminder to test on actual devices because the desktop 
-        (and the device emulators on desktop) will far out-perform real 
-        devices and give you a false impression of a non-performant app.</p>
-        
-      <h3>Testing Strategies</h3>
-        <p>Make sure you're collecting <em>clean</em> data.</p>
-        <ol>
-          <li>Quit any other apps</li>
-          <li>Open an incognito window</li>
-          <li>Focus on cause of bottlenecks, not the symptoms</li>
-          <li>Measure first, then optimize</li>
-        </ol>
-        
-      <p>That was basically it, just a deeper dive into DevTools.</p>
-      
-    <h2>JavaScript Performance</h2>
-      <p>A look at the common causes of jank. Find, fix and test with  
-      DevTools. Starting with JavaScript.</p>
-      
-      <h3>Just In Time (JIT)</h3>
-        <p>Because JavaScript is compiled just-in-time, there is no point 
-        chasing micro-optimizations.</p>
-        
-      <h3>Request Animation Frame</h3>
-        <p>During animated frames we typically, really only have about 10 ms 
-        to finish a frame. The JavaScript part can only get 2 to 3 of those 
-        milliseconds to its thing.</p>
-        
-        <p>requestAnimationFrame schedules the JavaScript to run at the
-        earliest opportunity of each frame, it also manages how often 
-        it will be called, to make itself as efficient as possible.</p>
-        
-        <p>Older code uses setTimeout() and setInterval(), but this is not 
-        effiecient at all. IE9 doesn't understand rAF, so a <a 
-        href="https://gist.github.com/paulirish/1579671">polyfill</a> is 
-        needed for it.</p>
-        
-        <p>To use requestAnimationFrame you make a call to it and tell it 
-        which function you want to call, for example:<pre>
-        requestAnimationFrame(someFunc);</pre>
-        Inside the function that it calls, at the end, you need recall it 
-        in the same way again, to schedule the next run. The browser takes 
-        care of the 'when' and 'how' it should run for you.<pre>
-        someFunc() {
-        
-          // some code;
-        
-          requestAnimationFrame(someFunc);
-        }</pre></p>
-        
-      <h3>JavaScript Profile</h3>
-        <p>The JavaScript profiler in DevTools will display in-depth 
-        information about what function calls are being made within
-        the JavaScript. The profiler should only be turned on on its
-        own as the Timeline recording takes a hit when gathering the
-        extra information.</p>
-        
-      <h3>Web Workers</h3>
-        <p>Web workers provide a means to use a different processor thread 
-        to run seperated JavaScript code asychronously from the main thread.
-        This will help priortize interface updates to make an app or page 
-        feel responsive and snappy.</p>
-        
-        <p>Worker files are downloaded asychronously and when they fail, 
-        they fail silently. A new worker is created with the Worker 
-        constructor function <code>var worker = new Worker('wrkrfile.js')
-        </code>.</p>
-        
-        <p>Web workers can post and recieve messages with the main
-        JavaScript thread via an event listener. You can't use the 'window' 
-        shortcut in a Worker to get the global context, because they don't run 
-        in the window. You must use 'this' instead. For the same reason, you 
-        can't do DOM manipulations in a Web Worker.</p>
-        
-        <p>Data is sent back and forth via the <code>postMessage()</code> 
-        method, and is received via the <code>onmessage</code> event 
-        handler. The message is contained within the Message event's 
-        <code>.data</code> attribute. (Note that the data is copied rather 
-        than shared. The <code>postMessage()</code> method can accept 
-        either a string or a JSON object.</p>
-        
-        <p><em>Note that <code>onmessage</code> and <code>postMessage()</code>
-        need to be hung off the Worker object when used in the main script 
-        thread, but not when used in the worker. This is because inside the 
-        worker, the worker is effectively the global scope.</em></p>
-        
-        <p>You can also terminate workers, set them to terminate themselves 
-        handles errors, spawn subworkers and import other scripts and 
-        libraries. You can also spawn SharedWorkers which are a little 
-        more complex and require a port to opened.</p>
-        
-        <p>You can also create 'inline' workers like this: <pre>
-          var blob = new Blob([
-            "onmessage = function(e) { postMessage('msg from worker'); }"]);
-        
-            // Obtain a blob URL reference to our worker 'file'.
-            var blobURL = window.URL.createObjectURL(blob);
-            
-            var worker = new Worker(blobURL);
-            worker.onmessage = function(e) {
-              // e.data == 'msg from worker'
-          };
-          worker.postMessage(); // Start the worker
-        </pre></p>
-        
-      <h3>Memory Management</h3>
-        <p>JavaScript automatically collects garbage while it works. This 
-        is not in your control, and it's not really possible to predict 
-        when and where it will happen. To get an indication of what is 
-        happening, turn on the memory profiler in the Timeline tools.</p>
-        
-    <h2>Styles & Layout</h2>
-      <p>Note that the number of elements to be styles will effect 
-      performance on a linear basis. That is, 1000 (same) elements will 
-      take 10 times longer to calculate than 100.</p>
-      
-      <p>Secondly note that, Selector Matching specificity has a vey big impact 
-      on performance too. Using <a href="https://en.bem.info/">
-      Block-Element-Modifier (BEM)</a> naming guidelines is quite good for 
-      performance.</p>
-      
-      <p>But remember, the only way to really tell what matching pattern is 
-      fastest, is by measuring!</p>
-      
-      <h3>Layout Thrashing</h3>
-        <p>Layout thrashing is probably the most common issue when styles 
-        cause bad performance. This will happen when you query an element's 
-        position, like with <code>element.offSetWidth</code> and then use
-        it it to perform a new layout, all inside a loop. Unintuitively, 
-        using <code>.offSetWidth</code> causes a layout re-calculation on 
-        it's own, even if you don't change anything. To avoid this, hoist 
-        such queries of styles out of loops, as the result will probably 
-        be an invariant.</p>
-        
-        <p>This is also called a "Forced Synchronous Layout" by Dev Tools 
-        and it will be highlighted in the Timeline records for you.</p>
-        
-        <p>Remember to check out <a href="http://csstriggers.com">CSS 
-        Triggers</a> for a list of which CSS properties trigger which 
-        browser actions.</p>
-        
-        <p>The main principle to avoid Forced Synchronous Layour is to 
-        batch queries and style update together, don't alterneate them. 
-        Also, there's a script out there for batching... in my other 
-        notes....</p>
-        
-        <p>For a concise list of CSS properties that trigger layout 
-        see <a href="http://gent.ilcore.com/2011/03/how-not-to-trigger-layout-in-webkit.html">
-        this post</a> by Mr. Gentilcore.</p>
-        
-      <h3>Summary</h3>
-        <p>Remember, although we are trying very hard to prevent triggering 
-        Layout, the main reason not to trigger it, is that is <em>always</em>
-        triggers Paint - which is super-expensive when trying to animate at 
-        60 fps.</p>
-        
-        <p>Remember the RAIL budgets: Response 100 ms, Animate 10-12 ms, 
-        Idle 50 ms, and Load 1000 ms.</p>
-        
-    <h2>Painting and Compositing</h2>
-      <p>Not all styles are equal, some trigger Layout, Paint and Composite, 
-      some trigger just Paint and Composite, and a couple only trigger 
-      Composite.</p>
-      
-      <h3>Paint Optimization</h3>
-        <p>The Tools: In Dev Tools, you open the console (Esc key), and 
-        switch to the Paint tab. This tab's pane has a few checkboxes, one
-        of which is "Show Paint Rectangles". This paints a semi-opaque 
-        green rectangle over repaints. During a page scroll, the only thing
-        that should be getting repainted is the scroll bar. If the whole
-        page is being repainted, then there is a problem to hunt down.</p>
-        
-        <p>By turning on Paint in the Timeline profiler you can get an in-
-        depth review of all the paint commands that are run during a Paint
-        event. This a sub-timeline in the Paint Profiler tab's pane.</p>
-        
-      <h3>Compositing</h3>
-        <p>Compositing is the act of layering the content to allow ovelays 
-        of different layers to get repainted without effecting the whole 
-        page. This the same concept as Image and Video editing software.</p>
-        
-        <p>In Dev Tools the 2 records associated with Compositing are 
-        "Update Layer Tree" and "Composite Layers". Update is where Chrome
-        calculate how many layers it needs, and Composite is the act of 
-        putting them on screen. The more layers you have, the more time 
-        will be spent in layer management.</p>
-        
-        <p>Layer management is mostly automatically controlled by the 
-        browser, but we can force it to generate layers and even better, when
-        it is supported by browsers, we can give it hints about what might
-        be good places to create layers. <strong>Always check to see
-        if and element aleady has its own layer before creating one for it!
-        </strong></p>
-        
-        <p>In the console you can check the box "Show Composited Layer 
-        borders" to see what's going on. Blue lines represent the tiles that
-        each layer is split into, and orange lines represent elements 
-        on their own compositor layers. </p>
-        
-        <p>To hint to the browser to give an element its own layer: <code>
-        element {will-change: transform;}</code>. <br>
-        To force an element onto its own layer (hacky) <code>element 
-        {transform: translateZ(0);}</code>. Don't put everything on its
-        own layer, think carefully where to apply, and test for improvement
-        before using. Note this still relies on the hacky method to work 
-        in all browsers, so it should not be relied on at all.</p>
-        
-        <p>More Cool Tools: when you create a Paint profile in the Timeline
-        you can also view the number of layers created, and the <em>reason</em>
-        each was created. You can also view a 3D representation of the layer
-        structure, which is very helpful.</p>
-        
-        <p>When you force a layer to be created, you need to be careful 
-        because it can trigger other elements to become layers too.</p>
-        
-        <strong>And that's about it for that course, for now.</strong>
-        
-    
-    <!-- END MY CONTENT -->
+		<!-- MY CONTENT -->
 
-      </section>
-    </div>
+		<h2>The Critical Rendering Path</h2>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
-    </div>
-	
+			<h3>Intros, 1 & 3</h3>
+				<p>The goal is to run apps at 60 frames per second, and it's more than
+				just JavaScript to think about to get there.</p>
+				<p>A demo to help us <em>experience</em> judder and jank, later we'll
+				learn to <em>diagnose and solve</em> those issues.</p>
+
+			<h3>Judder</h3>
+				<p>A discussion on why judder is bad, how it effects users experiences
+				and choices, and how much users care about it (a lot).</p>
+
+			<h3>60 fps</h3>
+				<p>Reinforcement that the target for smooth scrolling and other
+				animations is 60 fps. Most devices run at 60 fps and people notice
+				when a when a frame is skipped.</p>
+
+				<p>This leaves us with 16 milliseconds to render each frame, but as
+				the browser has some overheads to take care of, it's more realistic
+				to aim for <strong>10 to 12 milliseconds</strong> per frame.</p>
+
+			<h3>What goes into a frame</h3>
+				<p>This explains much of the previous course but in summary:
+					<ul>
+						<li><strong>Parse HTML</strong> in the browser means building the
+						DOM</li>
+						<li><strong>Recalculate Styles</strong> means build the Render
+						Tree</li>
+					</ul>
+				Note that elements not displayed such as <code>display: none</code> are
+				not added to the Render Tree. Also, elements added by CSS such as
+				<code>p:after {content: "some text"}</code> <em>will</em> get added to
+				the Render Tree.
+					<ul>
+						<li><strong>Layout</strong> is when the browser calculates the
+						sizes and positions of each element in the Render Tree.</li>
+						<li><strong>Paint</strong> is the process of rasterizing the
+						document to be painted on the screen. This has many sub-steps
+						and which can be viewed in Dev Tools, and is very expensive.</li>
+						<li><strong>Image Decode</strong> happens inside Paint and is
+						the process of decoding and painting bitmaps to screen.</li>
+						<li><strong>Composite Layers</strong> is the process of
+						handling multiple <em>layers</em>. This can be more efficient than
+						painting the whole page to screen at once (especially for pages
+						with animations or scrolling objects).</li>
+					</ul></p>
+
+				<p>Take Away: Layout Process is complicated and it's always best to
+				assume that the entire DOM is always in scope, even though the
+				number of <em>nodes</em> effected may be different.</p>
+
+			<h3>Layout and Paint</h3>
+				<p>A typical frame pipeline for anything other than a static page
+				looks like:</p>
+
+				<p><strong>JavaScript > Style > Layout > Paint > Composite</strong></p>
+
+				<p>The first step (JavaScript, although it could be CSS animation or
+				Web Animation API) is any visual changes to the page. And it usually
+				triggers all of the next steps to be performed. But we want to avoid
+				triggering as a many and as often as possible.</p>
+
+				<p>If you use JavaScript to change a Layout property, such as the
+				width of an element, then all the steps will be run.</p>
+
+				<p>If you change a Paint-only property, like font color or
+				swapping an image, then the Layout step is skipped.</p>
+
+				<p>The 3rd way to make changes just making Composite changes.
+				This can skip both Layout and Paint. Note that skipping Paint
+				can be a huge benefit.</p>
+
+			<h3>CSS Triggers</h3>
+
+				<p><a href="http://csstriggers.com/">A list of all CSS triggering
+				changes can be found here.</a> Use this to ensure CSS changes
+				trigger the least amount of work for the browser as possible.</p>
+
+			<h3>Summary for Part 1: what we learned</h3>
+				<ul>
+					<li>Why we care about hitting 60fps</li>
+					<li>What browser work goes into making a frame</li>
+					<li>Different property changes have different levels of impact</li>
+				</ul>
+
+		<h2>Application Life-cycles</h2>
+			<p>Picking and choosing your battles of when to achieve 60 fps (and
+			what other targets to have and when to aim for them).</p>
+
+			<h3>RAIL</h3>
+				<p>Response - Animation - Idle - Load<br>
+				(could also be <em>LIAR</em> in a normal first pageload timeline).</p>
+
+				<ul>
+					<li><strong>Load: 1 Second.</strong> Defer anything non-critical
+					until after the page has loaded.</li>
+					<li><strong>Idle: 50 ms.</strong> Idle time usually comes in chunks
+					 of 50 ms which is the ideal time to add more stuff to the page.</li>
+					<li><strong>Animate: 10-12 ms.</strong> (60 fps) For scrolling and
+					animations.</li>
+					<li><strong>Response: 100 ms.</strong> This is the response to
+					any user inputs or actions, like clicks or key presses.</li>
+				</ul>
+
+				<p>See <a href="https://github.com/udacity/devsummit/blob/master/src/static/scripts/components/card.js">
+				FLIP</a> for super-fast animation tricks.</p>
+
+				<p>Remember that both Layout and Paint are severely effected by
+				the number of elements that they have to be applied to. There
+				is not an unlimited budget, even when code seems to work within
+				the target timespan. Here's some budgeting guidelines:</p>
+
+				<img src="img/time-table.jpg" alt="">
+
+		<h2>The Dejudderification Toolbox</h2>
+			<p>Chrome Dev Tools - Timeline</p>
+
+			<h3>DevTools</h3>
+				<p>A look at the timeline, with flame view,waterfall view 30/60 fps
+				lines. Make selections in the frames area on top and use W, A, S and
+				D to navigate (also mouse wheel).</p>
+
+				<p>The records are color coded; blue for Parse HTML (which is never
+				really a bottleneck). Purple for Recalculate Style and Layout. Green
+				for Paint and Composite, and Orange for JavaScipt execution.
+				</p>
+
+				<p>In the flame view you can see which records are children of
+				other records (on the line directly below) and which records lead
+				to others (directly after on the same line).</p>
+
+				<p>The Details pane will show you more information about the
+				record you have selected. They're all different depending on the
+				type of record. For example JavaScript records will give you a
+				link back to the line in the code where the JavaScript was called.
+				The details pane can also give more detail about warning and
+				errors.</p>
+
+			<h3>Test all the Devices!</h3>
+				<p>A timely reminder to test on actual devices because the desktop
+				(and the device emulators on desktop) will far out-perform real
+				devices and give you a false impression of a non-performant app.</p>
+
+			<h3>Testing Strategies</h3>
+				<p>Make sure you're collecting <em>clean</em> data.</p>
+				<ol>
+					<li>Quit any other apps</li>
+					<li>Open an incognito window</li>
+					<li>Focus on cause of bottlenecks, not the symptoms</li>
+					<li>Measure first, then optimize</li>
+				</ol>
+
+			<p>That was basically it, just a deeper dive into DevTools.</p>
+
+		<h2>JavaScript Performance</h2>
+			<p>A look at the common causes of jank. Find, fix and test with
+			DevTools. Starting with JavaScript.</p>
+
+			<h3>Just In Time (JIT)</h3>
+				<p>Because JavaScript is compiled just-in-time, there is no point
+				chasing micro-optimizations.</p>
+
+			<h3>Request Animation Frame</h3>
+				<p>During animated frames we typically, really only have about 10 ms
+				to finish a frame. The JavaScript part can only get 2 to 3 of those
+				milliseconds to its thing.</p>
+
+				<p>requestAnimationFrame schedules the JavaScript to run at the
+				earliest opportunity of each frame, it also manages how often
+				it will be called, to make itself as efficient as possible.</p>
+
+				<p>Older code uses setTimeout() and setInterval(), but this is not
+				efficient at all. IE9 doesn't understand rAF, so a <a
+				href="https://gist.github.com/paulirish/1579671">polyfill</a> is
+				needed for it.</p>
+
+				<p>To use requestAnimationFrame you make a call to it and tell it
+				which function you want to call, for example:<pre>
+				requestAnimationFrame(someFunc);</pre>
+				Inside the function that it calls, at the end, you need recall it
+				in the same way again, to schedule the next run. The browser takes
+				care of the 'when' and 'how' it should run for you.<pre>
+				someFunc() {
+
+					// some code;
+
+					requestAnimationFrame(someFunc);
+				}</pre></p>
+
+			<h3>JavaScript Profile</h3>
+				<p>The JavaScript profiler in DevTools will display in-depth
+				information about what function calls are being made within
+				the JavaScript. The profiler should only be turned on on its
+				own as the Timeline recording takes a hit when gathering the
+				extra information.</p>
+
+			<h3>Web Workers</h3>
+				<p>Web workers provide a means to use a different processor thread
+				to run separated JavaScript code asynchronously from the main thread.
+				This will help prioritize interface updates to make an app or page
+				feel responsive and snappy.</p>
+
+				<p>Worker files are downloaded asynchronously and when they fail,
+				they fail silently. A new worker is created with the Worker
+				constructor function <code>var worker = new Worker('wrkrfile.js')
+				</code>.</p>
+
+				<p>Web workers can post and receive messages with the main
+				JavaScript thread via an event listener. You can't use the 'window'
+				shortcut in a Worker to get the global context, because they don't run
+				in the window. You must use 'this' instead. For the same reason, you
+				can't do DOM manipulations in a Web Worker.</p>
+
+				<p>Data is sent back and forth via the <code>postMessage()</code>
+				method, and is received via the <code>onmessage</code> event
+				handler. The message is contained within the Message event's
+				<code>.data</code> attribute. (Note that the data is copied rather
+				than shared. The <code>postMessage()</code> method can accept
+				either a string or a JSON object.</p>
+
+				<p><em>Note that <code>onmessage</code> and <code>postMessage()</code>
+				need to be hung off the Worker object when used in the main script
+				thread, but not when used in the worker. This is because inside the
+				worker, the worker is effectively the global scope.</em></p>
+
+				<p>You can also terminate workers, set them to terminate themselves
+				handles errors, spawn sub-workers and import other scripts and
+				libraries. You can also spawn SharedWorkers which are a little
+				more complex and require a port to opened.</p>
+
+				<p>You can also create 'inline' workers like this: <pre>
+					var blob = new Blob([
+						"onmessage = function(e) { postMessage('msg from worker'); }"]);
+
+						// Obtain a blob URL reference to our worker 'file'.
+						var blobURL = window.URL.createObjectURL(blob);
+
+						var worker = new Worker(blobURL);
+						worker.onmessage = function(e) {
+							// e.data == 'msg from worker'
+					};
+					worker.postMessage(); // Start the worker
+				</pre></p>
+
+			<h3>Memory Management</h3>
+				<p>JavaScript automatically collects garbage while it works. This
+				is not in your control, and it's not really possible to predict
+				when and where it will happen. To get an indication of what is
+				happening, turn on the memory profiler in the Timeline tools.</p>
+
+		<h2>Styles & Layout</h2>
+			<p>Note that the number of elements to be styles will effect
+			performance on a linear basis. That is, 1000 (same) elements will
+			take 10 times longer to calculate than 100.</p>
+
+			<p>Secondly note that, Selector Matching specificity has a vey big impact
+			on performance too. Using <a href="https://en.bem.info/">
+			Block-Element-Modifier (BEM)</a> naming guidelines is quite good for
+			performance.</p>
+
+			<p>But remember, the only way to really tell what matching pattern is
+			fastest, is by measuring!</p>
+
+			<h3>Layout Thrashing</h3>
+				<p>Layout thrashing is probably the most common issue when styles
+				cause bad performance. This will happen when you query an element's
+				position, like with <code>element.offSetWidth</code> and then use
+				it it to perform a new layout, all inside a loop. Unintuitively,
+				using <code>.offSetWidth</code> causes a layout re-calculation on
+				it's own, even if you don't change anything. To avoid this, hoist
+				such queries of styles out of loops, as the result will probably
+				be an invariant.</p>
+
+				<p>This is also called a "Forced Synchronous Layout" by Dev Tools
+				and it will be highlighted in the Timeline records for you.</p>
+
+				<p>Remember to check out <a href="http://csstriggers.com">CSS
+				Triggers</a> for a list of which CSS properties trigger which
+				browser actions.</p>
+
+				<p>The main principle to avoid Forced Synchronous Layout is to
+				batch queries and style update together, don't alternate them.
+				Also, there's a script out there for batching... in my other
+				notes....</p>
+
+				<p>For a concise list of CSS properties that trigger layout
+				see <a href="http://gent.ilcore.com/2011/03/how-not-to-trigger-layout-in-webkit.html">
+				this post</a> by Mr. Gentilcore.</p>
+
+			<h3>Summary</h3>
+				<p>Remember, although we are trying very hard to prevent triggering
+				Layout, the main reason not to trigger it, is that is <em>always</em>
+				triggers Paint - which is super-expensive when trying to animate at
+				60 fps.</p>
+
+				<p>Remember the RAIL budgets: Response 100 ms, Animate 10-12 ms,
+				Idle 50 ms, and Load 1000 ms.</p>
+
+		<h2>Painting and Compositing</h2>
+			<p>Not all styles are equal, some trigger Layout, Paint and Composite,
+			some trigger just Paint and Composite, and a couple only trigger
+			Composite.</p>
+
+			<h3>Paint Optimization</h3>
+				<p>The Tools: In Dev Tools, you open the console (Esc key), and
+				switch to the Paint tab. This tab's pane has a few check-boxes, one
+				of which is "Show Paint Rectangles". This paints a semi-opaque
+				green rectangle over repaints. During a page scroll, the only thing
+				that should be getting repainted is the scroll bar. If the whole
+				page is being repainted, then there is a problem to hunt down.</p>
+
+				<p>By turning on Paint in the Timeline profiler you can get an in-
+				depth review of all the paint commands that are run during a Paint
+				event. This a sub-timeline in the Paint Profiler tab's pane.</p>
+
+			<h3>Compositing</h3>
+				<p>Compositing is the act of layering the content to allow overlays
+				of different layers to get repainted without effecting the whole
+				page. This the same concept as Image and Video editing software.</p>
+
+				<p>In Dev Tools the 2 records associated with Compositing are
+				"Update Layer Tree" and "Composite Layers". Update is where Chrome
+				calculate how many layers it needs, and Composite is the act of
+				putting them on screen. The more layers you have, the more time
+				will be spent in layer management.</p>
+
+				<p>Layer management is mostly automatically controlled by the
+				browser, but we can force it to generate layers and even better, when
+				it is supported by browsers, we can give it hints about what might
+				be good places to create layers. <strong>Always check to see
+				if and element already has its own layer before creating one for it!
+				</strong></p>
+
+				<p>In the console you can check the box "Show Composited Layer
+				borders" to see what's going on. Blue lines represent the tiles that
+				each layer is split into, and orange lines represent elements
+				on their own compositor layers. </p>
+
+				<p>To hint to the browser to give an element its own layer: <code>
+				element {will-change: transform;}</code>. <br>
+				To force an element onto its own layer (hacky) <code>element
+				{transform: translateZ(0);}</code>. Don't put everything on its
+				own layer, think carefully where to apply, and test for improvement
+				before using. Note this still relies on the hacky method to work
+				in all browsers, so it should not be relied on at all.</p>
+
+				<p>More Cool Tools: when you create a Paint profile in the Timeline
+				you can also view the number of layers created, and the <em>reason</em>
+				each was created. You can also view a 3D representation of the layer
+				structure, which is very helpful.</p>
+
+				<p>When you force a layer to be created, you need to be careful
+				because it can trigger other elements to become layers too.</p>
+
+				<strong>And that's about it for that course, for now.</strong>
+
+
+		<!-- END MY CONTENT -->
+
+			</section>
+		</div>
+
+		<!-- FOOTER  -->
+		<div id="footer_wrap" class="outer">
+			<footer class="inner">
+				<p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+			</footer>
+		</div>
+
 </body>
 </html>

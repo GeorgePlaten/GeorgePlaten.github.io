@@ -125,14 +125,14 @@
             <li>Analyze the critical path: number of resources, bytes, length</li>
             <li>Minimize number of critical resources: eliminate, defer download, async</li>
             <li>Optimize order - critical assets: first and early</li>
-            <li>Optimize size: reduce bytes in critical resources (and reduces roundtrips.</li>
+            <li>Optimize size: reduce bytes in critical resources (and reduces round-trips.</li>
           </ol>
 
       <h2>PageSpeed Rules and Recommendations</h2>
         <ul>
           <li>Eliminate Render blocking JavaScript and CSS</li>
           <li>Optimize JavaScript, use async if possible</li>
-          <li>Optimize CSS usage, put CSS as early as possible, avoid CSS @import (extra roundtrips on discovery) and consider inlining render blocking CSS.</li>
+          <li>Optimize CSS usage, put CSS as early as possible, avoid CSS @import (extra round-trips on discovery) and consider inlining render blocking CSS.</li>
         </ul>
 
     <h1>Optimizing Performance</h1>
@@ -149,15 +149,15 @@
         <p>Data compression 101</p>
         <ul>
           <li>encoding data into fewer bits</li>
-          <li>eliminiation is always better than compression</li>
-          <li>many diffferent tools and techniques</li>
+          <li>elimination is always better than compression</li>
+          <li>many different tools and techniques</li>
           <li>a variety of tools and techniques will do the best job</li>
         </ul>
 
         <p>Minification: Preprocessing & context specific optimizations</p>
         <ul>
           <li>comment stripping</li>
-          <li>whitepace stripping</li>
+          <li>whitespace stripping</li>
           <li>code optimization like rule collapsing</li>
         </ul>
         <p>All best done as part of a build / release cycle</p>
@@ -175,7 +175,7 @@
 
         <h3>Eliminating and Replacing Images</h3>
           <ul>
-            <li>Eliminate unneccesary images</li>
+            <li>Eliminate unnecessary images</li>
             <li>Leverage CSS3 effects where possible (gradients, shadows, corner-radius)</li>
             <li>Use web-fonts instead of encoding text in images</li>
           </ul>
@@ -184,15 +184,15 @@
           <ul>
             <li>SVG is the vector based format supported by browsers</li>
             <li>GIF, PNG &amp; JPG are the old raster formats, the new ones are JPEG-XR and WebP</li>
-            <li>Vectors for geometric images, reaster for photos, PNG for small color palettes, GIF for animations (almost never). JPEG for full on photos.</li>
+            <li>Vectors for geometric images, raster for photos, PNG for small color palettes, GIF for animations (almost never). JPEG for full on photos.</li>
           </ul>
 
         <h3>Implications of High Res Screens</h3>
-          <p>HRSs have multiple device pixels per CSS pixel. High resolution images require significantly higher number of bytes per pixel. Image optimization techniquesare the same regardless of resolution.</p>
+          <p>HRSs have multiple device pixels per CSS pixel. High resolution images require significantly higher number of bytes per pixel. Image optimization techniques are the same regardless of resolution.</p>
           <p>Fore high DPI, deliver multiple versions / variants of raster images (not so for vectors).</p>
           <p>Vectors should be minified and Gzipped (svgo).</p>
 
-        <h3>Lossy Vs Lossless Image compressoin</h3>
+        <h3>Lossy Vs Lossless Image compression</h3>
           <p>Every image will benefit differently from each different compressor, find the best one for each image.</p>
 
         <h3>Fomats</h3>
@@ -206,15 +206,15 @@
         <h3>Tools</h3>
           <p>gifsicle, jpegtran, optipng (lossless), pngquant (lossy)</p>
 
-        <h3>Deliverying Scaled Image Assets</h3>
-          <p>NB: Hovering over an image in Dev Tools will show the displayed and natural images dimensions. Resizing images takes processor time as well as showing unneccesary pixels that have shipped.</p>
+        <h3>Delivering Scaled Image Assets</h3>
+          <p>NB: Hovering over an image in Dev Tools will show the displayed and natural images dimensions. Resizing images takes processor time as well as showing unnecessary pixels that have shipped.</p>
 
       <h2>Summary for Image Optimization</h2>
         <ol>
           <li>Prefer vectors</li>
           <li>Minify SVGs and GZip 'em too</li>
           <li>Pick the best raster format for the image</li>
-          <li>Remove unneccesary meta data</li>
+          <li>Remove unnecessary meta data</li>
           <li>Serve scaled images</li>
           <li>Automate, automate, automate</li>
         </ol>
@@ -267,7 +267,7 @@ unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-
       <h2>Webfonts Summary Checklist</h2>
         <ol>
           <li>Audit and Monitor Font use, use few fonts and few variants.</li>
-          <li>Subset font resources, unicode ranges.</li>
+          <li>Subset font resources, Unicode ranges.</li>
           <li>Deliver optimized formats (WOFF etc) and ZIP when possible.</li>
           <li>Specify revalidation and optimal caching policies</li>
           <li>Use Font Loading API and optimize the CRP</li>
@@ -278,7 +278,7 @@ unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-
 
       <h2>Validating Cached Responses with ETags</h2>
         <ul>
-          <li>Validation token is emitted by the serversas ETag HTTP Header</li>
+          <li>Validation token is emitted by the servers as ETag HTTP Header</li>
           <li>Tokens enable efficient update checks, no transfer if resource has not changed.</li>
         </ul>
 
@@ -294,7 +294,7 @@ unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-
 
         <p>The best request doesn't go to the server, a local copy can avoid this.</p>
 
-        <p>"no-cache" forces the lient to always check for a change first befre goingto the ocla copy, if allowd to.<br>
+        <p>"no-cache" forces the client to always check for a change first before going to the local copy, if allowed to.<br>
         "no-store" forces re-download every time (good for banking and things like that).</p>
 
       <h2>"Public" and "Private"</h2>
@@ -307,12 +307,12 @@ unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-
         <p>Ideally you should try to Cache as many responses as possible for as long as possible, and provide validation tokens for each response.</p>
 
       <h2>Summary</h2>
-        <p>Audit your pages to identify which resources can be cached and for how long, and ensure they are returning appropriate Cahce-Control and ETag headers.</p>
+        <p>Audit your pages to identify which resources can be cached and for how long, and ensure they are returning appropriate Cache-Control and ETag headers.</p>
 
       <h2>Invalidating and Updating Cached Responses</h2>
         <ul>
           <li>Locally cached responses are used until the resource expires</li>
-          <li>Embedding a file content fingerprint in the URL enables us to force the client to update to a new version fo the response</li>
+          <li>Embedding a file content fingerprint in the URL enables us to force the client to update to a new version for the response</li>
           <li>Each application needs to define its own cache hierarchy for optimal performance.</li>
         </ul>
 
@@ -331,7 +331,7 @@ unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-
     <h1>Rendering Performance</h1>
       <p>Pages should be as smooth as butter and stick to the finger like glue.</p>
 
-      <p>60FPS: Most devices refresh the screen 60 times per second. That is 16.66 milliseconds per frame, which should be the target. The best practice target is 10ms.</p>
+      <p>60FPS: Most devices refresh the screen 60 times per second. That is 16.66 milliseconds per frame, which should be the target. The best practice target is 10 ms.</p>
 
       <h2>The Pixel Pipeline</h2>
         <p>JS -> Style -> Layout -> Paint -> Composite</p>
@@ -358,7 +358,7 @@ unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-
 
         <p>NB: The JavaScript you write looks <em>nothing</em> like the JavaScript that gets executed.</p>
 
-        <p><strong>Scrolling Animation Target</strong>: 3-4ms</p>
+        <p><strong>Scrolling Animation Target</strong>: 3-4 ms</p>
 
         <p>Web Workers and task-splitting let you keep the main thread active while processing data (for example) in the background (use a spinner or progress bar to tell the user it is working).</p>
 
@@ -414,7 +414,7 @@ unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-
           <li>Shadows and blurs are really expensive</li>
         </ul>
 
-        <p>Avoid paint during animations in particular, as the 10ms you have is not usually enough, especially on mobile.</p>
+        <p>Avoid paint during animations in particular, as the 10 ms you have is not usually enough, especially on mobile.</p>
 
       <h2>Stick to Composite-Only Properties and Manage Layer Content</h2>
         <ul>
