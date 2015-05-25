@@ -7,3 +7,4 @@ node_modules
 /fe-p4/portfolio-old/
 .tmp
 service-worker.js
+typings/
