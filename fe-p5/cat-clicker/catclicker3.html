@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cat Clicker</title>
+
+  <style>
+      body {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+      }
+      .catDiv {
+          flex-grow: 1;
+      }
+  </style>
+  
+  
+</head>
+<body>
+
+  <ul class="cat-list"></ul>
+      
+  <div class="cat-hero"></div>
+
+  <script>
+
+    var cats = {
+        cat1: {
+            name: "Tom",
+            img: 'images/cat.jpg',
+            clickCount: 0
+        },
+        cat2: {
+            name: "Tessa",
+            img: 'images/cat2.jpg',
+            clickCount: 0
+        },
+        cat3: {
+            name: "Miko",
+            img: "images/cat3.jpg",
+            clickCount: 0
+        },
+        cat4: {
+            name: "Dino",
+            img: 'images/cat4.jpg',
+            clickCount: 0
+        },
+        cat5: {
+            name: "Sooty",
+            img: "images/cat5.jpg",
+            clickCount: 0
+        }
+    };
+
+    var body = document.querySelector('body');
+    var catListUl = document.querySelector('.cat-list');
+    var catHeroDiv = document.querySelector('.cat-hero');
+
+    var catDiv;
+    var catH1;
+    var catImg;
+    var catClickCounter;
+
+    var addClickCountText = function (catId) {
+        var cat = cats[catId];
+        return "You have clicked on " + cat.name + " " + cat.clickCount + " times.";
+    };
+
+    var addCatToList = function (catId) {
+        var cat = cats[catId];
+        var listCat = document.createElement('li');
+        listCat.classList.add('listedCat');
+        listCat.setAttribute('name', catId);
+        listCat.textContent = cat.name;
+        catListUl.appendChild(listCat);
+    };
+    
+    var displayCat = function (catId) {
+        var cat = cats[catId];
+        catHeroDiv.innerHTML = "";
+        catDiv = document.createElement('div');
+        catDiv.classList.add('catDiv');
+        catHeroDiv.appendChild(catDiv);
+
+        catH1 = document.createElement('h1');
+        catH1.textContent = cat.name;
+        catDiv.appendChild(catH1);
+
+        catClickCounter = document.createElement('p');
+        catClickCounter.classList.add('clickCounter');
+        catClickCounter.textContent = addClickCountText(catId);
+        catDiv.appendChild(catClickCounter);
+
+        catImg = document.createElement('img');
+        catImg.setAttribute('src', cat.img);
+        catImg.setAttribute('catId', catId);
+        catImg.classList.add('catpic');
+        catDiv.appendChild(catImg);
+    };
+    
+    displayCat('cat1');
+
+    // add the Cats
+    for (var catId in cats) {
+        addCatToList(catId);
+    }
+
+    var catClick = function (e) {
+        // check if catpic clicked
+        if (e.target.className === "catpic") {
+            // get cat name from click event
+            var catId = e.target.name;
+            // add 1 to cat.clickCount
+            cats[catId].clickCount += 1;
+            // change the catClickCounter text
+            var p = e.target.nextElementSibling;
+            p.textContent = addClickCountText(catId);
+        } else if (e.target.className === 'listedCat') {
+            displayCat(e.target.attributes.name.value);
+        }
+    };
+
+    body.addEventListener('click', catClick, false);
+
+  </script>
+</body>
+</html>

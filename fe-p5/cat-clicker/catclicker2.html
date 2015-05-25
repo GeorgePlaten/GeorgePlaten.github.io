@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cat Clicker</title>
+
+  <style>
+      body {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+      }
+      .catDiv {
+          flex-grow: 1;
+      }
+  </style>
+  
+</head>
+<body>
+
+
+  <script>
+
+    var cats = {
+        cat1: {
+            name: "Tom",
+            img: 'images/cat.jpg',
+            clickCount: 0
+        },
+        cat2: {
+            name: "Tessa",
+            img: 'images/cat2.jpg',
+            clickCount: 0
+        }
+    };
+
+    var body = document.querySelector('body');
+
+    var addClickCountText = function (catId) {
+        var cat = cats[catId];
+        return "You have clicked on " + cat.name + " " + cat.clickCount + " times.";
+    }
+
+    var addCat = function (cat, catId) {
+        var catDiv = document.createElement('div');
+        catDiv.classList.add('catDiv');
+        body.appendChild(catDiv);
+
+        var catH1 = document.createElement('h1');
+        catH1.classList.add('name');
+        catH1.textContent = cat.name;
+        catDiv.appendChild(catH1);
+
+        var catImg = document.createElement('img');
+        catImg.setAttribute('src', cat.img);
+        catImg.setAttribute('id', catId);
+        catImg.classList.add('catpic');
+        catDiv.appendChild(catImg);
+
+        var catClickCounter = document.createElement('p');
+        catClickCounter.classList.add('clickCounter');
+        catClickCounter.textContent = addClickCountText(catId);
+        catDiv.appendChild(catClickCounter);
+    };
+
+    // add the Cats
+    for (var cat in cats) {
+        addCat(cats[cat], cat);
+    }
+
+    var catClick = function (e) {
+        // check if catpic clicked
+        if (e.target.className === "catpic") {
+            // get cat name from click event
+            var catId = e.target.id;
+            // add 1 to cat.clickCount
+            cats[catId].clickCount += 1;
+            // change the catClickCounter text
+            var p = e.target.nextElementSibling;
+            p.textContent = addClickCountText(catId);
+        }
+    };
+
+    body.addEventListener('click', catClick, false);
+
+  </script>
+</body>
+</html>

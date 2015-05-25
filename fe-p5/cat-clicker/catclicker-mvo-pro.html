@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    <head>
+        <meta charset="UTF-8">
+        <title>Cat Clicker</title>
+        <style>
+</style>
+    </head>
+    
+    <body>
+        <ul class="cat-list"></ul>
+        <div class="cat-hero"></div>
+<script>
+    var data = {
+        cats: {
+            cat1: {
+                name: "Tom",
+                imgUrl: 'images/cat.jpg',
+                clickCount: 0
+            },
+            cat2: {
+                name: "Tessa",
+                imgUrl: 'images/cat2.jpg',
+                clickCount: 0
+            },
+            cat3: {
+                name: "Miko & Milo",
+                imgUrl: "images/cat3.jpg",
+                clickCount: 0
+            },
+            cat4: {
+                name: "Dino",
+                imgUrl: 'images/cat4.jpg',
+                clickCount: 0
+            },
+            cat5: {
+                name: "Sooty",
+                imgUrl: "images/cat5.jpg",
+                clickCount: 0
+            },
+            cat6: {
+                name: "Pink",
+                imgUrl: "images/cat6.jpg",
+                clickCount: 0
+            },
+            cat7: {
+                name: "Brainy",
+                imgUrl: "images/cat7.jpg",
+                clickCount: 0
+            }
+        },
+        heroCatId: null
+    };
+
+    var views = {
+        catList: {
+            addCat: function (catId) {
+                var listCat = document.createElement('li');
+                listCat.setAttribute('catId', catId);
+                listCat.textContent = octo.getAllCats()[catId].name;
+                listCat.addEventListener('click', this.catListNameClicked, false);
+                return listCat;
+            },
+            render: function () {
+                // write or rewrite catlist
+                var list = document.querySelector('.cat-list');
+                var catsKeys = Object.keys(octo.getAllCats());
+                list.innerHTML = '';
+                for (var i = 0; i < catsKeys.length; i++) {
+                    list.appendChild(this.addCat(catsKeys[i]));
+                }
+            },
+            catListNameClicked: function (e) {
+                // tell the octopus which cat was clicked
+                octo.listCatClicked(e.target.attributes.catId.value);
+            },
+        },
+        catDetails: {
+            catNameHeading: function (catObj) {
+                var heading = document.createElement('h1');
+                heading.textContent = catObj.name;
+                return heading;
+            },
+            clickCountText: function (catObj) {
+                var text = document.createElement('p');
+                text.setAttribute('id', 'counter');
+                text.textContent = "You have clicked on " +
+                    catObj.name + " " + catObj.clickCount + " times.";
+                return text;
+            },
+            catPicture: function (catObj) {
+                var pic = document.createElement('img');
+                pic.setAttribute('src', catObj.imgUrl);
+                pic.addEventListener('click', this.catPicClicked, false);
+                return pic;
+            },
+            editCatButton: function () {
+                var button = document.createElement('button');
+                button.textContent = 'Edit';
+                
+                var showForm = function () {
+                    document.querySelector('#catAdminForm').style.display = 'block';
+                };
+                
+                button.addEventListener('click', showForm, false);
+                
+                return button;
+            },
+            catEditingForm: function () {
+                var cat = octo.getHeroCat();
+                
+                var form = document.createElement('form');
+                form.action = '';
+                form.id = 'catAdminForm';
+                form.style.display = 'none';
+                
+                var catInputs = function () {
+                    for (var key in cat) {
+                        var div = document.createElement('div');
+                        
+                        var label = document.createElement('label');
+                        label.htmlFor = key;
+                        label.textContent = key + ': ';
+                        
+                        var input = document.createElement('input');
+                        input.type = 'text';
+                        input.placeholder = cat[key];
+                        input.id = key;
+                        
+                        div.appendChild(label);
+                        div.appendChild(input);
+                        
+                        input.addEventListener('input', inputEdit, false);
+                        form.appendChild(div);
+                    }
+                };
+                
+                var hideForm = function () {
+                    document.querySelector('#catAdminForm').style.display = 'none';
+                };
+                                
+                var resetButton = document.createElement('button');
+                resetButton.textContent = 'Cancel';
+                resetButton.type = 'reset';
+                resetButton.addEventListener('click', hideForm, false);
+                
+                var saveButton = document.createElement('button');
+                saveButton.textContent = 'Save';
+                saveButton.type = 'button';
+                saveButton.disabled = true;
+                saveButton.addEventListener('click', octo.saveCatEdits, false)
+                
+                var inputEdit = function () {
+                    this.value ? saveButton.disabled = false : saveButton.disabled = true;
+                };
+                
+                catInputs();
+                form.appendChild(resetButton);
+                form.appendChild(saveButton);
+                return form;
+            },
+            render: function () {
+                var catObj = octo.getHeroCat();
+                var container = document.querySelector('.cat-hero');
+                container.innerHTML = '';
+                container.appendChild(this.catNameHeading(catObj));
+                container.appendChild(this.clickCountText(catObj));
+                container.appendChild(this.catPicture(catObj));
+                container.appendChild(document.createElement('br'));
+                container.appendChild(this.editCatButton());
+                container.appendChild(this.catEditingForm());
+            },
+            reRenderClickCount: function(catObj) {
+                var text = document.querySelector('#counter');
+                text.textContent = this.clickCountText(catObj).textContent; 
+            },
+            catPicClicked: function () {
+                octo.heroCatClicked();
+            }
+        },
+        init: function () {
+            this.catList.render();
+            this.catDetails.render();
+        }
+    };
+    
+    var octo = {
+        getHeroCatId: function () {
+            return data.heroCatId;
+        },
+        getHeroCat: function () {
+            return data.cats[data.heroCatId];
+        },
+        setRandomHeroCat: function () {
+            var catKeys = Object.keys(data.cats);
+            data.heroCatId = (catKeys[Math.floor(Math.random() * catKeys.length)]);
+        },
+        setHeroCatId: function (catId) {
+            data.heroCatId = catId;
+        },
+        getAllCats: function () {
+            return data.cats;
+        },
+        listCatClicked: function (catId) {
+            this.setHeroCatId(catId);
+            views.catDetails.render();
+        },
+        heroCatClicked: function () {
+            data.cats[data.heroCatId].clickCount += 1;
+            views.catDetails.reRenderClickCount(data.cats[data.heroCatId]);
+            document.getElementById('clickCount').placeholder = data.cats[data.heroCatId].clickCount;
+        },
+        saveCatEdits: function () {
+            var inputs = document.querySelectorAll('input');
+            var cat = data.cats[data.heroCatId];
+            for (var i = 0; i < inputs.length; i++) {
+                if (inputs[i].value) {
+                    cat[inputs[i].id] = inputs[i].value;
+                }
+            }
+            views.catList.render();
+            views.catDetails.render();
+        },
+        init: function () {
+            this.setRandomHeroCat();
+            views.init();
+        }
+    };
+    
+    octo.init();
+</script>
+
+    </body>
+
+</html>

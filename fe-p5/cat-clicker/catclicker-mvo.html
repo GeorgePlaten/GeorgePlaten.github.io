@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cat Clicker</title>
+
+  <style>
+
+  </style>
+  
+  
+</head>
+<body>
+
+  <ul class="cat-list"></ul>
+      
+  <div class="cat-hero"></div>
+
+  <script>
+
+    var data = {
+        cats: {
+            cat1: {
+                name: "Tom",
+                img: 'images/cat.jpg',
+                clickCount: 0
+            },
+            cat2: {
+                name: "Tessa",
+                img: 'images/cat2.jpg',
+                clickCount: 0
+            },
+            cat3: {
+                name: "Miko & Milo",
+                img: "images/cat3.jpg",
+                clickCount: 0
+            },
+            cat4: {
+                name: "Dino",
+                img: 'images/cat4.jpg',
+                clickCount: 0
+            },
+            cat5: {
+                name: "Sooty",
+                img: "images/cat5.jpg",
+                clickCount: 0
+            },
+            cat6: {
+                name: "Pink",
+                img: "images/cat6.jpg",
+                clickCount: 0
+            },
+            cat7: {
+                name: "Brainy",
+                img: "images/cat7.jpg",
+                clickCount: 0
+            }
+        },
+        heroCatId: null
+    };
+
+    var views = {
+        catList: {
+            _addCat: function (catId) {
+                var listCat = document.createElement('li');
+                listCat.setAttribute('catId', catId);
+                listCat.textContent = octo.getAllCats()[catId].name;
+                listCat.addEventListener('click', this._catListNameClicked, false);
+                return listCat;
+            },
+            render: function () {
+                // write or rewrite catlist
+                var list = document.querySelector('.cat-list');
+                var catsKeys = Object.keys(octo.getAllCats());
+                list.innerHTML = '';
+                for (var i = 0; i < catsKeys.length; i++) {
+                    list.appendChild(this._addCat(catsKeys[i]));
+                }
+            },
+            _catListNameClicked: function (e) {
+                // tell the octopus which cat was clicked
+                octo.listCatClicked(e.target.attributes.catId.value);
+            },
+        },
+        catDetails: {
+            _catNameHeading: function (catObj) {
+                var heading = document.createElement('h1');
+                heading.textContent = catObj.name;
+                return heading;
+            },
+            _clickCountText: function (catObj) {
+                var text = document.createElement('p');
+                text.setAttribute('id', 'counter');
+                text.textContent = "You have clicked on " +
+                    catObj.name + " " + catObj.clickCount + " times.";
+                return text;
+            },
+            _catPicture: function (catObj) {
+                var pic = document.createElement('img');
+                pic.setAttribute('src', catObj.img);
+                pic.addEventListener('click', this.catPicClicked, false);
+                return pic;
+            },
+            render: function () {
+                var catObj = octo.getHeroCat();
+                var container = document.querySelector('.cat-hero');
+                container.innerHTML = '';
+                container.appendChild(this._catNameHeading(catObj));
+                container.appendChild(this._clickCountText(catObj));
+                container.appendChild(this._catPicture(catObj));
+            },
+            reRenderClickCount: function(catObj) {
+                var text = document.querySelector('#counter');
+                text.textContent = this._clickCountText(catObj).textContent; 
+            },
+            catPicClicked: function () {
+                octo.heroCatClicked();
+            }
+        },
+        init: function () {
+            this.catList.render();
+            this.catDetails.render();
+        }
+    };
+    
+    var octo = {
+        getHeroCatId: function () {
+            return data.heroCatId;
+        },
+        getHeroCat: function () {
+            return data.cats[data.heroCatId];
+        },
+        setRandomHeroCat: function () {
+            var catKeys = Object.keys(data.cats);
+            data.heroCatId = (catKeys[Math.floor(Math.random() * catKeys.length)]);
+        },
+        setHeroCatId: function (catId) {
+            data.heroCatId = catId;
+        },
+        getAllCats: function () {
+            return data.cats;
+        },
+        listCatClicked: function (catId) {
+            this.setHeroCatId(catId);
+            views.catDetails.render();
+        },
+        heroCatClicked: function () {
+            data.cats[data.heroCatId].clickCount += 1;
+            views.catDetails.reRenderClickCount(data.cats[data.heroCatId]);
+        },
+        init: function () {
+            this.setRandomHeroCat();
+            views.init();
+        }
+    };
+    
+    octo.init();
+    
+  </script>
+</body>
+</html>
