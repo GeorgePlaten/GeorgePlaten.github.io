@@ -1,12 +1,50 @@
+/// <reference path="../typings/knockout/knockout.d.ts"/>
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title></title>
-	</head>
-
-	<body>
-	</body>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>P5: Neighbourhood Map</title>
+    <style type="text/css">
+      html, body { height: 100%; margin: 0; padding: 0;}
+        #map-canvas { height: 600px; width: 600px}
+        div {float: left}
+    </style>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvbT2-HkGK60uo7frV85aWJBxt1H4q9co">
+</script>
+    <script type="text/javascript">
+      function initialize() {
+          var mapOptions = {
+            center: { lat: -34.397, lng: 150.644},
+            zoom: 8
+          };
+          var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+        }
+        google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+  </head>
+  
+  <body>
+    <div id="control-filter">
+      <input type="text" data-bind="textInput: filter">
+      
+      <ul id="list" data-bind="foreach: sightings">
+        <li data-bind="visible: species().indexOf($root.filter()) >= 0">
+          <span data-bind="text: species"></span>
+          <span data-bind="if: location">map here</span>
+        </li>
+      </ul>
+      
+    </div>
+    <div id="map-canvas"></div>
+    
+    
+    <script src="scripts/data.js"></script>
+    <script src="scripts/knockout-latest.js"></script>
+    <script src="scripts/app.js"></script>
+    
+    
+  </body>
 
 </html>

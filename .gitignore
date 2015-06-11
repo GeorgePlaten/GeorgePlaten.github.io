@@ -10,3 +10,4 @@ service-worker.js
 typings/
 .jscsrc
 .jshintrc
+tutorials/
