@@ -2,6 +2,9 @@
 /// <reference path="../../typings/gmaps/google.maps.d.ts"/>
 var app = app || {};
 
+app.wpEnhancedAvailable = false;
+app.flickrEnhancedAvailable = false;
+
 (function () {
     'use strict';
 
@@ -56,25 +59,15 @@ var app = app || {};
             }.bind(this));
         }.bind(this));
 
-        // center the map based on li clicks
-        this.centerMapOnMarker = function (sighting) {
+        // center the map or display InfoWindow based on li clicks
+        this.triggerMarkerClick = function (sighting) {
             var markerName = sighting.species();
-            app.gMap.reCenterToMarker(markerName);
+            google.maps.event.trigger(app.gMap.markers[markerName], 'click');
         };
         
-        this.mapMarkerBounce = function (sighting) {
+        this.mapMarkerHighlight = function (sighting) {
             var markerName = sighting.species();
-            app.gMap.markerBounce(markerName);
-        };
-        
-        this.mapMarkerBeStill = function (sighting) {
-            var markerName = sighting.species();
-            app.gMap.markerBeStill(markerName);
-        };
-        
-        this.mapMarkerToggleBounce = function (sighting) {
-            var markerName = sighting.species();
-            app.gMap.markerToggleBounce(markerName);
+            app.gMap.markerHighlight(markerName);
         };
 
     };
@@ -92,18 +85,9 @@ var app = app || {};
             this.map.panTo(marker.position);
         },
         
-        markerBounce: function (markerName) {
+        markerHighlight: function (markerName) {
             var marker = this.markers[markerName];
-            this.map.panTo(marker.position);
-        },
-
-        markerBeStill: function (markerName) {
-            var marker = this.markers[markerName];
-            this.map.panTo(marker.position);
-        },
-
-        markerToggleBounce: function (markerName) {
-            var marker = this.markers[markerName];
+            // Toggle bounce animation
             if (marker.getAnimation() != null) {
                 marker.setAnimation(null);
             } else {
@@ -111,21 +95,66 @@ var app = app || {};
             }
         },
         
+        customMarkers: {
+            'Plant': 'images/plant.png',
+            'Flowering Plant': 'images/flower.png',
+            'Insects': 'images/insect.png',
+            'Butterflies': 'images/butterfly.png',
+            'Bird': 'images/bird.png'
+        },
+        
+        infowindow: new google.maps.InfoWindow({
+            content: "Info window content"
+        }),
+        
         renderMarker: function (isVisible, species, location) {
             if (isVisible) {
+                var customMarker = null;
+                // If Wikipedia data available,
+                // Use a custom marker based on taxonomy 
+                if (app.wpEnhancedAvailable) {
+                    var taxon = app.data.wikipedia[species].taxon;
+                    // assign a classification by first lowest found
+                    // (least likely to most likely)
+                    customMarker = this.customMarkers[(taxon.order ||
+                        taxon.class || taxon.division || taxon.kingdom)];
+                }
                 this.markers[species] = new google.maps.Marker({
                     position: location,
-                    // icon: icons[feature.type].icon,
+                    icon: customMarker,
                     title: species,
-                    // animation: google.maps.Animation.DROP, // causes a flash in wrong place
                     map: this.map
+                });
+                // Add an event listener to the marker toggle InfoWindow or center map
+                google.maps.event.addListener(app.gMap.markers[species], 'click', function () {
+                    if (app.wpEnhancedAvailable) {
+                        var iw = app.gMap.infowindow;
+                        var currentContent = iw.getContent();
+                        var newContent = app.data.wikipedia[species].extract;
+                        // let the user toggle the InfoWindow
+                        if (currentContent !== newContent) {
+                            // there is only one infowindow, so set content with each click
+                            iw.setContent(newContent) ;
+                            iw.open(app.gMap.map, this);
+                        } else {
+                            iw.setContent('');
+                            iw.close();
+                        }
+                        google.maps.event.addListener(iw, 'closeclick', function () {
+                            iw.setContent('');
+                        });
+                    } else {
+                        app.gMap.reCenterToMarker(species);
+                    }
                 });
             } else {
                 this.markers[species].setMap(null);
             }
         },
 
+
     };
+    
 
 })();
 

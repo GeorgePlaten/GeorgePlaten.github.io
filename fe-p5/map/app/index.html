@@ -12,9 +12,9 @@
       #map-canvas { height: 600px; width: 600px}
       div {float: left}
       h3, p {margin: 0; padding: 5px}
+      li {border: red 1px solid}
     </style>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvbT2-HkGK60uo7frV85aWJBxt1H4q9co">
-</script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvbT2-HkGK60uo7frV85aWJBxt1H4q9co"></script>
   </head>
   
   <body>
@@ -26,21 +26,22 @@
         
         <!--all list items and markers are generated here-->
         <li data-bind="event: {
-            click: $parent.centerMapOnMarker,
-            mouseover: $parent.mapMarkerToggleBounce,
-            mouseout: $parent.mapMarkerToggleBounce
+            click: $parent.triggerMarkerClick,
+            mouseover: $parent.mapMarkerHighlight,
+            mouseout: $parent.mapMarkerHighlight
           },
           value: drawMapMarker()">
-          <h3 data-bind="text: commonName">Common Name</h3>
           <p data-bind="text: species">Species</p>
         </li>
           
       </ul>
       
     </div>
-    <script src="scripts/data.js"></script>
     <script src="scripts/knockout-latest.js"></script>
+    <script src="scripts/jquery-2.1.4.min.js"></script>
+    <script src="scripts/data.js"></script>
     <script src="scripts/app.js"></script>
+    
   </body>
 
 </html>
