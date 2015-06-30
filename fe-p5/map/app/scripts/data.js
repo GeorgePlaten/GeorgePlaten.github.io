@@ -43,6 +43,19 @@ var app = app || {};
     app.data.sightingNames = app.data.sightings.map(
         function (sighting) {return sighting.name;}
     );
+    
+    app.data.addKeywords = function (species, keyWords) {
+        for (var i = 0, len = app.data.sightings.length; i < len; i++) {
+            if (app.data.sightings[i].name === species) {
+                app.data.sightings[i].keywords += (keyWords.toLowerCase() + ' ');
+            }
+        }
+    };
+    
+    for (var i = 0, len = app.data.sightings.length; i < len; i++) {
+        app.data.sightings[i].keywords = '';
+        app.data.addKeywords(app.data.sightings[i].name, app.data.sightings[i].name);
+    };
 
     var parseWikiTaxoProp = function (text, prop) {
         if (text.indexOf(prop + ' = ') === -1) {
@@ -114,7 +127,10 @@ var app = app || {};
                 'text': text,
                 'taxon': taxon
             };
-            console.log(url, name, taxon);
+            for (var key in taxon) {
+                app.data.addKeywords(species, taxon[key]);
+            }
+            console.log(url, taxon); // TODO: add these and common name too
         }
         app.wpEnhancedAvailable = true;
     };
@@ -135,32 +151,50 @@ var app = app || {};
     
     app.data.flickr = {};
     
-    var processFlickrRequest = function (data) {
-        var obj = {};
-        var photo = data.photos.photo;
-        obj.src = photo// TODO: process each photo
-        return photo;
-    };
-
-    var doflickrRequest = function (name) {
-        var baseUrl = 'https://api.flickr.com/services/rest/?method=flickr.photos.search' +
-            '&api_key=5f1bda0ff51d35493f69a98774a10279&safe_search=1&content_type=1' +
-            '&extras=url_q&per_page=10&page=1&format=json&nojsoncallback=1';
-        jQuery.ajax({
-            url: baseUrl + '&text=' + name,
-            dataType: 'json',
-            success: function (data) {
-                app.data.flickr[name] = processFlickrRequest(data);
+    app.flickr = {
+    
+        processData: function (flickrJSON) {
+            var flickrPhotos = flickrJSON.photos.photo;
+            var photos = [];
+            var fPhoto;
+            for (var i = 0, len = flickrPhotos.length; i < len; i++) {
+                var photo = {};
+                fPhoto = flickrPhotos[i];
+                photo.src = fPhoto.url_q;
+                photo.title = (fPhoto.title || 'untitled');
+                photo.url = 'https://www.flickr.com/photos/' + 
+                    fPhoto.owner + '/' + fPhoto.id;
+                photos.push(photo);
             }
-        });
+            return photos;
+        },
+
+        // flickr only allows one request per search term
+        // using temp API key from API explorer, actual key: 
+        doRequest: function (name) {
+            var apikey = '5621d47566669cf2948d02ab171001cd'; //b9e32c294ef464c4f1ca8f272b6e11f6';
+            var url = 'https://api.flickr.com/services/rest/?method=flickr.photos.search' +
+                '&api_key=' + apikey + '&safe_search=1&content_type=1' +
+                '&extras=url_q&per_page=6&page=1&format=json&nojsoncallback=1';
+            jQuery.ajax({
+                url: url + '&text=' + name,
+                dataType: 'json',
+                success: function (data) {
+                    app.data.flickr[name] = this.processData(data);
+                }.bind(this)
+            });
+        },
+    
+        // do all Flickr requests
+        getData: function () {
+            var names = app.data.sightingNames;
+            for (var i = 0, len = names.length; i < len; i++) { 
+                this.doRequest(names[i]);
+            }
+        }
+    
     };
     
-    var getFlickrData = function () {
-        app.data.sightingNames.map(function (name) {
-            doflickrRequest(name);
-        });
-    };
-    
-    getFlickrData();
+    app.flickr.getData();
     
 })();
