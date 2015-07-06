@@ -7,23 +7,28 @@
     <title>P5: Neighbourhood Map</title>
     <style type="text/css">
       html, body { height: 100%; margin: 0; padding: 0;}
-      #map-canvas { height: 400px; width: 400px}
+      #map-canvas { height: 500px; width: 500px}
       div {float: left}
-      h3, p {margin: 0; padding: 5px}
-      li {border: red 1px solid}
-      ul {list-style: none}
+      /*li {border: red 1px solid}*/
+      p, ul{margin: 2px; padding: 0} 
+      ul {list-style: none; width: 250px}
+      #filter-list {height:500px;overflow: auto}
+      li {background-color: #EEE; padding: 5px; margin: 5px}
+      #photo-bar ul {width: 98%}
       #photo-bar li {display: inline}
       img {padding: 2px}
+      .speciesName {font-weight: bold; font-variant: small-caps; font-size: 18px;}
+      .taxon {color: #444; font-style: italic; margin: 0px 11px 8px;}
+      .commonNames {font-size: 14px; color: #222;}
     </style>
-    <script src="https://maps.googleapis.com/maps/api/js"></script> <!--?key=AIzaSyBvbT2-HkGK60uo7frV85aWJBxt1H4q9co-->
+    <script src="https://maps.googleapis.com/maps/api/js"></script>
+    <!--?key=AIzaSyBvbT2-HkGK60uo7frV85aWJBxt1H4q9co-->
   </head>
   
   <body>
     <div id="map-canvas">Error Loading Google Maps</div>
-    
     <div id="control-filter">
       <input type="text" data-bind="textInput: filterStr">
-
       <!--all list items and markers are generated here-->
       <ul id="filter-list" data-bind="foreach: filteredSightings">
         <li data-bind="event: {
@@ -32,12 +37,12 @@
             mouseout: $parent.mapMarkerHighlight
           },
           value: drawMapMarker()">
-          <p data-bind="text: species">Species</p>
+          <p class="speciesName" data-bind="text: species">Species</p>
+          <p class="taxon" data-bind="text: taxon">Taxononmy</p>
+          <p class="commonNames" data-bind="text: commonNames">Common Names</p>
         </li>
       </ul>
-      
     </div>
-    
     <div id="photo-bar">
       <ul data-bind="foreach: flickrPhotos">
         <li>
@@ -47,12 +52,12 @@
         </li>
       </ul>
     </div>
-    
+    <div id="addNew">add new species</div>
     <script src="scripts/knockout-latest.js"></script>
     <script src="scripts/jquery-2.1.4.min.js"></script>
+    <script src="scripts/jquery-ui.min.js"></script>
     <script src="scripts/data.js"></script>
     <script src="scripts/app.js"></script>
-    
   </body>
 
 </html>
