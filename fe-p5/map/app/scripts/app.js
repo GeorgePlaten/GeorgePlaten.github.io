@@ -3,77 +3,123 @@
 /// <reference path="../../typings/gmaps/google.maps.d.ts"/>
 var app = app || {};
 
-app.wpEnhancedAvailable = false;
+// app.wpEnhancedAvailable = false;
 
 (function () {
     'use strict';
 
-    app.SightingModel = function (species, lat, lng, keywords) {
-        this.species = ko.observable(species);
-        this.location = new google.maps.LatLng(lat, lng);
+    app.SpeciesModel = function (species) {
+        this.species = ko.observable(species.binomial);
+        this.keywords = species.keywords.toLowerCase();
+        // this.location = new google.maps.LatLng(lat, lng);
         this.isVisible = ko.observable(false);
+        this.sightings = species.sightings;
         this.drawMapMarker = function () {
-            app.gMap.renderMarker(this.isVisible(), this.species(), this.location);
-        };
-        this.pictures = ko.observableArray(app.data.flickr[species]);
-        this.taxon = function () {
-            var arr = [];
-            var taxon = app.data.wikipedia[species].taxon;
-            for (var key in taxon) {
-                arr.push(key + ': ' + taxon[key]);
+            // app.gMap.renderMarker(this.isVisible(), this.species(), this.location); // can go
+            var map;
+            this.isVisible() ? map = app.gMap.map : map = null;
+            for (var i = 0, len = this.sightings.length; i < len; i++) {
+                this.sightings[i].marker.setMap(map);
             }
-            return arr.join(' | ');
-        }();
-        this.keywords = species + this.taxon;
-        this.commonNames = 'Also known as: ' + 
-            app.data.wikipedia[species].commonNames.join(', ') + '.';
+        };
+        this.pictures = species.pics;
+        this.taxon = function () {
+            if (species.wm.taxon) {
+                var arr = [];
+                var taxon = species.wm.taxon;
+                for (var key in taxon) {
+                    arr.push(key + ': ' + taxon[key]);
+                }
+                return arr.join(' | ');
+            } else {
+                return ''; // failing silently
+            }
+        }.bind(this)();
+        this.commonNames = (species.wm.commonNames) ? 'Also known as: ' + 
+            species.wm.commonNames.join(', ') + '.' : '' ;
     };
 
     app.ViewModel = function (data) {
         
-        // observable array of all sightings
-        this.sightings = ko.observableArray(data.map(function (sighting) {
-            return new app.SightingModel(sighting.name, sighting.lat, sighting.lng);
-        }));
+        // observable array of all species
+        this.species = ko.observableArray(function () {
+            var arr = [];
+            for (var key in data) {
+                arr.push(new app.SpeciesModel(data[key]));
+            }
+            return arr;
+        }());
         
         // text string to filter sightings
         this.filterStr = ko.observable('');
+        this.tempFilterStr = '';
         
-        // all sightings: filtered
-        this.filteredSightings = ko.computed(function () {
-            return this.sightings().filter(function (sighting) {
-                sighting.isVisible(
-                    sighting.keywords.indexOf(this.filterStr().toLowerCase()) >= 0
+        // filtered sightings: array
+        this.filteredSpecies = ko.computed(function () {
+            return this.species().filter(function (species) {
+                species.isVisible(
+                    species.keywords.indexOf(this.filterStr().toLowerCase()) >= 0
                 );
-                return sighting.isVisible();
+                return species.isVisible();
             }.bind(this));
         }.bind(this));
         
-        // this.listClick = function (sighting) {
-        //     var species = sighting.species();
-        //     this.filterStr() === species ? this.filterStr('') : this.filterStr = species;
-        //     // send a click event to the map marker
-        //     google.maps.event.trigger(app.gMap.markers[species], 'click');
-        // };
-
-        // send a click event to the map marker
-        this.triggerMarkerClick = function (sighting) {
-            var markerName = sighting.species();
-            google.maps.event.trigger(app.gMap.markers[markerName], 'click');
+        this.flickrPhotos = ko.observableArray();
+        
+        // list clicks not really suitable when there are multiple
+        // sightings of the same species :(
+        this.listClick = function (species) {
+            this.toggleFilterStr(species.species());
+            this.toggleFlickrPhotos(species.pictures)
+            app.currentMarker ? app.currentMarker.deselect(true) : null;
+            app.gMap.infowindow.setContent('');
+            app.gMap.infowindow.close();
+        }.bind(this);
+        
+        this.toggleFlickrPhotos = function (pictures) {
+            this.flickrPhotos() === pictures ? this.flickrPhotos(null) : 
+                this.flickrPhotos(pictures)
+        };
+        
+        this.toggleFilterStr = function (str) {
+            if (this.filterStr() === str) {
+                this.filterStr(this.tempFilterStr);
+            } else {
+                this.tempFilterStr = this.filterStr();
+                this.filterStr(str);
+            }
         };
         
         // highlight the map marker when hovering on list item
-        this.mapMarkerHighlight = function (sighting) {
-            var markerName = sighting.species();
-            app.gMap.markerHighlight(markerName);
+        this.mapMarkerBounce = function (species) {
+            var sightings = species.sightings;
+            for (var i = 0, len = sightings.length; i < len; i++) {
+                sightings[i].marker.setAnimation(google.maps.Animation.BOUNCE);
+            }
         };
-
-        this.currentSighting = ko.observable();
-
-        this.flickrPhotos = ko.computed(function () {
-            return app.data.flickr[this.currentSighting()];
-        }.bind(this));
-
+        this.mapMarkerPuncture = function (species) {
+            var sightings = species.sightings;
+            for (var i = 0, len = sightings.length; i < len; i++) {
+                sightings[i].marker.setAnimation(null);
+            }
+        };
+    };
+    
+    app.customIcons = {
+        'unknown': 'images/blank.png',
+        'plants': 'images/plant.png',
+        'plants-s': 'images/splant.png',
+        'animals': 'images/animal.png',
+        'animals-s': 'images/sanimal.png',
+        'flowering plants': 'images/flower.png',
+        'flowering plants-s': 'images/sflower.png',
+        'insects': 'images/insect.png',
+        'insects-s': 'images/sinsect.png',
+        'butterflies and moths': 'images/butterfly.png',
+        'butterflies and moths-s': 'images/sbutterfly.png',
+        'birds': 'images/bird.png',
+        'birds-s': 'images/sbird.png',
+        'newUserMarker': 'images/sblank.png'
     };
 
     app.gMap = {
@@ -83,113 +129,109 @@ app.wpEnhancedAvailable = false;
             mapTypeId: google.maps.MapTypeId.TERRAIN
         },
 
-        markers: {},
+        // markers: {},
 
-        currentMarker: '',
+        // currentMarker: '',
 
-        setCurrentMarker: function (markerName) {
-            var marker = this.markers[this.currentMarker];
-            if (markerName === '' || markerName === this.currentMarker) {
-                // Clear the current marker (empty || toggled)
-                app.wpEnhancedAvailable ?
-                    marker.setIcon('images/' + marker.getIcon().substr(8)) : null;
-                this.currentMarker = '';
-                this.map.panTo(this.mapOptions.center);
-                this.map.setZoom(this.mapOptions.zoom);
-                app.viewModel.currentSighting('');
-            } else {
-                // turn off current marker
-                if (this.currentMarker && app.wpEnhancedAvailable) {
-                    marker.setIcon('images/' + marker.getIcon().substr(8));
-                }
-                // set a new current marker
-                marker = this.markers[markerName];
-                this.currentMarker = markerName;
-                app.wpEnhancedAvailable ?
-                    marker.setIcon('images/s' + marker.getIcon().substr(7)) : null;
-                app.viewModel.currentSighting(markerName);
-            }
-        },
+        // setCurrentMarker: function (markerName) {
+        //     var marker = this.markers[this.currentMarker];
+        //     if (markerName === '' || markerName === this.currentMarker) {
+        //         // Clear the current marker (empty || toggled)
+        //         app.wpEnhancedAvailable ?
+        //             marker.setIcon('images/' + marker.getIcon().substr(8)) : null;
+        //         this.currentMarker = '';
+        //         this.map.panTo(this.mapOptions.center);
+        //         this.map.setZoom(this.mapOptions.zoom);
+        //         app.viewModel.currentSighting('');
+        //     } else {
+        //         // turn off current marker
+        //         if (this.currentMarker && app.wpEnhancedAvailable) {
+        //             marker.setIcon('images/' + marker.getIcon().substr(8));
+        //         }
+        //         // set a new current marker
+        //         marker = this.markers[markerName];
+        //         this.currentMarker = markerName;
+        //         app.wpEnhancedAvailable ?
+        //             marker.setIcon('images/s' + marker.getIcon().substr(7)) : null;
+        //         app.viewModel.currentSighting(markerName);
+        //     }
+        // },
 
-        reCenterToMarker: function (markerName) {
-            var marker = this.markers[markerName];
-            this.map.panTo(marker.position);
-        },
+        // reCenterToMarker: function (latlng) {
+        //     // var marker = this.markers[markerName];
+        //     this.map.panTo(latlng);
+        // },
 
-        markerHighlight: function (markerName) {
-            var marker = this.markers[markerName];
-            // Toggle bounce animation
-            if (marker.getAnimation() != null) {
-                marker.setAnimation(null);
-            } else {
-                marker.setAnimation(google.maps.Animation.BOUNCE);
-            }
-        },
+        // markerHighlight: function (markerName) {
+        //     var marker = this.markers[markerName];
+        //     // Toggle bounce animation
+        //     if (marker.getAnimation() != null) {
+        //         marker.setAnimation(null);
+        //     } else {
+        //         marker.setAnimation(google.maps.Animation.BOUNCE);
+        //     }
+        // },
 
-        appMarkers: {
-            'unknown': 'images/blank.png',
-            'plants': 'images/plant.png',
-            'animals': 'images/animal.png',
-            'flowering plants': 'images/flower.png',
-            'insects': 'images/insect.png',
-            'butterflies and moths': 'images/butterfly.png',
-            'birds': 'images/bird.png',
-            'newUserMarker': 'images/sblank.png'
-        },
+
 
         infowindow: new google.maps.InfoWindow({ content: '' }),
 
-        toggleInfoWindow: function (species) {
+        toggleInfoWindow: function (species, marker) {
             var iw = this.infowindow;
             var currentContent = iw.getContent();
-            var newContent = app.data.wikipedia[species].iwHTML;
+            var newContent = app.species[species].wm.iwHTML;
             // let the user toggle the InfoWindow
             if (currentContent !== newContent) {
                 // there is only one infowindow, so set content with each click
                 iw.setContent(newContent);
-                iw.open(this.map, this.markers[species]);
-            } else {
+                iw.open(this.map, marker);
+            } else if (currentContent === newContent &&
+                app.currentMarker.marker === marker) {
                 // clear content with close to enable toggle logic
                 iw.setContent('');
                 iw.close();
+            } else {
+                // moving same content to a new marker
+                iw.close();
+                iw.open(this.map, marker);
             }
         },
 
-        markerClicked: function (species) {
-            if (app.wpEnhancedAvailable) {
-                this.toggleInfoWindow(species);
-            } else {
-                this.reCenterToMarker(species);
-            }
-            this.setCurrentMarker(species);
-        },
+        // markerClicked: function (species, marker) {
+        //     if (app.wpEnhancedAvailable) {
+        //         this.toggleInfoWindow(species, marker);
+        //     } else {
+        //         this.reCenterToMarker(marker.position);
+        //     }
+        //     // this.setCurrentMarker(species);
+        // },
 
-        renderMarker: function (isVisible, species, location) {
-            if (isVisible) {
-                var customMarker = null;
-                // If Wikipedia data available,
-                // Use a custom marker based on taxonomy 
-                if (app.wpEnhancedAvailable) {
-                    var taxon = app.data.wikipedia[species].taxon;
-                    // assign a classification by first lowest found
-                    // (least likely to most likely)
-                    customMarker = this.appMarkers[(taxon.order ||
-                        taxon.class || taxon.division || taxon.kingdom)];
-                }
-                this.markers[species] = new google.maps.Marker({
-                    position: location,
-                    icon: customMarker,
-                    title: species,
-                    map: this.map
-                });
-                // Add an click event listener to the marker
-                google.maps.event.addListener(this.markers[species], 'click', function (e) {
-                    this.markerClicked(species);
-                }.bind(this));
-            } else {
-                this.markers[species].setMap(null);
-            }
-        },
+        // renderMarker: function (isVisible, species, location) {
+        //     if (isVisible) {
+        //         var customMarker = null;
+        //         // If Wikipedia data available,
+        //         // Use a custom marker based on taxonomy 
+        //         if (app.wpEnhancedAvailable) {
+        //             var taxon = app.data.wikipedia[species].taxon;
+        //             // assign a classification by first lowest found
+        //             // (least likely to most likely)
+        //             customMarker = this.appMarkers[(taxon.order ||
+        //                 taxon.class || taxon.division || taxon.kingdom)];
+        //         }
+        //         this.markers[species] = new google.maps.Marker({
+        //             position: location,
+        //             icon: customMarker,
+        //             title: species,
+        //             map: this.map
+        //         });
+        //         // Add an click event listener to the marker
+        //         google.maps.event.addListener(this.markers[species], 'click', function (e) {
+        //             this.markerClicked(species);
+        //         }.bind(this));
+        //     } else {
+        //         this.markers[species].setMap(null);
+        //     }
+        // },
         
         newSighting: function () {
             this.map.panTo(this.mapOptions.center);
@@ -232,18 +274,18 @@ app.wpEnhancedAvailable = false;
         
         saveNewSighting: function (name, location) {
                         
-            app.data.sightings.push({
+            app.data.basic.push({
                 'name': name,
                 'lat': location.A,
                 'lng': location.F
             });
             
             var addit = function () {
-                var s = app.data.sightings;
+                var s = app.data.basic;
                 var l = s.length - 1;
                 var nw = s[l];
                 app.viewModel.sightings().push(
-                    new app.SightingModel(nw.name, nw.lat, nw.lng, '')
+                    new app.SpeciesModel(nw.name, nw.lat, nw.lng, '')
                 );
                 app.viewModel.filterStr('mm');
                 app.viewModel.filterStr('');
@@ -259,8 +301,9 @@ app.wpEnhancedAvailable = false;
     // add listener to InfoWindow close button to clear content too
     google.maps.event.addListener(app.gMap.infowindow, 'closeclick', function () {
         app.gMap.infowindow.setContent('');
-        $('#photos').remove();
-        app.gMap.setCurrentMarker('');
+        app.viewModel.flickrPhotos(null);
+        app.currentMarker.deselect(true);
+        app.currentMarker = '';
     });
     
     // temp
@@ -279,6 +322,6 @@ google.maps.event.addDomListener(window, 'load', initializeGmap);
 
 // initialize knockout js
 window.onload = function (event) {
-    app.viewModel = new app.ViewModel(app.data.sightings);
+    app.viewModel = new app.ViewModel(app.species);
     ko.applyBindings(app.viewModel);
 };

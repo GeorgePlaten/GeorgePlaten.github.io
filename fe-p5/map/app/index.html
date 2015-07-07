@@ -21,7 +21,7 @@
       .taxon {color: #444; font-style: italic; margin: 0px 11px 8px;}
       .commonNames {font-size: 14px; color: #222;}
     </style>
-    <script src="https://maps.googleapis.com/maps/api/js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvbT2-HkGK60uo7frV85aWJBxt1H4q9co"></script>
     <!--?key=AIzaSyBvbT2-HkGK60uo7frV85aWJBxt1H4q9co-->
   </head>
   
@@ -30,15 +30,15 @@
     <div id="control-filter">
       <input type="text" data-bind="textInput: filterStr">
       <!--all list items and markers are generated here-->
-      <ul id="filter-list" data-bind="foreach: filteredSightings">
+      <ul id="filter-list" data-bind="foreach: filteredSpecies">
         <li data-bind="event: {
-            click: $parent.triggerMarkerClick,
-            mouseover: $parent.mapMarkerHighlight,
-            mouseout: $parent.mapMarkerHighlight
+            click: $parent.listClick,
+            mouseover: $parent.mapMarkerBounce,
+            mouseout: $parent.mapMarkerPuncture
           },
           value: drawMapMarker()">
           <p class="speciesName" data-bind="text: species">Species</p>
-          <p class="taxon" data-bind="text: taxon">Taxononmy</p>
+          <p class="taxon" data-bind="text: taxon">Taxonomy</p>
           <p class="commonNames" data-bind="text: commonNames">Common Names</p>
         </li>
       </ul>
@@ -53,10 +53,10 @@
       </ul>
     </div>
     <div id="addNew">add new species</div>
-    <script src="scripts/knockout-latest.js"></script>
     <script src="scripts/jquery-2.1.4.min.js"></script>
-    <script src="scripts/jquery-ui.min.js"></script>
     <script src="scripts/data.js"></script>
+    <script src="scripts/knockout-latest.js"></script>
+    <script src="scripts/jquery-ui.min.js"></script>
     <script src="scripts/app.js"></script>
   </body>
 
