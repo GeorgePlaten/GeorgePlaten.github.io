@@ -7,7 +7,7 @@
     <title>P5: Neighbourhood Map</title>
     <style type="text/css">
       html, body { height: 100%; margin: 0; padding: 0;}
-      #map-canvas { height: 500px; width: 500px}
+      #map-canvas { height: 600px; width: 800px}
       div {float: left}
       /*li {border: red 1px solid}*/
       p, ul{margin: 2px; padding: 0} 
@@ -20,8 +20,9 @@
       .speciesName {font-weight: bold; font-variant: small-caps; font-size: 18px;}
       .taxon {color: #444; font-style: italic; margin: 0px 11px 8px;}
       .commonNames {font-size: 14px; color: #222;}
+      .gm-style-iw p {margin-bottom: 12px}
     </style>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvbT2-HkGK60uo7frV85aWJBxt1H4q9co"></script>
+    <script src="https://maps.googleapis.com/maps/api/js"></script>
     <!--?key=AIzaSyBvbT2-HkGK60uo7frV85aWJBxt1H4q9co-->
   </head>
   
@@ -44,7 +45,7 @@
       </ul>
     </div>
     <div id="photo-bar">
-      <ul data-bind="foreach: flickrPhotos">
+      <ul data-bind="foreach: photos">
         <li>
           <a data-bind="attr: {href: $data.url, title: $data.title}">
             <img data-bind="attr: {src: $data.src, alt: ''}">
