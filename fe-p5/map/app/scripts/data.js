@@ -295,7 +295,7 @@ var app = app || {
     // flickr only allows one request per search term
     // (using temp API key from API explorer) 
     var doFlickrRequest = function (name) {
-        var apikey = 'd57d68e1ca12154ef10bf7ba022b1eb5';
+        var apikey = '8b7814a6caaa9aaedffe891d3fa97cfa';
         var url = 'https://api.flickr.com/services/rest/?method=flickr.photos.search' +
             '&api_key=' + apikey + '&safe_search=1&content_type=1' +
             '&extras=url_q&per_page=6&page=1&format=json&nojsoncallback=1';
