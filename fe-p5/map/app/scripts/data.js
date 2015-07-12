@@ -101,21 +101,16 @@ var app = app || {
     
     Sighting.prototype.deselect = function (recenter) {
         app.data.currentSighting = '';
-        if (recenter) {
-            app.map.map.panTo(app.map.options.center)
-        }
-        if (this.marker.getIcon()) {
-            this.marker.setIcon(this.marker.icons.unselected);
-        }
+        recenter && app.map.map.panTo(app.map.options.center);
+        this.marker.getIcon() && this.marker.setIcon(this.marker.icons.unselected);
         app.viewModel.photos(null);
     };
     
     Sighting.prototype.select = function () {
-        if (app.data.currentSighting) {app.data.currentSighting.deselect()}
+        $("#addNew").fadeOut();
+        app.data.currentSighting && app.data.currentSighting.deselect();
         app.data.currentSighting = this;
-        if (this.marker.getIcon()) {
-            this.marker.setIcon(this.marker.icons.selected);
-        }
+        this.marker.getIcon() && this.marker.setIcon(this.marker.icons.selected);
         app.viewModel.photos(app.data.species[this.name].pics);
     };
     
@@ -136,12 +131,8 @@ var app = app || {
     app.data.addNewSighting = function (data, callback) {
         var newSighting = new Sighting(data);
         var species = newSighting.name;
-        if (app.data.species[species]) {
-            app.data.species[species].sightings.push(newSighting);
-        }
-        if (callback) {
-            callback();
-        }
+        app.data.species[species] && app.data.species[species].sightings.push(newSighting);
+        callback && callback();
     };
         
     var initSpecies = function () {
@@ -221,17 +212,18 @@ var app = app || {
             }
 
             var text = collection[page].revisions[0]['*'];
-            console.log(text);
+            // console.log(text);
             var extract = collection[page].extract;
             var url = collection[page].canonicalurl;
             var $infoWindowHTML = $('<div>')
                 .append($('<h3>').text(species))
-                .append($('<div>').html(extract))
+                .append($('<div>').html(extract).addClass('extract'))
                 .append($('<p>')
                     .append($('<a>').attr('href', url).text('[Wikipedia]')));
             var taxon = getTaxon(text);
             if (taxon.kingdom === 'unknown') {
-                alert('That doesn\'t appear to be a valid binomial... \n\n' + 
+                alert('That doesn\'t appear to be a valid binomial...\n' +
+                    '(according to Wikipedia) \n\n' + 
                     '...maybe you\'ve discovered a new life form?');
             }
             
@@ -279,7 +271,7 @@ var app = app || {
             dataType: 'jsonp',
             success: function (data) {
                 processWikimediaData(data);
-                callback ? callback() : null ;
+                callback && callback();
             }
         });
     };
@@ -303,7 +295,7 @@ var app = app || {
     // flickr only allows one request per search term
     // (using temp API key from API explorer) 
     var doFlickrRequest = function (name) {
-        var apikey = 'b108b238e272498bf15e0a1e4af8cbe5';
+        var apikey = 'd57d68e1ca12154ef10bf7ba022b1eb5';
         var url = 'https://api.flickr.com/services/rest/?method=flickr.photos.search' +
             '&api_key=' + apikey + '&safe_search=1&content_type=1' +
             '&extras=url_q&per_page=6&page=1&format=json&nojsoncallback=1';

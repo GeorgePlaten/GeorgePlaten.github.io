@@ -1,6 +1,6 @@
-/// <reference path="../../typings/jquery/jquery.d.ts"/>
-/// <reference path="../../typings/knockout/knockout.d.ts"/>
-/// <reference path="../../typings/gmaps/google.maps.d.ts"/>
+/// <reference path='../../typings/jquery/jquery.d.ts'/>
+/// <reference path='../../typings/knockout/knockout.d.ts'/>
+/// <reference path='../../typings/gmaps/google.maps.d.ts'/>
 var app = app || {};
 
 (function () {
@@ -125,7 +125,8 @@ var app = app || {};
         options: {
             center: { lat: -33.844, lng: 151.112 },
             zoom: 17,
-            mapTypeId: google.maps.MapTypeId.TERRAIN
+            mapTypeId: google.maps.MapTypeId.TERRAIN,
+            disableDefaultUI: true
         },
 
         toggleInfoWindow: function (species, marker) {
@@ -139,6 +140,7 @@ var app = app || {};
                 infowindow.open(this.map, marker);
             } else if (currentContent === newContent &&
                 app.data.currentSighting.marker === marker) {
+                $('#addNew').fadeIn();
                 // clear content with close to enable toggle logic
                 infowindow.setContent('');
                 infowindow.close();
@@ -154,96 +156,104 @@ var app = app || {};
 
     // add listener to InfoWindow close button to clear content too
     google.maps.event.addListener(infowindow, 'closeclick', function () {
+        $('#addNew').fadeIn();
         infowindow.setContent('');
         app.viewModel.photos(null); // fix this
         app.data.currentSighting.deselect(true);
         app.data.currentSighting = '';
     });
     
+    app.newEntryInfoWindow = null;
+    app.newEntryMarker = null;
+    
+    app.saveNewSighting = function () {
+        var name = $('#search')[0].value;
+        if (name.length < 3) {
+            alert('That doesn\'t appear to be a valid name.');
+            return;
+        } else {
+            name = name[0].toUpperCase() + name.slice(1);
+        }
+        
+        var location = app.newEntryMarker.getPosition();
+        var newEntry = {
+            'name': name,
+            'lat': location.A,
+            'lng': location.F
+        }
+        var speciesIndex = app.viewModel.speciesNames.indexOf(name);
+        
+        var callback = function () {
+            if (speciesIndex === -1) {
+                app.viewModel.species().push(new SpeciesModel(app.data.species[name]));
+                app.viewModel.speciesNames.push(name);
+                // if the title provided is not a valid species
+                if (app.data.species[name].wm === undefined ||
+                    app.data.species[name].wm.taxon.kingdom === 'unknown') {
+                    app.viewModel.species().pop();
+                    app.viewModel.speciesNames.pop();
+                    delete app.data.species[name];
+                }
+            } else {
+                // just set the marker icons
+                var icons = app.data.species[name].sightings[0].marker.icons;
+                var sighting = app.data.species[name].sightings.pop();
+                sighting.marker.icons.unselected = icons.unselected;
+                sighting.marker.icons.selected = icons.selected;
+                sighting.marker.setIcon(icons.unselected);
+                app.data.species[name].sightings.push(sighting)
+            }
+            // forces a list refresh
+            app.viewModel.filterStr('//');
+            app.viewModel.filterStr('')
+        };
+        
+        if (speciesIndex === -1) {
+            app.data.addNewSpecies(newEntry, callback);
+            app.data.addNewSighting(newEntry);
+        } else {
+            app.data.addNewSighting(newEntry, callback);
+        }
+        
+        app.newEntryInfoWindow.setContent('');
+        app.newEntryMarker.setMap(null);
+        $('#saveNew').fadeOut();
+        $('#addNew').fadeIn('slow');
+    };
+    
     app.newSighting = function () {
+        $('#addNew').fadeOut();
+        $('#saveNew').fadeIn('slow');
+        if (app.data.currentSighting) {
+            app.data.currentSighting.deselect();
+            infowindow.close();
+        }
         this.map.map.panTo(this.map.options.center);
-        this.newUserMarker = new google.maps.Marker({
+        app.newEntryMarker = new google.maps.Marker({
             position: this.map.options.center,
             map: app.map.map,
             draggable: true,
             icon: 'images/sblank.png',
-            title: 'Drag me and enter a life-form binomial!"'
+            title: 'Drag me!'
         });
-        var marker = this.newUserMarker;
         
         // Render the InfoWindow
-        var iw = new google.maps.InfoWindow();
-        iw.setContent(marker.title + 
-            '<br><br><div id="iwInput">' + 
-                '<input id="search" type="text" placeholder="Try \'Rattus\'">' +
-            '</div>');
-        iw.open(this.map.map, marker);
+        app.newEntryInfoWindow = new google.maps.InfoWindow();
+        app.newEntryInfoWindow.setContent($('#newSightingInfoWindow').html());
+        app.newEntryInfoWindow.open(this.map.map, app.newEntryMarker);
         
         // add listener to InfoWindow abort new Entry function
-        google.maps.event.addListener(iw, 'closeclick', function () {
-            iw.close();
-            marker.setMap(null);
+        google.maps.event.addListener(app.newEntryInfoWindow, 'closeclick', function () {
+            $('#saveNew').fadeOut();
+            $('#addNew').fadeIn('slow');
+            app.newEntryInfoWindow.close();
+            app.newEntryMarker.setMap(null);
             return;
         });
         
         // add enter key keyup event handler to save data
         // TODO: Change this to *actually* listen for key events
-        google.maps.event.addListener(marker, 'click', function () {
-            var name = $('#search')[0].value;
-            if (name.length < 3) {
-                var messages = [ // TODO: improve this shit
-                    '<br>Type in a species name in <a href="https://en.wikipedia.or' + 
-                    'g/wiki/Binomial_nomenclature">binomial</a> form.<br>',
-                    'Try something like \'Rattus norvegicus\'<br>',
-                    'Or dimiss this box, by clicking the cross.'
-                ];
-                $('#iwInput').append('<br>' + messages.join(''));
-                return;
-            } else {
-                name = name[0].toUpperCase() + name.slice(1);
-            }
-            
-            var location = marker.getPosition();
-            var newEntry = {
-                'name': name,
-                'lat': location.A,
-                'lng': location.F
-            }
-            var speciesIndex = app.viewModel.speciesNames.indexOf(name);
-            var callback = function () {
-                if (speciesIndex === -1) {
-                    app.viewModel.species().push( new SpeciesModel(app.data.species[name]) );
-                    app.viewModel.speciesNames.push(name);
-                    // if the title provided is not a valid species
-                    if (app.data.species[name].wm === undefined ||
-                        app.data.species[name].wm.taxon.kingdom === 'unknown') {
-                            app.viewModel.species().pop();
-                            app.viewModel.speciesNames.pop();
-                            delete app.data.species[name];
-                    }
-                } else {
-                    // just set the marker icons
-                    var icons = app.data.species[name].sightings[0].marker.icons;
-                    var sighting = app.data.species[name].sightings.pop();
-                    sighting.marker.icons.unselected = icons.unselected;
-                    sighting.marker.icons.selected = icons.selected;
-                    sighting.marker.setIcon(icons.unselected);
-                    app.data.species[name].sightings.push(sighting)
-                }
-                // forces a list refresh
-                app.viewModel.filterStr('//');
-                app.viewModel.filterStr('')
-            };
-            if (speciesIndex === -1) {
-                app.data.addNewSpecies(newEntry, callback);
-                app.data.addNewSighting(newEntry);
-            } else {
-                app.data.addNewSighting(newEntry, callback);
-            }
-            
-            iw.setContent('');
-            marker.setMap(null);
-        }.bind(this));
+        google.maps.event.addListener(app.newEntryMarker, 'click', app.saveNewSighting);
         
     };
             
@@ -251,6 +261,10 @@ var app = app || {};
     $('#addNew').on({'click': function () {
         app.newSighting();
     }});
+    $('#saveNew').on({'click': function () {
+        app.saveNewSighting();
+    }});
+    $('#saveNew').fadeOut();
     
     // initialize google map
     var initializeGmap = function () {
