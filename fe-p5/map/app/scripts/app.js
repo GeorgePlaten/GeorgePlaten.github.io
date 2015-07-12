@@ -165,6 +165,14 @@ var app = app || {};
     
     app.newEntryInfoWindow = null;
     app.newEntryMarker = null;
+    app.lastEntryMarker = null;
+    
+    app.undoLastEntry = function () {
+        $('#messages').fadeOut();
+        app.lastEntryMarker.setMap(null);
+        app.viewModel.species().pop();
+        delete app.data.species[app.viewModel.speciesNames.pop()];
+    };
     
     app.saveNewSighting = function () {
         var name = $('#search')[0].value;
@@ -172,7 +180,7 @@ var app = app || {};
             alert('That doesn\'t appear to be a valid name.');
             return;
         } else {
-            name = name[0].toUpperCase() + name.slice(1);
+            name = name[0].toUpperCase() + name.slice(1).toLowerCase();
         }
         
         var location = app.newEntryMarker.getPosition();
@@ -187,12 +195,13 @@ var app = app || {};
             if (speciesIndex === -1) {
                 app.viewModel.species().push(new SpeciesModel(app.data.species[name]));
                 app.viewModel.speciesNames.push(name);
+                app.lastEntryMarker = app.data.species[name].sightings[0].marker;
                 // if the title provided is not a valid species
                 if (app.data.species[name].wm === undefined ||
-                    app.data.species[name].wm.taxon.kingdom === 'unknown') {
+                app.data.species[name].wm.taxon.kingdom === 'unknown') {
                     app.viewModel.species().pop();
-                    app.viewModel.speciesNames.pop();
-                    delete app.data.species[name];
+                    delete app.data.species[app.viewModel.speciesNames.pop()];
+                    return;
                 }
             } else {
                 // just set the marker icons
@@ -202,10 +211,14 @@ var app = app || {};
                 sighting.marker.icons.selected = icons.selected;
                 sighting.marker.setIcon(icons.unselected);
                 app.data.species[name].sightings.push(sighting)
+                app.lastEntryMarker = sighting.marker;
             }
+            $('.dialog').find('em').text(name);
+            $('#messages').fadeIn();
+            setTimeout(function () {$('#messages').fadeOut('slow');}, 5000);
             // forces a list refresh
             app.viewModel.filterStr('//');
-            app.viewModel.filterStr('')
+            app.viewModel.filterStr('');
         };
         
         if (speciesIndex === -1) {
@@ -264,7 +277,9 @@ var app = app || {};
     $('#saveNew').on({'click': function () {
         app.saveNewSighting();
     }});
-    $('#saveNew').fadeOut();
+    $('#messageButton').on({'click': function () {
+        app.undoLastEntry();
+    }});
     
     // initialize google map
     var initializeGmap = function () {
