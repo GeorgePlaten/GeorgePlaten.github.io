@@ -35,7 +35,7 @@ function loadData() {
 		baseUrl: 'http://api.nytimes.com/svc/search/v2/articlesearch.json?',
 		query: 'q=' + $city.val(),
 		options: '&page=2',
-		apiKey: '&api-key=8f4e37b5a6880a32fe0a95ce8309ebc5:16:72126839'
+		apiKey: '&api-key=' + 'apikeys.NEWYORKTIMES'
 	};
 
 	var nytQueryString = function () {

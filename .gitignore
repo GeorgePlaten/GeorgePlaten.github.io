@@ -12,3 +12,4 @@ typings/
 .jshintrc
 tutorials/
 icons.svg
+apikeys.js
