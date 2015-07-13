@@ -1,7 +1,8 @@
 /// <reference path="../../typings/jquery/jquery.d.ts"/>
 var app = app || {
     data: {
-        species: {}
+        species: {},
+        currentSighting: null
     }
 };
 
@@ -14,44 +15,49 @@ setTimeout(function () {
 (function () {
     'use strict';
     
-    app.data.currentSighting = '';
-    
     // Static 'starter' psuedodata to simulate a collection built by user input
     app.data.basic = [
         {
             name: 'Erithacus rubecula',
             lat: -33.844263,
-            lng: 151.113756
+            lng: 151.113756,
+            date: new Date('October 13, 2013')
         },
         {
             name: 'Erithacus rubecula',
             lat: -33.843263,
-            lng: 151.111756
+            lng: 151.111756,
+            date: new Date('September 14, 2014')
         },
         {
             name: 'Fuchsia magellanica',
             lat: -33.844548,
-            lng: 151.110811
+            lng: 151.110811,
+            date: new Date('October 1, 2015')
         },
         {
             name: 'Polyommatus icarus',
             lat: -33.845096,
-            lng: 151.113337
+            lng: 151.113337,
+            date: new Date('September 13, 2014')
         },
         {
             name: 'Geranium robertianum',
             lat: -33.844717,
-            lng: 151.110467
+            lng: 151.110467,
+            date: new Date('September 13, 2013')
         },
         {
             name: 'Arenaria interpres',
             lat: -33.844948,
-            lng: 151.111011
+            lng: 151.111011,
+            date: new Date('January 1, 2012')
         },
         {
             name: 'Marchantia polymorpha',
             lat: -33.845343,
-            lng: 151.110789
+            lng: 151.110789,
+            date: new Date('January 2, 2014')
         }
     ];
     
@@ -88,7 +94,7 @@ setTimeout(function () {
         this.name = data.name;
         var markerOptions = {
             position: new google.maps.LatLng(data.lat, data.lng),
-            title: data.name,
+            title: data.name + ', ' + data.date.toDateString(),
             icon: customIcons['unknown'],
             icons: {
                 selected: customIcons['newUserMarker'],
@@ -229,11 +235,6 @@ setTimeout(function () {
                 .append($('<p>')
                     .append($('<a>').attr('href', url).text('[Wikipedia]')));
             var taxon = getTaxon(text);
-            if (taxon.kingdom === 'unknown') {
-                alert('That doesn\'t appear to be a valid binomial...\n' +
-                    '(according to Wikipedia) \n\n' + 
-                    '...maybe you\'ve discovered a new life form?');
-            }
             
             // code from http://stackoverflow.com/a/11592042
             var commonNames = extract.match(/<b>(.*?)<\/b>/g).map(bTagStripper);

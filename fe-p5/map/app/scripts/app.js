@@ -175,7 +175,7 @@ var app = app || {};
     };
     
     app.saveNewSighting = function () {
-        var name = $('#search')[0].value;
+        var name = $('#newName')[0].value;
         if (name.length < 3) {
             alert('That doesn\'t appear to be a valid name.');
             return;
@@ -187,7 +187,8 @@ var app = app || {};
         var newEntry = {
             'name': name,
             'lat': location.A,
-            'lng': location.F
+            'lng': location.F,
+            'date': new Date()
         }
         var speciesIndex = app.viewModel.speciesNames.indexOf(name);
         
@@ -199,8 +200,9 @@ var app = app || {};
                 // if the title provided is not a valid species
                 if (app.data.species[name].wm === undefined ||
                 app.data.species[name].wm.taxon.kingdom === 'unknown') {
-                    alert('Unable to find that species on Wikipedia, \n' +
-                        'if you spelled it correctly, then my Wikiparser ' +
+                    alert(name === 'Homo sapiens' ? name + ' considered harmful.':
+                        'Unable to find that species on Wikipedia. \n' +
+                        'If you spelled it correctly, then my Wikiparser ' +
                         'has let you down, sorry :(');
                     app.viewModel.species().pop();
                     delete app.data.species[app.viewModel.speciesNames.pop()];
@@ -267,14 +269,9 @@ var app = app || {};
             return;
         });
         
-        // add enter key keyup event handler to save data
-        // TODO: Change this to *actually* listen for key events
-        google.maps.event.addListener(app.newEntryMarker, 'click', app.saveNewSighting);
-        
-        $('#search').keyup(function (e) { 
-            if (e.which === 13) {
-                app.saveNewSighting();
-            };
+        // add listener to InfoWindow input to save new Entry
+        $('#newName').keyup(function (e) { 
+            e.which === 13 && app.saveNewSighting();
         });
         
     };
