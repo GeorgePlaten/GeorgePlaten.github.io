@@ -199,6 +199,9 @@ var app = app || {};
                 // if the title provided is not a valid species
                 if (app.data.species[name].wm === undefined ||
                 app.data.species[name].wm.taxon.kingdom === 'unknown') {
+                    alert('Unable to find that species on Wikipedia, \n' +
+                        'if you spelled it correctly, then my Wikiparser ' +
+                        'has let you down, sorry :(');
                     app.viewModel.species().pop();
                     delete app.data.species[app.viewModel.speciesNames.pop()];
                     return;
@@ -268,6 +271,12 @@ var app = app || {};
         // TODO: Change this to *actually* listen for key events
         google.maps.event.addListener(app.newEntryMarker, 'click', app.saveNewSighting);
         
+        $('#search').keyup(function (e) { 
+            if (e.which === 13) {
+                app.saveNewSighting();
+            };
+        });
+        
     };
             
     // temp
@@ -294,6 +303,7 @@ var app = app || {};
         app.viewModel = new ViewModel(app.data);
         ko.applyBindings(app.viewModel);
     };
+    
 
 })();
 

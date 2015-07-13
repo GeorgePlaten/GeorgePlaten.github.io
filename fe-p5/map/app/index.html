@@ -13,20 +13,18 @@
     <script src="https://storage.googleapis.com/code.getmdl.io/1.0.0/material.min.js"></script>
     
     <style type="text/css">
-      html, body {height: 100%; margin: 0; padding: 0; font-family: 'PT Serif', Cambria, Cochin, Georgia, Times,
-        Times New Roman, serif;}
+      html, body {height: 100%; margin: 0; padding: 0; font-family: 'PT Serif', Cambria, Cochin,
+        Georgia, Times, Times New Roman, serif;}
       #map-canvas {width: 100%; height: 100%}
       body {background-color: #DDD}
       div {float: left}
       h3 {font-size: 25px; line-height: 0px; font-style: italic;}
-      /*li {border: red 1px solid}*/
       p, ul{margin: 2px; padding: 0; line-height: 18px;}
-      /*.drawer-wrapper {width: 220px; overflow: hidden}*/
       ul {list-style: none; width: 255px; height: 100%}
       #filter-list {position: absolute; left: 0; height: 74%; overflow: auto}
-      li {background-color: #F5F5F5; padding: 5px; margin: 5px 20px 15px 10px; cursor: pointer;  width: 200px;
-  box-shadow: 0 1px 1px 0 rgba(0,0,0,.14),0 1px 1px -2px rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.12);
-}
+      li {background-color: #F5F5F5; padding: 5px; margin: 5px 20px 15px 10px; cursor: pointer;
+        width: 200px;box-shadow: 0 1px 1px 0 rgba(0,0,0,.14),0 1px 1px -2px rgba(0,0,0,.2),
+        0 1px 1px 0 rgba(0,0,0,.12);}
       #photo-bar {position: absolute; bottom: 25px; width: 100%}
       #photo-bar ul {width: 100%; margin: 0; padding: 0; margin: 0; text-align: center}
       #photo-bar li {display: inline;  padding: 0px; margin: 5px; background-color: transparent; color: transparent}
@@ -37,11 +35,6 @@
       .gm-style-iw p {margin-bottom: 12px}
       #addNew {position: absolute; bottom: 25px; right: 20px}
       #saveNew {position: absolute; bottom: 25px; right: 20px;background-color: #009688;display: none}
-      /*#control-filter {position: absolute; top: 50px; width: 80%; left: 10%; z-index: 99;}
-      #control-filter .is-dirty, #control-filter .is-focused {width: 100%}
-      .mdl-textfield__expandable-holder {width: 90%;}
-      .is-focused .mdl-textfield__expandable-holder {margin-left: 45px;}
-      .mdl-textfield__error {margin: 1px 14px;}*/
       .mdl-textfield__input {margin-left: 25px; width: 175px}
       .mdl-textfield__label {top: 20px}
       .mdl-textfield__label .material-icons {top: 20px; margin-left: -2px;}
@@ -49,7 +42,16 @@
       .mdl-layout__drawer {overflow: hidden}
       .mdl-layout__drawer > .mdl-layout-title {  padding-left: 17px;}
       .filter{padding: 0px 15px 16px;margin-top: -10px;}
-      
+      #newSightingInfoWindow {display:none}
+      #messages {width: 100%; position: absolute; top: 100px; display:none;}
+      .dialog { text-align: center}
+      .dialog span{ padding: 20px 16px 22px 34px; background-color: #F5F5F5; border-radius: 4px;
+          font-family: 'Roboto','Helvetica','Arial',sans-serif;font-size: 16px;}
+      .dialog span i{background-color: rgb(202, 202, 202);color: whitesmoke;
+        border-radius: 50%;padding: 4px;margin: -5px -55px;border: 6px solid whitesmoke;
+        position: absolute;}
+      #map-canvas h2 {margin-top: 25%; text-align: center; color: #009688}
+      #messageButton {margin-left: 10px;}
       @media only screen and (max-width: 400px) {
         #photo-bar ul li:nth-child(n + 5){display: none;}
       }
@@ -58,21 +60,6 @@
         .extract p {display: none;}
         h3 {font-size: 18px;}
       }
-      #newSightingInfoWindow {display:none}
-      #messages {width: 100%; position: absolute; top: 100px; display:none;}
-      .dialog { text-align: center}
-      .dialog span{ padding: 20px 16px 22px 34px; background-color: #F5F5F5; border-radius: 4px;
-          font-family: 'Roboto','Helvetica','Arial',sans-serif;font-size: 16px;}
-      .dialog span i{background-color: rgb(202, 202, 202);
-  color: whitesmoke;
-  border-radius: 50%;
-  padding: 4px;
-  margin: -5px -55px;
-  border: 6px solid whitesmoke;
-  position: absolute;
-  }
-      #map-canvas h2 {margin-top: 25%; text-align: center; color: #009688}
-      #messageButton {  margin-left: 10px;}
     </style>
 
     <script src="https://maps.googleapis.com/maps/api/js"></script>
@@ -93,7 +80,7 @@
       </header>
       
       <div class="mdl-layout__drawer">
-        <span class="mdl-layout-title">Filter</span>
+        <span class="mdl-layout-title">Filter by Species</span>
         <p class="filter">Filter your sightings by <em>names</em> or <em>classifications</em>,
         for example: 'plant', 'insect' or 'robin'.</p>
           
@@ -153,8 +140,8 @@
         <i class="material-icons">done</i>
       </button>
       
-      <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored
-        mdl-button--raised mdl-button--accent mdl-js-ripple-effect" id="addNew">
+      <button class="mdl-button mdl-js-button mdl-button--fab disabled
+        mdl-button--raised mdl-js-ripple-effect" id="addNew">
         <i class="material-icons">add</i>
       </button>
         

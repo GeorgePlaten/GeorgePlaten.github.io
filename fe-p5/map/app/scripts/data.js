@@ -5,6 +5,12 @@ var app = app || {
     }
 };
 
+setTimeout(function () {
+    $('#map-canvas').find('h2').text() && $('#map-canvas').find('h2').text(
+        'Unable to reach Google Maps, please try reloading the page'
+    )
+}, 8000);
+
 (function () {
     'use strict';
     
@@ -199,7 +205,9 @@ var app = app || {
             return html.replace(/<\/?b>/g, '').toLowerCase();
         };
         for (var page in collection) {
-            if (page === '-1') return;
+            if (page === '-1') {
+                return;
+            }
             // ensure exact name matching with original data and
             // Wikipedia enhanced data
             var species = collection[page].title;
@@ -270,8 +278,13 @@ var app = app || {
             url: baseUrl + '&titles=' + pages,
             dataType: 'jsonp',
             success: function (data) {
+                $('#addNew').prop('disabled', false).addClass('mdl-button--accent');
                 processWikimediaData(data);
                 callback && callback();
+            },
+            error: function () {
+                $('#addNew').prop('disabled', true).removeClass('mdl-button--accent');
+                // TODO: add a note to explain why the button is disabled
             }
         });
     };
@@ -295,7 +308,7 @@ var app = app || {
     // flickr only allows one request per search term
     // (using temp API key from API explorer) 
     var doFlickrRequest = function (name) {
-        var apikey = '8b7814a6caaa9aaedffe891d3fa97cfa';
+        var apikey = 'fd4290ed8c9c34724a6f5bd509d1ab7b';
         var url = 'https://api.flickr.com/services/rest/?method=flickr.photos.search' +
             '&api_key=' + apikey + '&safe_search=1&content_type=1' +
             '&extras=url_q&per_page=6&page=1&format=json&nojsoncallback=1';
