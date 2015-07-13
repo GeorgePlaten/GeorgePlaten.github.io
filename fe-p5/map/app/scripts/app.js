@@ -30,14 +30,14 @@ var app = app || {};
                 return ''; // failing silently
             }
         }.bind(this)();
-        this.commonNames = (species.wm) ? 'Also known as: ' + 
+        this.commonNames = (species.wm) ? 'Also known as: ' +
             species.wm.commonNames.join(', ') + '.' : '' ;
     };
 
     var ViewModel = function (data) {
-        
+
         this.speciesNames = [];
-        
+
         // observable array of all species
         this.species = ko.observableArray(function (species) {
             species = species || data.species;
@@ -48,11 +48,11 @@ var app = app || {};
             }
             return arr;
         }.bind(this)());
-        
+
         // text string to filter species
         this.filterStr = ko.observable('');
         this.tempFilterStr = '';
-        
+
         this.filteredSpecies = ko.computed(function () {
             return this.species().filter(function (species) {
                 species.isVisible(
@@ -61,40 +61,15 @@ var app = app || {};
                 return species.isVisible();
             }.bind(this));
         }.bind(this));
-        
+
         this.photos = ko.observableArray();
-        
+
         // Events //
-        
+
         this.listClick = function (species) {
-            // // Nested IF hell, *but* it makes for good UX where the app remembers
-            // // what you were doing.
-            // if (app.currentMarker) {
-            //     // if the curent marker is NOT the same species as the list click
-            //     // switch the images
-            //     if (app.currentMarker.marker.title !== species.species()){
-            //         // When the current maker is hidden by a list click
-            //         // switch the photos to the filtered species
-            //         if (this.flickrPhotos() !== species.pictures) {
-            //             this.flickrPhotos(species.pictures)
-            //         } else {
-            //         // Switch them back when the they are un-filtered
-            //             this.flickrPhotos(app.species[app.currentMarker.marker.title].pics)
-            //         }
-            //     }
-            //     // implied else:
-            //     // if the selected marker IS the same species as the list click
-            //     // just toggle the filter text (always done, see last line)
-            // } else if (this.filterStr() === species.species()) {
-            //     // if there's no current marker but a species is UNselected / filtered
-            //     this.flickrPhotos(null)
-            // } else {
-            //     // if no current marker and no filter
-            //     this.flickrPhotos(species.pictures)
-            // }
             this.toggleFilterStr(species.species());
         }.bind(this);
-        
+
         this.mapMarkerBounce = function (species) {
             var sightings = species.sightings;
             for (var i = 0, len = sightings.length; i < len; i++) {
@@ -107,9 +82,9 @@ var app = app || {};
                 sightings[i].marker.setAnimation(null);
             }
         };
-        
+
         // Helper Functions //
-        
+
         this.toggleFilterStr = function (str) {
             if (this.filterStr() === str) {
                 this.filterStr(this.tempFilterStr);
@@ -162,18 +137,18 @@ var app = app || {};
         app.data.currentSighting.deselect(true);
         app.data.currentSighting = '';
     });
-    
+
     app.newEntryInfoWindow = null;
     app.newEntryMarker = null;
     app.lastEntryMarker = null;
-    
+
     app.undoLastEntry = function () {
         $('#messages').fadeOut();
         app.lastEntryMarker.setMap(null);
         app.viewModel.species().pop();
         delete app.data.species[app.viewModel.speciesNames.pop()];
     };
-    
+
     app.saveNewSighting = function () {
         var name = $('#newName')[0].value;
         if (name.length < 3) {
@@ -182,16 +157,16 @@ var app = app || {};
         } else {
             name = name[0].toUpperCase() + name.slice(1).toLowerCase();
         }
-        
+
         var location = app.newEntryMarker.getPosition();
         var newEntry = {
             'name': name,
             'lat': location.A,
             'lng': location.F,
             'date': new Date()
-        }
+        };
         var speciesIndex = app.viewModel.speciesNames.indexOf(name);
-        
+
         var callback = function () {
             if (speciesIndex === -1) {
                 app.viewModel.species().push(new SpeciesModel(app.data.species[name]));
@@ -215,7 +190,7 @@ var app = app || {};
                 sighting.marker.icons.unselected = icons.unselected;
                 sighting.marker.icons.selected = icons.selected;
                 sighting.marker.setIcon(icons.unselected);
-                app.data.species[name].sightings.push(sighting)
+                app.data.species[name].sightings.push(sighting);
                 app.lastEntryMarker = sighting.marker;
             }
             $('.dialog').find('em').text(name);
@@ -225,20 +200,20 @@ var app = app || {};
             app.viewModel.filterStr('//');
             app.viewModel.filterStr('');
         };
-        
+
         if (speciesIndex === -1) {
             app.data.addNewSpecies(newEntry, callback);
             app.data.addNewSighting(newEntry);
         } else {
             app.data.addNewSighting(newEntry, callback);
         }
-        
+
         app.newEntryInfoWindow.setContent('');
         app.newEntryMarker.setMap(null);
         $('#saveNew').fadeOut();
         $('#addNew').fadeIn('slow');
     };
-    
+
     app.newSighting = function () {
         $('#addNew').fadeOut();
         $('#saveNew').fadeIn('slow');
@@ -254,12 +229,12 @@ var app = app || {};
             icon: 'images/sblank.png',
             title: 'Drag me!'
         });
-        
+
         // Render the InfoWindow
         app.newEntryInfoWindow = new google.maps.InfoWindow();
         app.newEntryInfoWindow.setContent($('#newSightingInfoWindow').html());
         app.newEntryInfoWindow.open(this.map.map, app.newEntryMarker);
-        
+
         // add listener to InfoWindow abort new Entry function
         google.maps.event.addListener(app.newEntryInfoWindow, 'closeclick', function () {
             $('#saveNew').fadeOut();
@@ -268,15 +243,15 @@ var app = app || {};
             app.newEntryMarker.setMap(null);
             return;
         });
-        
+
         // add listener to InfoWindow input to save new Entry
-        $('#newName').keyup(function (e) { 
+        $('#newName').keyup(function (e) {
             e.which === 13 && app.saveNewSighting();
         });
-        
+
     };
-            
-    // temp
+
+    // UI Buttons
     $('#addNew').on({'click': function () {
         app.newSighting();
     }});
@@ -286,22 +261,19 @@ var app = app || {};
     $('#messageButton').on({'click': function () {
         app.undoLastEntry();
     }});
-    
+
     // initialize google map
     var initializeGmap = function () {
         app.map.map = new google.maps.Map(document.getElementById('map-canvas'),
             app.map.options);
     };
     google.maps.event.addDomListener(window, 'load', initializeGmap);
-    
-        
+
+
     // initialize knockout js
     window.onload = function () {
         app.viewModel = new ViewModel(app.data);
         ko.applyBindings(app.viewModel);
     };
-    
 
 })();
-
-

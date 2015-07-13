@@ -1,4 +1,3 @@
-/// <reference path="../../typings/jquery/jquery.d.ts"/>
 var app = app || {
     data: {
         species: {},
@@ -9,12 +8,12 @@ var app = app || {
 setTimeout(function () {
     $('#map-canvas').find('h2').text() && $('#map-canvas').find('h2').text(
         'Unable to reach Google Maps, please try reloading the page'
-    )
+        )
 }, 8000);
 
 (function () {
     'use strict';
-    
+
     // Static 'starter' psuedodata to simulate a collection built by user input
     app.data.basic = [
         {
@@ -60,7 +59,7 @@ setTimeout(function () {
             date: new Date('January 2, 2014')
         }
     ];
-    
+
     var customIcons = {
         'unknown': 'images/blank.png',
         'plants': 'images/plant.png',
@@ -87,47 +86,47 @@ setTimeout(function () {
         'rodents-s': 'images/srodent.png',
         'newUserMarker': 'images/sblank.png'
     };
-    
+
     // MODELS //
-    
+
     var Species = function (data) {
         this.binomial = data.name;
         this.keywords = data.name;
         this.sightings = [];
     };
-    
+
     Species.prototype.addKeyword = function (str) {
         this.keywords += ', ' + str.toLowerCase();
     };
-    
+
     var Sighting = function (data) {
         this.name = data.name;
         var markerOptions = {
             position: new google.maps.LatLng(data.lat, data.lng),
             title: data.name + ', ' + data.date.toDateString(),
-            icon: customIcons['unknown'],
+            icon: customIcons.unknown,
             icons: {
-                selected: customIcons['newUserMarker'],
-                unselected: customIcons['unknown']
+                selected: customIcons.newUserMarker,
+                unselected: customIcons.unknown
             },
             map: null
         };
         this.marker = new google.maps.Marker(markerOptions);
         google.maps.event.addListener(this.marker, 'click', this.selection.bind(this));
     };
-    
+
     Sighting.prototype.selection = function () {
         app.map.toggleInfoWindow(this.name, this.marker);
         app.data.currentSighting === this ? this.deselect(true) : this.select();
     };
-    
+
     Sighting.prototype.deselect = function (recenter) {
         app.data.currentSighting = '';
         recenter && app.map.map.panTo(app.map.options.center);
         this.marker.getIcon() && this.marker.setIcon(this.marker.icons.unselected);
         app.viewModel.photos(null);
     };
-    
+
     Sighting.prototype.select = function () {
         $("#addNew").fadeOut();
         app.data.currentSighting && app.data.currentSighting.deselect();
@@ -135,9 +134,9 @@ setTimeout(function () {
         this.marker.getIcon() && this.marker.setIcon(this.marker.icons.selected);
         app.viewModel.photos(app.data.species[this.name].pics);
     };
-    
+
     // BUILD THE DATA //
-    
+
     app.data.addNewSpecies = function (data, callback) {
         var newSpecies = new Species(data);
         var species = newSpecies.binomial;
@@ -149,14 +148,14 @@ setTimeout(function () {
             getWikimediaData(species, callback);
         }
     };
-    
+
     app.data.addNewSighting = function (data, callback) {
         var newSighting = new Sighting(data);
         var species = newSighting.name;
         app.data.species[species] && app.data.species[species].sightings.push(newSighting);
         callback && callback();
     };
-        
+
     var initSpecies = function () {
         var basic = app.data.basic;
         for (var i = 0, len = basic.length; i < len; i++) {
@@ -164,9 +163,9 @@ setTimeout(function () {
             app.data.addNewSighting(basic[i]);
         }
     };
-    
+
     // AJAX //
-    
+
     var parseWikiTaxoProp = function (text, prop) {
         if (text.indexOf(prop) === -1) {
             return 'Property "' + prop + '" not found';
@@ -180,10 +179,10 @@ setTimeout(function () {
         var taxon = {};
         switch (parseWikiTaxoProp(text, 'regnum')) {
             case '[[Plant]]ae':
-                taxon.kingdom = "plants";
+                taxon.kingdom = 'plants';
                 switch (parseWikiTaxoProp(text, 'unranked_divisio')) {
                     case '[[Angiosperms]]':
-                        taxon.division = "flowering plants";
+                        taxon.division = 'flowering plants';
                         break;
                     default: break;
                 }
@@ -192,32 +191,32 @@ setTimeout(function () {
                 taxon.kingdom = 'animals';
                 switch (parseWikiTaxoProp(text, 'classis')) {
                     case '[[Insect]]a':
-                        taxon.class = "insects";
+                        taxon.class = 'insects';
                         switch (parseWikiTaxoProp(text, 'ordo')) {
                             case '[[Lepidoptera]]':
-                                taxon.order = "butterflies and moths";
+                                taxon.order = 'butterflies and moths';
                                 break;
                             default: break;
                         }
                         break;
                     case '[[bird|Aves]]':
                     case '[[Aves]]':
-                        taxon.class = "birds";
+                        taxon.class = 'birds';
                         break;
                     case '[[Malacostraca]]':
-                        taxon.class = "crustaceans"; // not true
+                        taxon.class = 'crustaceans'; // not true
                         break;
                     case '[[Actinopterygii]]':
-                        taxon.class = "fishes"; // not true
+                        taxon.class = 'fishes'; // not true
                         break;
                     case '[[Mammal]]ia':
-                        taxon.class = "mammals";
+                        taxon.class = 'mammals';
                         switch (parseWikiTaxoProp(text, 'ordo')) {
                             case '[[Rodent]]ia':
-                                taxon.order = "rodents";
+                                taxon.order = 'rodents';
                                 break;
                             case '[[Carnivora]]':
-                                taxon.order = "carnivores";
+                                taxon.order = 'carnivores';
                                 break;
                             default: break;
                         }
@@ -263,7 +262,7 @@ setTimeout(function () {
                 .append($('<p>')
                     .append($('<a>').attr('href', url).text('[Wikipedia]')));
             var taxon = getTaxon(text);
-            
+
             // code from http://stackoverflow.com/a/11592042
             var commonNames = extract.match(/<b>(.*?)<\/b>/g).map(bTagStripper);
 
@@ -277,14 +276,14 @@ setTimeout(function () {
             for (var key in taxon) {
                 current.addKeyword(taxon[key]);
             }
-            for (var i = 0, len = commonNames.length; i < len; i++) {
-                current.addKeyword(commonNames[i]);
+            for (var j = 0, jlen = commonNames.length; j < jlen; j++) {
+                current.addKeyword(commonNames[j]);
             }
             var sightings = current.sightings;
             var marker;
             var taxoIcon = (taxon.order || taxon.class || taxon.division || taxon.kingdom);
-            for (var i = 0, len = sightings.length; i < len; i++) {
-                marker = sightings[i].marker;
+            for (var k = 0, klen = sightings.length; k < klen; k++) {
+                marker = sightings[k].marker;
                 marker.icons.selected = customIcons[taxoIcon + '-s'];
                 marker.icons.unselected = customIcons[taxoIcon];
                 marker.setIcon(customIcons[taxoIcon]);
@@ -299,11 +298,11 @@ setTimeout(function () {
             '&exlimit=max&exintro=&excontinue=true&inprop=url';
         // if species parameter is given, put it in an array
         var sightingNames = species ? [species] :
-            // else if no parameter given, 
+            // else if no parameter given,
             // put all sightings from app.data.basic in the array
             app.data.basic.map(function (sighting) { return sighting.name; });
         var pages = sightingNames.join('|'); // Wikimedia batch format
-        jQuery.ajax({
+        $.ajax({
             url: baseUrl + '&titles=' + pages,
             dataType: 'jsonp',
             success: function (data) {
@@ -336,13 +335,13 @@ setTimeout(function () {
     };
 
     // flickr only allows one request per search term
-    // (using temp API key from API explorer) 
+    // (using temp API key from API explorer)
     var doFlickrRequest = function (name) {
         var apikey = 'fd4290ed8c9c34724a6f5bd509d1ab7b';
         var url = 'https://api.flickr.com/services/rest/?method=flickr.photos.search' +
             '&api_key=' + apikey + '&safe_search=1&content_type=1' +
             '&extras=url_q&per_page=6&page=1&format=json&nojsoncallback=1';
-        jQuery.ajax({
+        $.ajax({
             url: url + '&text=' + name,
             dataType: 'json',
             success: function (data) {
@@ -362,13 +361,13 @@ setTimeout(function () {
             doFlickrRequest(names[i]);
         }
     };
-    
+
     var init = function () {
         initSpecies();
         getWikimediaData();
         getFlickrData();
     };
-    
+
     init();
-    
+
 })();
