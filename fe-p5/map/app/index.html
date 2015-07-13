@@ -50,11 +50,15 @@
       .dialog { text-align: center}
       .dialog span{ padding: 20px 16px 22px 34px; background-color: #F5F5F5; border-radius: 4px;
           font-family: 'Roboto','Helvetica','Arial',sans-serif;font-size: 16px;}
-      .dialog span i{background-color: rgb(202, 202, 202);color: whitesmoke;
-        border-radius: 50%;padding: 4px;margin: -5px -55px;border: 6px solid whitesmoke;
+      .dialog span i{background-color: rgb(202, 202, 202);color: #F5F5F5;
+        border-radius: 50%;padding: 2px;margin: -8px -55px;border: 11px solid #F5F5F5;
         position: absolute;}
-      #map-canvas h2 {margin-top: 25%; text-align: center; color: #009688}
       #messageButton {margin-left: 10px;}
+      #readOnly {position: absolute; top: 69px; right: 4px; display:none;}
+      #readOnly .dialog{text-align: center;  width: 180px;font-family: 'Roboto','Helvetica','Arial',
+        sans-serif;font-size: 12px;padding: 6px;}
+      .disabled {background-color: rgba(210, 210, 210, 0.9);}
+      #map-canvas h2 {margin-top: 25%; text-align: center; color: #009688}
       @media only screen and (max-width: 400px) {
         #photo-bar ul li:nth-child(n + 5){display: none;}
       }
@@ -133,7 +137,7 @@
       
       <div id="photo-bar">
         <ul data-bind="foreach: photos">
-          <li>
+          <li data-bind="if: $data">
             <a data-bind="attr: {href: $data.url, title: $data.title}">
               <img data-bind="attr: {src: $data.src, alt: ''}">
             </a>
@@ -146,7 +150,7 @@
         <i class="material-icons">done</i>
       </button>
       
-      <button class="mdl-button mdl-js-button mdl-button--fab disabled
+      <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--accent
         mdl-button--raised mdl-js-ripple-effect" id="addNew">
         <i class="material-icons">add</i>
       </button>
@@ -181,6 +185,11 @@
             id="messageButton">undo</button>
         </span>
       </p>
+    </div>
+    
+    <div id="readOnly">
+      <p class="dialog mdl-button--raised disabled">READ-ONLY MODE<br>
+      Adding new sightings is disabled because Wikipedia is unavailable</p>
     </div>
     
     <!-- The Scripts -->

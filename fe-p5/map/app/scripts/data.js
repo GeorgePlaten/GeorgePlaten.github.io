@@ -65,8 +65,10 @@ setTimeout(function () {
         'unknown': 'images/blank.png',
         'plants': 'images/plant.png',
         'plants-s': 'images/splant.png',
-        'animals': 'images/animal.png',
-        'animals-s': 'images/sanimal.png',
+        'fishes': 'images/fish.png',
+        'fishes-s': 'images/sfish.png',
+        'animals': 'images/blank.png',
+        'animals-s': 'images/sblank.png',
         'flowering plants': 'images/flower.png',
         'flowering plants-s': 'images/sflower.png',
         'insects': 'images/insect.png',
@@ -75,6 +77,12 @@ setTimeout(function () {
         'butterflies and moths-s': 'images/sbutterfly.png',
         'birds': 'images/bird.png',
         'birds-s': 'images/sbird.png',
+        'carnivores': 'images/carnivore.png',
+        'carnivores-s': 'images/scarnivore.png',
+        'crustaceans': 'images/crustacean.png',
+        'crustaceans-s': 'images/scrustacean.png',
+        'rodents': 'images/rodent.png',
+        'rodents-s': 'images/srodent.png',
         'newUserMarker': 'images/sblank.png'
     };
     
@@ -194,6 +202,24 @@ setTimeout(function () {
                     case '[[Aves]]':
                         taxon.class = "birds";
                         break;
+                    case '[[Malacostraca]]':
+                        taxon.class = "crustaceans"; // not true
+                        break;
+                    case '[[Actinopterygii]]':
+                        taxon.class = "fishes"; // not true
+                        break;
+                    case '[[Mammal]]ia':
+                        // taxon.class = "mammals" // no icon
+                        switch (parseWikiTaxoProp(text, 'ordo')) {
+                            case '[[Rodent]]ia':
+                                taxon.order = "rodents";
+                                break;
+                            case '[[Carnivora]]':
+                                taxon.order = "carnivores";
+                                break;
+                            default: break;
+                        }
+                        break;
                     default: break;
                 }
                 break;
@@ -226,7 +252,7 @@ setTimeout(function () {
             }
 
             var text = collection[page].revisions[0]['*'];
-            // console.log(text);
+            console.log(text);
             var extract = collection[page].extract;
             var url = collection[page].canonicalurl;
             var $infoWindowHTML = $('<div>')
@@ -280,12 +306,13 @@ setTimeout(function () {
             dataType: 'jsonp',
             success: function (data) {
                 $('#addNew').prop('disabled', false).addClass('mdl-button--accent');
+                $('#readOnly').hide();
                 processWikimediaData(data);
                 callback && callback();
             },
             error: function () {
                 $('#addNew').prop('disabled', true).removeClass('mdl-button--accent');
-                // TODO: add a note to explain why the button is disabled
+                $('#readOnly').show();
             }
         });
     };
