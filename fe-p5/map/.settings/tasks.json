@@ -7,7 +7,7 @@
     ],
     "tasks": [
         {
-            "taskName": "serve:dist",
+            "taskName": "serve",
             "args": [],
             "isBuildCommand": true
         }

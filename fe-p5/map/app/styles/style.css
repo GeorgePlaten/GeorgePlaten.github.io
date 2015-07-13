@@ -194,7 +194,7 @@ li {
         display: none;
     }
 }
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 720px) {
     #photo-bar img {
         width: 50px;
         border: #F5F5F5 solid 2px;

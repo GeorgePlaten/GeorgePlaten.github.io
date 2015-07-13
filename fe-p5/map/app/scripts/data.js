@@ -1,15 +1,11 @@
+/// <reference path="../../typings/jquery/jquery.d.ts"/>
+/// <reference path="../../typings/gmaps/google.maps.d.ts"/>
 var app = app || {
     data: {
         species: {},
         currentSighting: null
     }
 };
-
-setTimeout(function () {
-    $('#map-canvas').find('h2').text() && $('#map-canvas').find('h2').text(
-        'Unable to reach Google Maps, please try reloading the page'
-        )
-}, 8000);
 
 (function () {
     'use strict';
@@ -128,7 +124,7 @@ setTimeout(function () {
     };
 
     Sighting.prototype.select = function () {
-        $("#addNew").fadeOut();
+        $('#addNew').fadeOut();
         app.data.currentSighting && app.data.currentSighting.deselect();
         app.data.currentSighting = this;
         this.marker.getIcon() && this.marker.setIcon(this.marker.icons.selected);
@@ -253,7 +249,7 @@ setTimeout(function () {
             }
 
             var text = collection[page].revisions[0]['*'];
-            console.log(text);
+            // console.log(text); // use this when troubleshooting wikiparsing
             var extract = collection[page].extract;
             var url = collection[page].canonicalurl;
             var $infoWindowHTML = $('<div>')
@@ -337,9 +333,8 @@ setTimeout(function () {
     // flickr only allows one request per search term
     // (using temp API key from API explorer)
     var doFlickrRequest = function (name) {
-        var apikey = 'fd4290ed8c9c34724a6f5bd509d1ab7b';
         var url = 'https://api.flickr.com/services/rest/?method=flickr.photos.search' +
-            '&api_key=' + apikey + '&safe_search=1&content_type=1' +
+            '&api_key=' + app.apikeys.FLICKR + '&safe_search=1&content_type=1' +
             '&extras=url_q&per_page=6&page=1&format=json&nojsoncallback=1';
         $.ajax({
             url: url + '&text=' + name,
