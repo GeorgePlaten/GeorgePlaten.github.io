@@ -69,6 +69,8 @@ setTimeout(function () {
         'fishes-s': 'images/sfish.png',
         'animals': 'images/blank.png',
         'animals-s': 'images/sblank.png',
+        'mammals': 'images/animal.png',
+        'mammals-s': 'images/sanimal.png',
         'flowering plants': 'images/flower.png',
         'flowering plants-s': 'images/sflower.png',
         'insects': 'images/insect.png',
@@ -209,7 +211,7 @@ setTimeout(function () {
                         taxon.class = "fishes"; // not true
                         break;
                     case '[[Mammal]]ia':
-                        // taxon.class = "mammals" // no icon
+                        taxon.class = "mammals";
                         switch (parseWikiTaxoProp(text, 'ordo')) {
                             case '[[Rodent]]ia':
                                 taxon.order = "rodents";
