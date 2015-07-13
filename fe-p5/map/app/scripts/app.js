@@ -12,7 +12,7 @@ var app = app || {
     'use strict';
     
     app.apikeys = {
-        FLICKR: 'fd4290ed8c9c34724a6f5bd509d1ab7b',
+        FLICKR: '8cb9b18ff2c7e69d920b7ce056169306',
         gmaps: ''
     };
 
