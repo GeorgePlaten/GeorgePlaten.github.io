@@ -1,13 +1,23 @@
+/* global app */
 /// <reference path='../../typings/jquery/jquery.d.ts'/>
 /// <reference path='../../typings/knockout/knockout.d.ts'/>
 /// <reference path='../../typings/gmaps/google.maps.d.ts'/>
-var app = app || {};
+
+/**
+ * @fileoverview Knockout.js and Google Maps Viewmodels
+ * @author <a href="http://georgeplaten.github.io">George Platen</a>
+ * @version 0.1.1
+ */
 
 (function () {
     'use strict';
 
     // KNOCKOUT VIEWS //
 
+    /**
+     * Function description
+     * @param {param type|types} param name - param description
+     */
     var SpeciesModel = function (species) {
         this.species = ko.observable(species.binomial);
         this.keywords = species.keywords.toLowerCase();
@@ -29,7 +39,7 @@ var app = app || {};
                 }
                 return arr.join(' | ');
             } else {
-                return ''; // failing silently
+                return ''; // fail silently
             }
         }.bind(this)();
         this.commonNames = (species.wm) ? 'Also known as: ' +
@@ -146,7 +156,7 @@ var app = app || {};
     app.lastEntryMarker = null;
 
     app.undoLastEntry = function () {
-        $('#messages').fadeOut();
+        $('.messages').fadeOut();
         app.lastEntryMarker.setMap(null);
         app.viewModel.species().pop();
         delete app.data.species[app.viewModel.speciesNames.pop()];
@@ -199,8 +209,8 @@ var app = app || {};
                 app.lastEntryMarker = sighting.marker;
             }
             $('.dialog').find('em').text(name);
-            $('#messages').fadeIn();
-            setTimeout(function () {$('#messages').fadeOut('slow');}, 5000);
+            $('.messages').fadeIn();
+            setTimeout(function () {$('.messages').fadeOut('slow');}, 4000);
             // forces a list refresh
             app.viewModel.filterStr('//');
             app.viewModel.filterStr('');
@@ -237,7 +247,7 @@ var app = app || {};
 
         // Render the InfoWindow
         app.newEntryInfoWindow = new google.maps.InfoWindow();
-        app.newEntryInfoWindow.setContent($('#new-sighting-info-window').html());
+        app.newEntryInfoWindow.setContent($('.new-sighting-info-window').html());
         app.newEntryInfoWindow.open(this.map.map, app.newEntryMarker);
 
         // add listener to InfoWindow abort new Entry function

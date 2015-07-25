@@ -1,6 +1,21 @@
+/**
+ * @fileoverview Base application elements:
+ * - namespace definition
+ * - error check for critical google map loading
+ * - UI event listeners
+ * @author <a href="http://georgeplaten.github.com">George Platen</a>
+ * @version 0.1.1
+ */
+
 /// <reference path='../../typings/jquery/jquery.d.ts'/>
 /// <reference path='../../typings/knockout/knockout.d.ts'/>
 /// <reference path='../../typings/gmaps/google.maps.d.ts'/>
+/// <reference path='views.js'/>
+
+/**
+ * The application namespace
+ * @namespace
+ */
 var app = app || {
     data: {
         species: {},
@@ -12,7 +27,7 @@ var app = app || {
     'use strict';
     
     app.apikeys = {
-        FLICKR: '8cb9b18ff2c7e69d920b7ce056169306',
+        FLICKR: '22dec05ae90cf0e92ca4146d2d14761c',
         gmaps: ''
     };
 
@@ -26,9 +41,11 @@ var app = app || {
     $('#add-new').on({'click': function () {
         app.newSighting();
     }});
+    
     $('#save-new').on({'click': function () {
         app.saveNewSighting();
     }});
+    
     $('#message-button').on({'click': function () {
         app.undoLastEntry();
     }});

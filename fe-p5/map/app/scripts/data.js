@@ -1,11 +1,6 @@
-/// <reference path="../../typings/jquery/jquery.d.ts"/>
-/// <reference path="../../typings/gmaps/google.maps.d.ts"/>
-var app = app || {
-    data: {
-        species: {},
-        currentSighting: null
-    }
-};
+/// <reference path='../../typings/jquery/jquery.d.ts'/>
+/// <reference path='../../typings/knockout/knockout.d.ts'/>
+/// <reference path='../../typings/gmaps/google.maps.d.ts'/>
 
 (function () {
     'use strict';
@@ -303,13 +298,17 @@ var app = app || {
             dataType: 'jsonp',
             success: function (data) {
                 $('#add-new').prop('disabled', false).addClass('mdl-button--accent');
-                $('#read-only').hide();
+                $('.wikipedia-fail').hide();
+                $('.wikipedia-ok').show();
+                $('.ajax-status').removeClass('read-only');
                 processWikimediaData(data);
                 callback && callback();
             },
             error: function () {
                 $('#add-new').prop('disabled', true).removeClass('mdl-button--accent');
-                $('#read-only').show();
+                $('.wikipedia-ok').hide();
+                $('.wikipedia-fail').show();
+                $('.ajax-status').addClass('read-only');
             }
         });
     };
@@ -340,9 +339,20 @@ var app = app || {
             url: url + '&text=' + name,
             dataType: 'json',
             success: function (data) {
+                $('.flickr-fail').hide();
+                $('.flickr-ok').show();
+                $('.ajax-status').removeClass('flickr-failed');
                 if (app.data.species[name]) {
                     app.data.species[name].pics = processFlickrData(data);
                 }
+            },
+            error: function () {
+                // flickr data is considered a non-critical enhancement.
+                // Give minimal notice and interuption to the user,
+                // serve only as confirmation that photos are missing
+                $('.flickr-ok').hide();
+                $('.flickr-fail').show();
+                $('.ajax-status').addClass('flickr-failed');
             }
         });
     };

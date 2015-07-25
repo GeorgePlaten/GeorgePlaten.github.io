@@ -6,14 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>P5: Neighbourhood Map - Sighting Notebook</title>
     <!-- Material Design Lite: http://www.getmdl.io/ -->
-    <link href='http://fonts.googleapis.com/css?family=PT+Serif' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.0/material.teal-red.min.css" />
+    <link href='http://fonts.googleapis.com/css?family=PT+Serif' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://storage.googleapis.com/code.getmdl.io/1.0.0/material.teal-red.min.css" rel="stylesheet">
     <script src="https://storage.googleapis.com/code.getmdl.io/1.0.0/material.min.js"></script>
     
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="styles/style.css" type='text/css' inline>
+    <link rel="stylesheet" href="styles/style.css" inline>
     <script src="https://maps.googleapis.com/maps/api/js"></script>
   </head>
 
@@ -24,6 +24,18 @@
           <span class="mdl-layout-title">Sightings</span>
           <!-- Add spacer, to align navigation to the right -->
           <div class="mdl-layout-spacer"></div>
+
+          <!-- Ajax Status Indicator -->
+          <div id="ajax-status" class="ajax-status icon material-icons">info_outline</div>
+          <div class="mdl-tooltip mdl-tooltip--large" for="ajax-status">
+            <p class="wikipedia-ok">Wikipedia connected: OK</p>
+            <p class="wikipedia-fail"><span>Read-only mode</span><br>
+              failed to reach Wikipedia.</p>
+            <hr>
+            <p class="flickr-ok">Flickr connected: OK</p>
+            <p class="flickr-fail">Some or all photos will be unavailble due to connection difficulties with Flickr.</p>
+          </div>
+
           <nav class="mdl-navigation mdl-layout--large-screen-only">
             <!-- Navigation (empty for now) -->
           </nav>
@@ -45,8 +57,8 @@
         </div>
         <div class="mdl-navigation">
           
-          <!--all list items and map markers are generated here-->
-          <ul id="filter-list" data-bind="foreach: filteredSpecies">
+          <!-- all list items and map markers are generated here -->
+          <ul id="filter-list" class="filter-list" data-bind="foreach: filteredSpecies">
             <li data-bind="event: {
                 click: $parent.listClick,
                 mouseover: $parent.mapMarkerBounce,
@@ -67,10 +79,11 @@
       </main>
       
       <!-- Main Page content -->
-      <div id="map-canvas">
+      <div id="map-canvas" class="map-canvas">
         <h2>Loading Google Maps...</h2>
       </div>
-      <div id="photo-bar">
+      
+      <div class="photo-bar">
         <ul data-bind="foreach: photos">
           <li data-bind="if: $data">
             <a data-bind="attr: {href: $data.url, title: $data.title}">
@@ -79,18 +92,19 @@
           </li>
         </ul>
       </div>
-      <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored
+      
+      <button class="save-new mdl-button mdl-js-button mdl-button--fab mdl-button--colored
         mdl-button--raised mdl-js-ripple-effect" id="save-new">
         <i class="material-icons">done</i>
       </button>
-      <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--accent
+      <button class="add-new mdl-button mdl-js-button mdl-button--fab mdl-button--accent
         mdl-button--raised mdl-js-ripple-effect" id="add-new">
         <i class="material-icons">add</i>
       </button>
     </div>
     
     <!-- Google Maps InfoWindow Snippets -->
-    <div id="new-sighting-info-window">
+    <div class="new-sighting-info-window">
       <p>Move the marker to the location you want.</p>
       <p class="mdl-textfield mdl-js-textfield textfield-demo new-name">
         <input class="mdl-textfield__input" type="text" id="new-name" pattern="[A-Z,a-z, ]*" placeholder="Try 'Canis lupus'" />
@@ -106,18 +120,15 @@
     </div>
     
     <!-- Messages  -->
-    <div id="messages">
+    <div class="messages">
       <p class="dialog">
         <span class="mdl-button--raised">
           <i class="material-icons">done</i>
           New <em>Firstname lastname</em> added.
-          <button class="mdl-button mdl-js-button mdl-button--primary" id="message-button">undo</button>
+          <button class="message-button mdl-button mdl-js-button mdl-button--primary"
+            id="message-button">undo</button>
         </span>
       </p>
-    </div>
-    <div id="read-only">
-      <p class="dialog mdl-button--raised disabled">READ-ONLY MODE
-        <br>Adding new sightings is disabled because Wikipedia is unavailable</p>
     </div>
     
     <!-- The Scripts -->
