@@ -25,7 +25,7 @@ more sighting locations associated with it. You can filter
 the list my using binnomial names, classifications (such as
 'animal' or 'plant'), and common names.
 
-### View or get the code
+### View or get the code, read the Docs
 
 You can use an online copy of this project here:
 http://georgeplaten.github.io/fe-p5/map/dist/
