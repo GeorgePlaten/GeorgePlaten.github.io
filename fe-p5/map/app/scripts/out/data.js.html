@@ -1,6 +1,34 @@
-/// <reference path='../../typings/jquery/jquery.d.ts'/>
-/// <reference path='../../typings/knockout/knockout.d.ts'/>
-/// <reference path='../../typings/gmaps/google.maps.d.ts'/>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: data.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: data.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/// &lt;reference path='../../typings/jquery/jquery.d.ts'/>
+/// &lt;reference path='../../typings/knockout/knockout.d.ts'/>
+/// &lt;reference path='../../typings/gmaps/google.maps.d.ts'/>
 
 /**
  * @fileoverview Define and manage the application data models
@@ -11,20 +39,20 @@
 (function () {
     'use strict';
 
-    /**
+    /** 
      * Application data storage and management
      * @namespace
      * @memberof app
      */
     app.data = {
-
+        
         /**
          * The main database with Sightings in native format
          * @field {object}
          * @memberof app.data
          */
         species: {},
-
+        
         /**
          * Static 'starter' psuedodata to simulate a collection built by user input
          * @field {object[]}
@@ -74,7 +102,7 @@
                 date: new Date('January 2, 2014')
             }
         ],
-
+        
         /**
          * Add a new Species to the model
          * @method
@@ -86,7 +114,7 @@
             var newSpecies = new Species(data);
             // get the binomial of the new species
             var species = newSpecies.binomial;
-            // If the species is not already in the model
+            // If the species is not aleady in the model
             if (!app.data.species[species]) {
                 // then add it to the model
                 app.data.species[species] = newSpecies;
@@ -99,7 +127,7 @@
                 getWikimediaData(species, callback);
             }
         },
-
+    
         /**
          * Add a new Sighting to a Species
          * @method
@@ -112,11 +140,11 @@
             // Get the species name
             var species = newSighting.name;
             // if the species is already in the data model, add the new sighting
-            app.data.species[species] && app.data.species[species].sightings.push(newSighting);
+            app.data.species[species] &amp;&amp; app.data.species[species].sightings.push(newSighting);
             // if there was a callback function, execute it
-            callback && callback();
+            callback &amp;&amp; callback();
         }
-    };
+    }
 
     /**
      * Collection of custom icon identifiers with filenames
@@ -230,9 +258,9 @@
         // Clear the current sighting
         app.currentSighting = '';
         // recenter the map if recenter === true
-        recenter && app.gMapVM.map.panTo(app.gMapVM.mapOptions.center);
+        recenter &amp;&amp; app.gMapVM.map.panTo(app.gMapVM.mapOptions.center);
         // if the marker has a custom icon, set it to the unselected version
-        this.marker.getIcon() && this.marker.setIcon(this.marker.icons.unselected);
+        this.marker.getIcon() &amp;&amp; this.marker.setIcon(this.marker.icons.unselected);
         // clear the photos from KO view model photos array
         app.koViewModel.photos(null);
     };
@@ -244,11 +272,11 @@
         // Clear add new button from UI to focus on the selection
         $('#add-new').fadeOut();
         // If there is already a Sighting selected, deselect it
-        app.currentSighting && app.currentSighting.deselect();
+        app.currentSighting &amp;&amp; app.currentSighting.deselect();
         // Set this sighting to the current sighting
         app.currentSighting = this;
         // if the sighting has a custom marker, set it to the selected version
-        this.marker.getIcon() && this.marker.setIcon(this.marker.icons.selected);
+        this.marker.getIcon() &amp;&amp; this.marker.setIcon(this.marker.icons.selected);
         // Populate the KO view model photos with the species pictures
         app.koViewModel.photos(app.data.species[this.name].pics);
     };
@@ -269,7 +297,7 @@
         } else {
             // Trim all text before the prop name
             var str = text.substring(text.indexOf(prop) + prop.length).replace(/ /g, '');
-            // Trim text up to and including '=' and after the end of the line
+            // Trim text upto and including '=' and after the end of the line
             // and return it the trimmed string
             return str.substring(str.indexOf('=') + 1, str.indexOf('\u000A'));
         }
@@ -364,28 +392,28 @@
          * @returns {string} The string with the 'b' tags removed
          */
         var bTagStripper = function (html) {
-            return html.replace(/<\/?b>/g, '').toLowerCase();
+            return html.replace(/&lt;\/?b>/g, '').toLowerCase();
         };
-
+        
         // Process each page received
         for (var page in collection) {
             if (page === '-1') {
                 // Wikimedia returns -1 if no pages were found
                 return; // abort
             }
-
+            
             // When adding a new sighting, the name as entered by the user
             // may find a match on Wikipedia, but be redirected to a page
             // with a different title.
-
+            
             // Assume the user would prefer to use the name they entered
             // rather than the Wikipedia page title.
-
+            
             // Set the species name to the page title
             var species = collection[page].title;
             // but change it to user's original title, if there was a redirect
             if (redirects) {
-                for (var i = 0, len = redirects.length; i < len; i++) {
+                for (var i = 0, len = redirects.length; i &lt; len; i++) {
                     // loop through the redirects until a match is found
                     if (species === redirects[i].to) {
                         // set the species back to original search term
@@ -397,28 +425,28 @@
             // Get the Wikimedia text blob, this is in their own markup format
             var text = collection[page].revisions[0]['*'];
             // console.log(text); // use this when troubleshooting wikiparsing
-
+            
             // Get the extract and the canonical url
             var extract = collection[page].extract;
             var url = collection[page].canonicalurl;
-
+            
             // Build a html element for the infowindow with the Wikimedia elements
-            var $infoWindowHTML = $('<div>')
-                .append($('<h3>').text(species))
-                .append($('<div>').html(extract).addClass('extract'))
-                .append($('<p>')
-                    .append($('<a>').attr('href', url).text('[Wikipedia]')));
+            var $infoWindowHTML = $('&lt;div>')
+                .append($('&lt;h3>').text(species))
+                .append($('&lt;div>').html(extract).addClass('extract'))
+                .append($('&lt;p>')
+                    .append($('&lt;a>').attr('href', url).text('[Wikipedia]')));
 
             // Build the taxon object
             var taxon = getTaxon(text);
 
             // Get the common names (in bold tags) from the extract
             // code from http://stackoverflow.com/a/11592042
-            var commonNames = extract.match(/<b>(.*?)<\/b>/g).map(bTagStripper);
+            var commonNames = extract.match(/&lt;b>(.*?)&lt;\/b>/g).map(bTagStripper);
 
-            // Get a reference to the current species
+            // Get a referece to the current species
             var current = app.data.species[species];
-
+            
             // Build and add a Wikimedia object
             current.wm = {
                 'iwHTML': $infoWindowHTML[0],
@@ -426,28 +454,28 @@
                 'taxon': taxon,
                 'commonNames': commonNames
             };
-
+            
             // Add keywords from the taxon object
             for (var key in taxon) {
                 current.addKeyword(taxon[key]);
             }
-
+            
             // Add keywords from the common names array
-            for (var j = 0, jlen = commonNames.length; j < jlen; j++) {
+            for (var j = 0, jlen = commonNames.length; j &lt; jlen; j++) {
                 current.addKeyword(commonNames[j]);
             }
-
+            
             // Get a reference to the current species's sightings array
             var sightings = current.sightings;
-
+            
             // Get the lowest classification found for the species
             // (the options are ordered from least likely to most likely)
             var taxoIcon = (taxon.order || taxon.class || taxon.division || taxon.kingdom);
-
+            
             // Create a marker variable for the following loop
             var marker;
             // and loop through each sighting of the species, setting the marker icons
-            for (var k = 0, klen = sightings.length; k < klen; k++) {
+            for (var k = 0, klen = sightings.length; k &lt; klen; k++) {
                 marker = sightings[k].marker;
                 marker.icons.selected = customIcons[taxoIcon + '-s'];
                 marker.icons.unselected = customIcons[taxoIcon];
@@ -456,7 +484,8 @@
         }
     };
 
-    /**
+    // 
+    /** 
      * Make an API call to Wikimedia and handle success and failure. Note:
      * Wikimedia prefer to have multiple queries batched into a single request.
      * Called by {@link app.data.addNewSpecies} and {@link init}
@@ -466,35 +495,35 @@
      */
     var getWikimediaData = function (species, callback) {
         // Set up the url fragments for the ajax request
-        var baseUrl = 'https://en.wikipedia.org//w/api.php?action=query&format=json' +
-            '&redirects=&prop=revisions|extracts|info&rvprop=content&rvsection=0' +
-            '&exlimit=max&exintro=&excontinue=true&inprop=url';
+        var baseUrl = 'https://en.wikipedia.org//w/api.php?action=query&amp;format=json' +
+            '&amp;redirects=&amp;prop=revisions|extracts|info&amp;rvprop=content&amp;rvsection=0' +
+            '&amp;exlimit=max&amp;exintro=&amp;excontinue=true&amp;inprop=url';
         // if species parameter is given, put it in an array
         var sightingNames = species ? [species] :
             // else if no parameter given,
             // put all sightings from app.data.basic in the array
             app.data.basic.map(function (sighting) { return sighting.name; });
-
+            
         var pages = sightingNames.join('|'); // Wikimedia batch format
-
+        
         // Do the API ajax call with jQuery
         $.ajax({
-            url: baseUrl + '&titles=' + pages,
+            url: baseUrl + '&amp;titles=' + pages,
             dataType: 'jsonp',
-            // On success,
+            // On success, 
             success: function (data) {
-                // Reset to UI and update status indicators to show Wikimedia is available
+                // Reset to UI and update status indicators to show wikipedia is available
                 $('#add-new').prop('disabled', false).addClass('mdl-button--accent');
                 $('.wikipedia-fail').hide();
                 $('.wikipedia-ok').show();
                 $('.ajax-status').removeClass('read-only');
                 // Process the data and if there's a callback, execute it.
                 processWikimediaData(data);
-                callback && callback();
+                callback &amp;&amp; callback();
             },
             // On error,
             error: function () {
-                // Update the UI to indicate Wikimedia is unavailable and disable the
+                // Update the UI to indicate Wikipedia is unavailable and disable the
                 // 'add' button (as species names can't be verified without Wikipedia)
                 $('#add-new').prop('disabled', true).removeClass('mdl-button--accent');
                 $('.wikipedia-ok').hide();
@@ -504,7 +533,7 @@
         });
     };
 
-    /**
+    /** 
      * @typedef {object} Photo
      * @property {string} src - url to image thumbnail
      * @property {string} title=untitled - image title, if supplied
@@ -512,10 +541,10 @@
      * @global
      */
 
-    /**
+    /** 
      * Process the data received from Flickr. Build an array of Photo objects
      * Called by {@link flickrRequest}.
-     * @param {JSON} data - The Flickr data object in JSON format
+     * @param {JSON} data - The flickr data object in JSON format
      * @returns {Photo[]}
      * @global
      */
@@ -523,7 +552,7 @@
         var flickrPhotos = data.photos.photo;
         var photos = [];
         var fPhoto;
-        for (var i = 0, len = flickrPhotos.length; i < len; i++) {
+        for (var i = 0, len = flickrPhotos.length; i &lt; len; i++) {
             // Build a Photo object
             var photo = {};
             fPhoto = flickrPhotos[i];
@@ -538,10 +567,10 @@
         return photos;
     };
 
-    /**
+    /** 
      * Make an API call to Flickr. On success, add an array of photos to
      * the species. On failure, fail (almost) silently as the photos are
-     * considered non-critical progressive enhancement. Note: unlike Wikimedia,
+     * considered non-critiacl progressive enhancement. Note: unlike Wikimedia,
      * Flickr do not have a facility to batch multiple queries in a single request.
      * Called by {@link app.data.addNewSpecies} and {@link initBatchFlickrRequests}
      * @param {string} name - The Flickr API search term, a species name
@@ -550,12 +579,12 @@
     var flickrRequest = function (name) {
         // Prepare the request url fragments
         var url = 'https://api.flickr.com/services/rest/?method=flickr.photos.search' +
-            '&api_key=' + app.apikeys.FLICKR + '&safe_search=1&content_type=1' +
-            '&extras=url_q&per_page=6&page=1&format=json&nojsoncallback=1';
+            '&amp;api_key=' + app.apikeys.FLICKR + '&amp;safe_search=1&amp;content_type=1' +
+            '&amp;extras=url_q&amp;per_page=6&amp;page=1&amp;format=json&amp;nojsoncallback=1';
         // Use jQuery to perform the ajax call
         $.ajax({
-            // Build and set the request URL
-            url: url + '&text=' + name,
+            // Build and set the request url
+            url: url + '&amp;text=' + name,
             dataType: 'json',
             // On success,
             success: function (data) {
@@ -589,7 +618,7 @@
         var names = app.data.basic.map(
             function (sighting) { return sighting.name; }
             );
-        for (var i = 0, len = names.length; i < len; i++) {
+        for (var i = 0, len = names.length; i &lt; len; i++) {
             flickrRequest(names[i]);
         }
     };
@@ -603,7 +632,7 @@
     var init = function () {
         var basic = app.data.basic;
         // loop through each sighting in app.data.basic
-        for (var i = 0, len = basic.length; i < len; i++) {
+        for (var i = 0, len = basic.length; i &lt; len; i++) {
             // Add the species and sighting
             app.data.addNewSpecies(basic[i]);
             app.data.addNewSighting(basic[i]);
@@ -614,6 +643,28 @@
         initBatchFlickrRequests();
     };
 
-    init(); // start here
+    init(); // kick the whole thing off
 
-})();
+})();</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="global.KoSpecies.html">KoSpecies</a></li><li><a href="global.KoViewModel.html">KoViewModel</a></li><li><a href="global.Sighting.html">Sighting</a></li><li><a href="global.Species.html">Species</a></li></ul><h3>Namespaces</h3><ul><li><a href="app.html">app</a></li><li><a href="app.data.html">data</a></li><li><a href="app.gMapVM.html">gMapVM</a></li></ul><h3>Global</h3><ul><li><a href="global.html#customIcons">customIcons</a></li><li><a href="global.html#flickrRequest">flickrRequest</a></li><li><a href="global.html#getTaxon">getTaxon</a></li><li><a href="global.html#getWikimediaData">getWikimediaData</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initBatchFlickrRequests">initBatchFlickrRequests</a></li><li><a href="global.html#initGmap">initGmap</a></li><li><a href="global.html#onCloseClick">onCloseClick</a></li><li><a href="global.html#parseWikiTaxoProp">parseWikiTaxoProp</a></li><li><a href="global.html#processFlickrData">processFlickrData</a></li><li><a href="global.html#processWikimediaData">processWikimediaData</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Mon Jul 27 2015 15:53:18 GMT+0100 (GMT Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

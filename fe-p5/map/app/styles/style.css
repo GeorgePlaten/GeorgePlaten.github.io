@@ -109,7 +109,8 @@ li {
 
 #save-new {
     /* use of id selector here is intentional (against the Style Guide but
-    required while the behaviour fails to work using a  class selector) */
+    required while the behavior fails to work using a class selector -
+    makes the button red, might be a chrome bug) */
     position: absolute;
     bottom: 25px;
     right: 20px;
@@ -168,18 +169,18 @@ li {
     padding: 5px 2px;
 }
 
-.messages {
+.undo-dialog {
     width: 100%;
     position: absolute;
     top: 100px;
     display: none;
 }
 
-.dialog {
+.message {
     text-align: center;
 }
 
-.dialog span {
+.message span {
     padding: 20px 16px 22px 34px;
     background-color: #f5f5f5;
     border-radius: 4px;
@@ -187,7 +188,7 @@ li {
     font-size: 16px;
 }
 
-.dialog span i {
+.message span i {
     background-color: rgb(202, 202, 202);
     color: #f5f5f5;
     border-radius: 50%;
@@ -251,11 +252,11 @@ li {
         border: #f5f5f5 solid 2px;
         margin-bottom: -10px;
     }
-    
+
     .extract p {
         display: none;
     }
-    
+
     h3 {
         font-size: 18px;
     }

@@ -14,7 +14,7 @@ The name should be entered in binomial form. If the name is
 validated with Wikipedia it will then be added an some extra
 information such as taxonomic classification, common names
 and some general information will be added. A batch of the
-latest related pictures from Flicr will be added too. To view
+latest related pictures from Flickr will be added too. To view
 all of this, select the newly added marker.
 
 ** To browse and filter existing entries **
@@ -27,8 +27,11 @@ the list my using binnomial names, classifications (such as
 
 ### View or get the code
 
-You can view an online copy of this project here:
+You can use an online copy of this project here:
 http://georgeplaten.github.io/fe-p5/map/dist/
+
+You can view the documentation and code here:
+http://georgeplaten.github.io/fe-p5/map/app/scripts/out/
 
 To download the source, clone from the following link:
 https://github.com/GeorgePlaten/fe-p5.git
