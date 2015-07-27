@@ -12,10 +12,8 @@
 (function () {
     'use strict';
 
-    // GOOGLE MAPS //
-
     /**
-     * Google Maps view model data and operations
+     * GOOGLE MAPS view model data and operations
      * @namespace
      */
     app.gMapVM = {
@@ -115,7 +113,7 @@
     google.maps.event.addDomListener(window, 'load', initGmap);
 
 
-// KNOCKOUT //
+    // KNOCKOUT //
 
     /**
      * @class Defines a Knockout model of a Species
@@ -170,7 +168,7 @@
      * @property {string} tempFilterStr - Placeholder used by this.listClick()
      * @property {string[]} speciesNames - Shortlist of species names, used when adding,
      *   checking and undoing new sightings and species.
-     * @property {ko.observableArray(photoObject[])} photos - Placeholder for photos.
+     * @property {ko.observableArray(Photo[])} photos - Placeholder for photos.
      *   Values set by google.map.Marker click events: Sightings.select() and
      *   Sightings.deselect()
      * @property {ko.observableArray(KoSpecies[])} allSpecies - All of the species
@@ -206,6 +204,7 @@
          * Save any current string in the filter input when a list entry is clicked.
          * Re-enters the string if the filter is cleared by a second click.
          * @param {KoSpecies} koSpecies Species object from list item's KO click listener.
+         * @method
          */
         this.listClick = function (koSpecies) {
             if (this.filterStr() === koSpecies.binomial) {
@@ -241,6 +240,7 @@
          * Add new koSpecies to app.koViewModel.allSpecies. Called by
          * app.saveNewSighting() if the species has not been recorded before.
          * @param {string} binomial New species name in binomial format.
+         * @method
          */
         this.addNewSpecies = function (binomial) {
             this.allSpecies().push(new KoSpecies(data.species[binomial]));

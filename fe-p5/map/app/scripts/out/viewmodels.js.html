@@ -40,10 +40,8 @@
 (function () {
     'use strict';
 
-    // GOOGLE MAPS //
-
     /**
-     * Google Maps view model data and operations
+     * GOOGLE MAPS view model data and operations
      * @namespace
      */
     app.gMapVM = {
@@ -60,11 +58,11 @@
             mapTypeId: google.maps.MapTypeId.TERRAIN,
             disableDefaultUI: true
         },
-        
+
         /** The infowindow to display at markers */
         infowindow: new google.maps.InfoWindow({ content: '' }),
 
-        /** 
+        /**
          * Show and hide the infowindow. Also handles the infowindow content
          * management. Called by Sighting.select() and Sighting.deselect()
          * @param {string} species - Comes from the Sighting.name
@@ -77,14 +75,14 @@
             // content, otherwise set it to the species name string.
             var newContent = app.data.species[species].wm ?
                 app.data.species[species].wm.iwHTML : species;
-                
+
             // let the user toggle the InfoWindow
             // If the content is changing
             if (currentContent !== newContent) {
                 // change it and move it to the new marker
                 this.infowindow.setContent(newContent);
                 this.infowindow.open(this.map, marker);
-                
+
             // if the content is not changing and the marker is not changing
             // then the user has clicked is toggling the infowindow off
             } else if (currentContent === newContent &amp;&amp;
@@ -93,7 +91,7 @@
                 // also clear content to enable toggle logic
                 this.infowindow.setContent('');
                 this.infowindow.close();
-                
+
             // the content is not changing but the marker is
             } else {
                 // moving same content to a new marker
@@ -101,25 +99,25 @@
                 this.infowindow.open(this.map, marker);
             }
         },
-        
+
         /** The Google map object */
         map: null,
-        
+
         /** The infowindow for new user entries */
         newEntryInfoWindow: null,
-        
+
         /** The Marker for new user entries */
         newEntryMarker: null,
-        
+
         /** The last entry marker, for undo */
         lastEntryMarker: null
     };
 
 
-    /** 
+    /**
      * Simulates a marker deselect.
      * Clear the google maps infowindow, reset the default UI, clear the photos array,
-     * deselect the marker and clear the currentSighting. 
+     * deselect the marker and clear the currentSighting.
      * Attached to the google map infowindow close button click event.
      * @global
      */
@@ -132,7 +130,7 @@
     };
     google.maps.event.addListener(app.gMapVM.infowindow, 'closeclick', onCloseClick);
 
-    /** 
+    /**
      * Initialize the Google map.
      * @global
      */
@@ -143,7 +141,7 @@
     google.maps.event.addDomListener(window, 'load', initGmap);
 
 
-// KNOCKOUT //
+    // KNOCKOUT //
 
     /**
      * @class Defines a Knockout model of a Species
@@ -177,7 +175,7 @@
         }.bind(this)();
         this.isVisible = ko.observable(false);
         this.sightings = species.sightings;
-        /** 
+        /**
          * Toggles all sighting map markers according to the isVisible property
          * using google.maps.Marker.setMap(). Used by Viewmodel.filteredSpecies().
          */
@@ -198,7 +196,7 @@
      * @property {string} tempFilterStr - Placeholder used by this.listClick()
      * @property {string[]} speciesNames - Shortlist of species names, used when adding,
      *   checking and undoing new sightings and species.
-     * @property {ko.observableArray(photoObject[])} photos - Placeholder for photos.
+     * @property {ko.observableArray(Photo[])} photos - Placeholder for photos.
      *   Values set by google.map.Marker click events: Sightings.select() and
      *   Sightings.deselect()
      * @property {ko.observableArray(KoSpecies[])} allSpecies - All of the species
@@ -234,6 +232,7 @@
          * Save any current string in the filter input when a list entry is clicked.
          * Re-enters the string if the filter is cleared by a second click.
          * @param {KoSpecies} koSpecies Species object from list item's KO click listener.
+         * @method
          */
         this.listClick = function (koSpecies) {
             if (this.filterStr() === koSpecies.binomial) {
@@ -264,11 +263,12 @@
                 sightings[i].marker.setAnimation(null);
             }
         };
-        
+
         /**
          * Add new koSpecies to app.koViewModel.allSpecies. Called by
          * app.saveNewSighting() if the species has not been recorded before.
          * @param {string} binomial New species name in binomial format.
+         * @method
          */
         this.addNewSpecies = function (binomial) {
             this.allSpecies().push(new KoSpecies(data.species[binomial]));
@@ -276,8 +276,8 @@
         }.bind(this);
     };
 
-    /** 
-     * Initialise the KnockoutJS viewmodel and bindings.
+    /**
+     * Initialize the KnockoutJS view model and bindings.
      */
     window.onload = function () {
         app.koViewModel = new KoViewModel(app.data);
@@ -300,7 +300,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Mon Jul 27 2015 15:53:18 GMT+0100 (GMT Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Mon Jul 27 2015 21:00:43 GMT+0100 (GMT Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

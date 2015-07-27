@@ -507,7 +507,7 @@
     /**
      * @typedef {object} Photo
      * @property {string} src - url to image thumbnail
-     * @property {string} title=untitled - image title, if supplied
+     * @property {string} title='untitled' - image title, if supplied
      * @property {string} url - link back to author's original location
      * @global
      */
