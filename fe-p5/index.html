@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Georgeplaten.GitHub.io : reading and tinkering">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="../stylesheets/stylesheet.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../stylesheets/style.css">
+
+    <title>GeorgePlaten GitHub.io - Project 5 Notes</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+        <a href="../">
+          <img id="biopic" src="../images/biopic.jpg" width="150" height="150">
+        </a>
+          <!-- <a id="forkme_banner" href="https://github.com/GeorgePlaten">View on GitHub</a> -->
+
+          <h1 id="project_title"><a href="../" id="home-link">GeorgieP</a></h1>
+          <p id="project_tagline">reading and tinkering</p>
+
+        </header>
+    </div>
+
+
+    <!-- MAIN GITHUB CONTENT -->
+
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+
+    <!-- MY CONTENT -->
+
+    <h2>Project 5: Neighborhood Map</h2>
+
+      <h3>Into to AJAX</h3>
+        <p>(No journal, this was a very short course, just <a href="https://github.com/GeorgePlaten/GeorgePlaten.github.io/blob/master/fe-p5/ajax-project/js/script.js">type-along exercise file</a> and <a href="http://georgeplaten.github.io/fe-p5/ajax-project/">mini 'app'</a>.)</p>
+
+        <p>A nice, simple, fun course. Unfortunately, once the concept is introduced, the next step is "just use jQuery". Also fortunately, because I tried completing this course and avoiding jQuery (to help get a better understanding, not snobbery), and I found no other library or snippets that could successfully get the Wikipedia data.</p>
+
+        <p>I did spend a good week trying to get around this too, and as a last resort I was going to extract to AJAX code only from jQuery, but that would have been stupid. The rest of jQuery is not going to add any problems, can probably be delivered faster from CDNs, and once you have it, you might as well use it for the DOM stuff too.</p>
+
+        <p>Also, I imagine actually learning to make jQuery work that well would take months and not be very useful. And I suspect the people at Wikipedia were too busy to spend much time making it work with anything other that jQuery.</p>
+
+        <p>We learned about using 3rd Party APIs, like Google Maps, New York Times etc. Very necessary evils, even if you have no plans to use them. It was interesting to see how different they all are. Came across <a href="http://ruben.verborgh.org/blog/2013/11/29/the-lie-of-the-api/">nice argument</a> about why making APIs is stupid when you are already sharing your data via a website, which I like the sound of and would like to dive a bit deeper into in the future. Learned a little bit about handling errors, and a little about different formats (json-p, cors etc.). Finally we looked at loading ajax data asynchronously so that the page can be delivered fast enough and then progressively enhanced.</p>
+
+        <p>Anyway, all in all, Intro to AJAX was a good, quick introduction to ajax.</p>
+
+      <h3>JavaScript Design Patterns</h3>
+
+        <p>(Again no journal this time, because the course was fairly abstract in nature. Just some <a href="https://github.com/GeorgePlaten/GeorgePlaten.github.io/tree/master/fe-p5/cat-clicker">rough type-alongs</a> and a <a href="http://georgeplaten.github.io/fe-p5/cat-clicker/catclicker-mvo-pro.html">killer app</a>.)</p>
+
+        <p>So this would seem to be what the whole Nanodegree was leading up to. Introduced to Ben Jaffe who comes across as a total hipster on first impressions, but turns out to be the warmest, most genuine instructor I have <b>ever</b> seen. Unfortunately, we had to use Knockout. Which would be fortunate for someone looking for a job (might as well get used to eating shit for a living now).</p>
+
+        <p>This course probably could have gone a bit deeper though. It showed us MV* patterns, but it was supposed to help us understand organizational techniques and learn to think about them in an abstract way, this only introduced them. I'm sure a book or even full Nanodegree is needed to really understand them, but I thought this course would go a little bit further than it did. Again, it is a real shame they use Knockout, because this pattern didn't really help understand how to think about structuring an app.</p>
+
+        <p>Annoyingly I totally aced (imHo!) Lessons 1 and 2, which were supposed to introduce to real world problems and get you to think about future proofing your work. I didn't really hit those problems and didn't have to do much, if any, refactoring. This put my in a bad frame of mind for using Knockout because it was way more complicated than it needed to be, from what I could see.</p>
+
+        <p>In summary, I'd take any course done by Ben, I hope he does a lot more.</p>
+
+      <h3>Submission: Neighborhood Map Project</h3>
+
+        <p><a href="map/dist/">Copy of submission</a>, <a href="portfolio/dist/views/pizza.html">Mockup of FPS submission</a> and <a href="https://github.com/GeorgePlaten/fe-p5.git">submitted repository</a> (with source and production code folders and JDDoc generated documentation).</p>
+
+        <p>This project was hard. I blame Knockout. Or at least, I should blame my own resistance to it. My brain was fighting against it the whole time. Too much magic! It was a week before I figured out how to even debug it. And that attitude made the whole process twice as hard as it should have. Google APIs are bad enough, but I knew I would have to go elbow deep in them, one way or another. And am glad now, that I did.</p>
+
+        <p>Wikipedia was another kettle of fish, but I can't complain because it is a wonderful project and having access to that data is what it's all about.</p>
+
+        <p>What did I learn? I learned about APIs, got an into to MV* libraries and got a whole load of exposure an experience. This is exactly what it's all about. It gave the confidence to know I can go and read those difficult books and blog posts. I finally feel like I have taken the first step into learning programming.</p>
+
+        <h4>Resources</h4>
+
+          <p>A very minimal list of <a href="https://github.com/GeorgePlaten/fe-p5/blob/master/resources.txt">resources</a>. without comments because this project was about gaining experience, not learning new stuff.</p>
+
+    <!-- END MY CONTENT -->
+
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+  </body>
+</html>
