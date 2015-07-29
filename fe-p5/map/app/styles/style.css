@@ -3,7 +3,7 @@ body {
     height: 100%;
     margin: 0;
     padding: 0;
-    font-family: "PT Serif", Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+    font-family: "PT Serif", Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
     background-color: #ddd;
 }
 
@@ -11,9 +11,6 @@ body {
     width: 100%;
     height: 100%;
 }
-/*div {
-    float: left;
-}*/
 
 .mdl-layout__obfuscator {
     background-color: rgba(0, 0, 0, .14) !important;
@@ -79,10 +76,7 @@ li {
 }
 
 .species-name {
-    font-weight: bold;
-    font-variant: small-caps;
-    font-size: 18px;
-    font-style: italic;
+    font: italic small-caps bold 18px;
     color: #009688;
 }
 
@@ -184,12 +178,12 @@ li {
     padding: 20px 16px 22px 34px;
     background-color: #f5f5f5;
     border-radius: 4px;
-    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
     font-size: 16px;
 }
 
 .message span i {
-    background-color: rgb(202, 202, 202);
+    background-color: #cacaca;
     color: #f5f5f5;
     border-radius: 50%;
     padding: 2px;
@@ -230,7 +224,7 @@ li {
 }
 
 .read-only {
-    color: #FF5252;
+    color: #ff5252;
     background-color: #f5f5f5;
     border-radius: 50%;
     opacity: 1;

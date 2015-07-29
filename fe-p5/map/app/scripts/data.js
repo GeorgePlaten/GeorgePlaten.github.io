@@ -213,12 +213,10 @@
     };
 
     /**
-     * Toggle current Sighting selection from a marker click
+     * Toggle current Sighting selection and infowindow with a marker click
      */
     Sighting.prototype.selection = function () {
-        // Toggle the infowindow
         app.gMapVM.toggleInfoWindow(this.name, this.marker);
-        // Toggle the selection
         app.currentSighting === this ? this.deselect(true) : this.select();
     };
 
@@ -379,22 +377,22 @@
             // with a different title.
 
             // Assume the user would prefer to use the name they entered
-            // rather than the Wikipedia page title.
+            // rather than the Wikipedia redirect title.
 
-            // Set the species name to the page title
+            // Set the species name to the result's page title
             var species = collection[page].title;
-            // but change it to user's original title, if there was a redirect
+            // if there was a redirect
             if (redirects) {
                 for (var i = 0, len = redirects.length; i < len; i++) {
                     // loop through the redirects until a match is found
                     if (species === redirects[i].to) {
-                        // set the species back to original search term
+                        // change it back to user's original title
                         species = redirects[i].from;
                     }
                 }
             }
 
-            // Get the Wikimedia text blob, this is in their own markup format
+            // Get the Wikimedia text blob (this is in their own markup format)
             var text = collection[page].revisions[0]['*'];
             // console.log(text); // use this when troubleshooting wikiparsing
 
