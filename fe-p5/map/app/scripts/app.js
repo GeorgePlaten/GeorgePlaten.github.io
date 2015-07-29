@@ -211,7 +211,7 @@ var app = app || {};
      * Using Offline.js library from https://github.com/hubspot/offline
      * with default settings.
      */
-    Offline.on('down', function () {
+    Offline.on('confirmed-down', function () {
         
         // Update the UI info mdl-tooltip, update status for both Flickr and Wikipedia
         $('.all-fail').show();
@@ -231,7 +231,7 @@ var app = app || {};
      * Using Offline.js library from https://github.com/hubspot/offline
      * with default settings.
      */
-     Offline.on('up', function () {
+     Offline.on('confirmed-up', function () {
         
         // Update the UI info mdl-tooltip, update status for both Flickr and Wikipedia
         $('.all-fail').hide();
