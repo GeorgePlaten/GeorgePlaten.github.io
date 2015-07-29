@@ -149,6 +149,20 @@
         'rodents-s': 'images/srodent.png',
         'newUserMarker': 'images/sblank.png'
     };
+    
+    /**
+     * Preload icon images in case of dropped connectivity -
+     * enables selection state change.
+     */
+     (function preloadIcons () {
+         var images = [];
+         var image;
+         for (var key in customIcons) {
+             image = new Image();
+             image.src = customIcons[key];
+             images.push(image);
+         }
+     })();
 
     // MODELS //
 
@@ -492,7 +506,7 @@
             },
             // On error,
             error: function () {
-                // Update the UI to indicate Wikimedia is unavailable and disable the
+                // Update the UI to indicate Wikipedia is unavailable and disable the
                 // 'add' button (as species names can't be verified without Wikipedia)
                 $('#add-new').prop('disabled', true).removeClass('mdl-button--accent');
                 $('.wikipedia-ok').hide();

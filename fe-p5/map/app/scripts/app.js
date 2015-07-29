@@ -234,7 +234,6 @@ var app = app || {};
         
         // Enable adding new items (Wikipedia can't verify the species name)
         $('#add-new').prop('disabled', false).addClass('mdl-button--accent');
-        
     });
 
 })();
