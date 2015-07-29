@@ -13,10 +13,11 @@
 
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    
+
     <!-- inline boolean attribute is stripped in build process, then the link tag is replaced
       with a minified form of the style sheet, W3 validation OK in distibution -->
     <link rel="stylesheet" href="styles/style.css" inline>
+    <link rel="stylesheet" href="styles/offline-language-english.css" inline>
     <script src="https://maps.googleapis.com/maps/api/js"></script>
   </head>
 
@@ -136,6 +137,7 @@
 
     <!-- The Scripts -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="scripts/offline.min.js"></script>
     <script src="scripts/knockout-latest.js"></script>
     <script src="scripts/app.js"></script>
     <script src="scripts/data.js"></script>
