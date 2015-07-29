@@ -28,12 +28,19 @@ var app = app || {};
     /**
      * API Keys
      * @field {object}
-     * memberof app
+     * @memberof app
      */
     app.apikeys = {
         FLICKR: 'e9648afe7558db322364fbe75507a46f',
         gmaps: ''
     };
+    
+     /**
+      * Custom icon image paths for preloading
+      * @field {string[]}
+      * @memberof app
+      */
+     app.images = [];
 
     /**
      * Save New Entry.

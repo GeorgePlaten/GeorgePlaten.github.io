@@ -155,8 +155,6 @@
      * enables selection state change.
      */
      (function preloadIcons () {
-         /** @field {string[]} custom icon image paths for preloading */
-         app.images = [];
          var image;
          for (var key in customIcons) {
              image = new Image();
@@ -536,6 +534,7 @@
         var flickrPhotos = data.photos.photo;
         var photos = [];
         var fPhoto;
+        var img;
         for (var i = 0, len = flickrPhotos.length; i < len; i++) {
             // Build a Photo object
             var photo = {};
@@ -546,6 +545,10 @@
             fPhoto.owner + '/' + fPhoto.id;
             // Add it to the array
             photos.push(photo);
+            // Preload the thumbnail to app.images
+            img = new Image();
+            img.src = fPhoto.url_q;
+            app.images.push(img)
         }
         // return the array to flickrRequest()
         return photos;
