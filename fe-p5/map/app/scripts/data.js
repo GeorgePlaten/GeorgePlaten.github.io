@@ -155,12 +155,13 @@
      * enables selection state change.
      */
      (function preloadIcons () {
-         var images = [];
+         /** @field {string[]} custom icon image paths for preloading */
+         app.images = [];
          var image;
          for (var key in customIcons) {
              image = new Image();
              image.src = customIcons[key];
-             images.push(image);
+             app.images.push(image);
          }
      })();
 
