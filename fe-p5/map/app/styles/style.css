@@ -78,6 +78,7 @@ li {
 }
 
 .species-name {
+    /* note: can not use shorthand without font-family */
     font-weight: bold;
     font-variant: small-caps;
     font-size: 18px;
