@@ -211,6 +211,13 @@ li {
     opacity: 0.4;
 }
 
+.all-fail {
+    display: none;
+    color: #ff5252;
+    font-variant: small-caps;
+    font-size: 18px;
+}
+
 .wikipedia-fail span {
     font-variant: small-caps;
     font-size: 18px;

@@ -214,6 +214,7 @@ var app = app || {};
     Offline.on('down', function () {
         
         // Update the UI info mdl-tooltip, update status for both Flickr and Wikipedia
+        $('.all-fail').show();
         $('.wikipedia-ok').hide();
         $('.wikipedia-fail').show();
         $('.ajax-status').addClass('read-only');
@@ -233,6 +234,7 @@ var app = app || {};
      Offline.on('up', function () {
         
         // Update the UI info mdl-tooltip, update status for both Flickr and Wikipedia
+        $('.all-fail').hide();
         $('.wikipedia-fail').hide();
         $('.wikipedia-ok').show();
         $('.ajax-status').removeClass('read-only');
