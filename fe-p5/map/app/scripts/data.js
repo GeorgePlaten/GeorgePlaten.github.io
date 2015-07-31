@@ -550,7 +550,7 @@
             // Preload the thumbnail to app.images
             img = new Image();
             img.src = fPhoto.url_q;
-            app.images.push(img)
+            app.images.push(img);
         }
         // return the array to flickrRequest()
         return photos;
