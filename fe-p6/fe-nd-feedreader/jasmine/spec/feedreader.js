@@ -53,34 +53,73 @@ $(function () {
     }
 
     /** Test 02 - url is defined and not empty */
-    it('each have a `url` string that isn\'t empty', function () {
+    it('each have a `url` string that is not empty', function () {
       expect(aFeedHasABadUrl).toBe(false);
     });
 
     /** Test 03 - name is defined and not empty */
-    it('each have a `name` string that isn\'t empty', function () {
+    it('each have a `name` string that is not empty', function () {
       expect(aFeedHasABadName).toBe(false);
     });
 
   });
 
 
-  /* TODO: (10) Write a new test suite named "The menu" */
+  /* Test The Menu */
   describe('The Menu', function () {
+    
+  /** 
+   * The 'menu-hidden' class hides the menu when added
+   * to the body element, and shows it when removed.
+   */
+   
+  /** 
+   * TEST 01
+   * Ensures the menu element is hidden by default.
+   * On DOM loaded the body should have a 'menu-hidden' class
+   */
+    it('is hidden by default', function () {
+      expect(
+        /**
+         * actual
+         * Use jQuery to get the element and check if it has
+         * the 'menu-hidden' class (.hasClass() returns Boolean)
+         */
+        $('body').hasClass('menu-hidden')
+      ).toBe(true);
+    });
+    
+    /** 
+     * Ensure the menu changes visibility when the menu icon is
+     * clicked.
+     */
+     
+    /** TEST 02 - Does the menu display when clicked? */
+    it('displays when clicked a first time', function () {
+      
+      /** 
+       * Use jQuery to trigger a click event on the icon, this
+       * should add or remove the 'menu-hidden' class on the body.
+       */
+      $('.menu-icon-link').trigger('click');
+      
+      /** Check that the body DOES NOT HAVE the class */
+      expect($('body').hasClass('menu-hidden')).toBe(false);
+    });
+    
+    /** TEST 03 - Does the menu hide when clicked? */
+    it('hides when clicked a second time', function () {
+      
+      /** use jQuery to trigger another click event on the icon */
+      $('.menu-icon-link').trigger('click');
+      
+      /** Check that the body HAS the 'menu-hidden' class */
+      expect($('body').hasClass('menu-hidden')).toBe(true);
+    });
     
   });
 
-  /* TODO: (11) Write a test that ensures the menu element is
-   * hidden by default. You'll have to analyze the HTML and
-   * the CSS to determine how we're performing the
-   * hiding/showing of the menu element.
-   */
 
-  /* TODO: (12) Write a test that ensures the menu changes
-   * visibility when the menu icon is clicked. This test
-   * should have two expectations: does the menu display when
-   * clicked and does it hide when clicked again.
-   */
 
   /* TODO: (13) Write a new test suite named "Initial Entries" */
 
