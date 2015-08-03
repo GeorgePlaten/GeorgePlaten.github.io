@@ -112,6 +112,11 @@
             app.gMapVM.mapOptions);
     };
     google.maps.event.addDomListener(window, 'load', initGmap);
+    
+    /**
+     * Above could be improved with https://developers.google.com/maps/documentation/javascript/examples/map-simple-async
+     * and http://stackoverflow.com/questions/9655800/load-google-maps-v3-via-xhr-with-error-handling
+     */
 
 
     // KNOCKOUT //

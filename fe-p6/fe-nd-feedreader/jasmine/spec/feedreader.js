@@ -1,3 +1,4 @@
+/// <reference path="../../../../typings/jasmine/jasmine.d.ts"/>
 /* feedreader.js
  *
  * This is the spec file that Jasmine will read and contains
@@ -69,4 +70,4 @@ $(function() {
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
-}());
+}(jQuery));
