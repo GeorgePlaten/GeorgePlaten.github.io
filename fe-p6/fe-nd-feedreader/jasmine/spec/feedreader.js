@@ -68,25 +68,25 @@ $(function () {
   /* Test The Menu */
   describe('The Menu', function () {
     
-  /** 
-   * The 'menu-hidden' class hides the menu when added
-   * to the body element, and shows it when removed.
-   */
+    /** 
+     * The 'menu-hidden' class hides the menu when added
+     * to the body element, and shows it when removed.
+     */
    
-  /** 
-   * TEST 01
-   * Ensures the menu element is hidden by default.
-   * On DOM loaded the body should have a 'menu-hidden' class
-   */
+    /** 
+     * TEST 01
+     * Ensures the menu element is hidden by default.
+     * On DOM loaded the body should have a 'menu-hidden' class
+     */
     it('is hidden by default', function () {
       expect(
         /**
-         * actual
+         * The actual -
          * Use jQuery to get the element and check if it has
          * the 'menu-hidden' class (.hasClass() returns Boolean)
          */
         $('body').hasClass('menu-hidden')
-      ).toBe(true);
+        ).toBe(true);
     });
     
     /** 
@@ -105,35 +105,184 @@ $(function () {
       
       /** Check that the body DOES NOT HAVE the class */
       expect($('body').hasClass('menu-hidden')).toBe(false);
+      
+      /** Reset state with a subsequent click */
+      $('.menu-icon-link').trigger('click');
     });
     
     /** TEST 03 - Does the menu hide when clicked? */
     it('hides when clicked a second time', function () {
       
-      /** use jQuery to trigger another click event on the icon */
+      /** use jQuery to trigger two click events on the icon */
+      $('.menu-icon-link').trigger('click');
       $('.menu-icon-link').trigger('click');
       
       /** Check that the body HAS the 'menu-hidden' class */
       expect($('body').hasClass('menu-hidden')).toBe(true);
     });
+
+  });
+
+
+  /* Test the Initialization */
+  describe('Initial Entries', function () {
     
+    /** 
+     * The first page load is run by init() but we can can't call it
+     * directly as we need to be able to send a callback method for
+     * testing in Jasmine. Instead we copy the internal code of init()
+     * by calling loadFeed() which does allow an optional callback as
+     * the second parameter.
+     * We use the beforeAll() and pass done as a parameter in the
+     * function, to tell Jasmine an asynchronous call is being made.
+     */
+    beforeAll(function (done) {
+      
+      /** load the zeroth index of allFeeds, and run done() when complete */
+      loadFeed(0, function () {
+        done();
+      });
+    });
+    
+    /**
+     * After the asynchronous loadFeed is complete, test for at least
+     * a single .entry element within the .feed container.
+     * done is passed as parameter to the spec, to tell Jasmine
+     * that we are waiting on an asynchronous call. done() is then
+     * run again when the spec is finished.
+     */
+    it('are loaded on first page load', function (done) {
+      
+      /** Get the first .entry and convert it to a Boolean (with !!) */
+      expect(!!($('.entry')[0])).toBe(true);
+      
+      /** Tell Jasmine we are finished the async call */
+      done();
+    });
   });
 
 
 
-  /* TODO: (13) Write a new test suite named "Initial Entries" */
-
-  /* TODO: (14) Write a test that ensures when the loadFeed
-   * function is called and completes its work, there is at least
-   * a single .entry element within the .feed container.
-   * Remember, loadFeed() is asynchronous so this test wil require
-   * the use of Jasmine's beforeEach and asynchronous done() function.
+  /** 
+   * Test if Feed Switching loads new content.
+   * 
+   * This will first test if the container feed's children mutate.
+   * It is not enough to compare content before and after the new
+   * feed is selected, because if duplicate feeds are loaded, the
+   * content comparison will pass.
+   * 
+   * Instead this test will intentionally load the same feed twice in a row and
+   * check for mutation and same content, then it will load a different
+   * feed and just check for content difference.
    */
-
-  /* TODO: (15) Write a new test suite named "New Feed Selection"
-
-      /* TODO: (16) Write a test that ensures when a new feed is loaded
-       * by the loadFeed function that the content actually changes.
-       * Remember, loadFeed() is asynchronous.
+  describe('New Feed Selection', function () {
+      
+    /**
+     * We will set up a MutationObserver to watch the .feed container for
+     * changes to its content. This will capture changes even
+     * when the new content is identical to the old content.
+     * https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver
+     */
+    var nodesWereRemoved = false;
+      
+    /** select the target node */
+    var target = $('.feed')[0];
+     
+    /** create an observer instance */
+    var observer = new MutationObserver(function (mutations) {
+      
+      /** on each mutation */
+      mutations.forEach(function (mutation) {
+        // console.log(mutation); // troubleshoot observer
+        
+        /** check if nodes were removed */
+        if (mutation.removedNodes.length > 0) {
+          
+          /** and $container.empty() ran successfully */
+          nodesWereRemoved = true;
+        }
+      });
+    });
+     
+    /** 
+     * Configuration of the observer.
+     * (attributes, childList and characterData are all required)
+     */
+    var config = { attributes: true, childList: true, characterData: true };
+    
+    /**
+     * We will be grabbing content after each selection has loaded
+     * and later comparing them for equality. Set up the variables
+     * now to have them available during all procedures in the test.
+     */
+    var contentAfterFirstLoad
+      , contentAfterSecondLoad
+      , contentAfterThirdLoad;
+    
+    /** 
+     * We run the asyncronous calls prior to testing the specs again by
+     * passing Jasmine's purpose built 'done' function with beforeAll.
+     * We test this by loading the same feed twice.
+     * If the content is the same, but the jQuery objects are not strictly
+     * equal, then we know the second load successfully changed the DOM
+     */
+    beforeAll(function (done) {
+      
+      /** 
+       * Start observing the container for mutations
+       * pass in the target node, as well as the observer options
        */
+      observer.observe(target, config);
+      
+      /** Load the second feed from allFeeds array */
+      loadFeed(1, function () {
+        
+        /** and save the content to the 'first' variable */
+        contentAfterFirstLoad = $('.feed').html();
+        
+        /** Now load the second feed from allFeeds again */
+        loadFeed(1, function () {
+          
+          /** and save its content to the 'second' variable */
+          contentAfterSecondLoad = $('.feed').html();
+          
+          /**
+           * We can disconnect the observer now because we only need
+           * to know that the content changes for the third selection
+           */
+          observer.disconnect();
+          
+          /** Now load the first feed from allFeeds */
+          loadFeed(0, function () {
+            
+            /** and save its content to the 'third' variable */
+            contentAfterThirdLoad = $('.feed').html();
+            
+            /** Tell Jasmine we are finished with beforeAll async calls */
+            done();
+          })
+          
+        });
+      });
+    });
+
+    /* Make the content comparisons and check mutation occurred */
+    it('changes the page content', function (done) {
+      
+      // console.log(
+      //   'first:', contentAfterFirstLoad,
+      //   'second:', contentAfterSecondLoad,
+      //   'third:', contentAfterThirdLoad
+      // );
+        
+      expect(contentAfterFirstLoad).toBe(contentAfterSecondLoad);
+      expect(nodesWereRemoved).toBe(true);
+      expect(contentAfterSecondLoad).not.toBe(contentAfterThirdLoad);
+      
+      /** and tell Jasmin that this async is finished */
+      done();
+    });
+
+  });
+
 } (jQuery));
