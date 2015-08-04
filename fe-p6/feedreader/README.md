@@ -39,6 +39,6 @@ This project has no future, any and all visitors are welcome to do with it as th
 ## Additional Feeds
 A function `addNewFeed` was added to `app.js` to enable the adding of further feeds. `addNewFeed` takes a single parameter containing an object describing a new RSS feed in the format: `{'name': 'string', 'url': 'string'}`.
 
-Two tests were added to the test suite:
-1. To make sure new object is added to the list of feeds
+Two tests were added to the test suite:  
+1. To make sure new object is added to the list of feeds  
 2. To make sure the new object is rendered to the page when it is called with loadFeed
