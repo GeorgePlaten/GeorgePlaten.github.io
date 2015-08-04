@@ -140,3 +140,19 @@ $(function () {
   });
   
 }(jQuery) );
+
+/** 
+ * 
+ * Udacious extras
+ * Add the ability to add more feeds
+ * 
+ */
+ 
+/** 
+ * @function Add a new feed to the allFeeds collection
+ * @param {object} feed - feed object in the format of allFeeds[]
+ * @returns {void}
+ */
+function addNewFeed (feed) {
+ allFeeds.push(feed);
+}
