@@ -312,6 +312,11 @@ $(function () {
     beforeEach(function() {
       addNewFeed(newFeed);
     });
+    
+    /** reload the initial zeroth feed */
+    afterAll(function () {
+      loadFeed(0);
+    });
 
     /** gets added to the allFeeds array */
     it('are added successfully', function () {
@@ -331,7 +336,6 @@ $(function () {
 
       /** reset initial app state */
       allFeeds.pop();
-      loadFeed(0);
     });
 
   });

@@ -3,7 +3,7 @@
 This is a basic web-based application that reads RSS feeds. It is being developed using Behaviour Driven Development (BDD) in JavaScript with Jasmine http://jasmine.github.io/
 
 ## Package Contents  
-**Working Files**  
+**working Files**  
  - `index.html` - The application's single page  
  - `js/app.js` - The application code  
  - `jasmine/spec/feedreader.js` - The Jasmine test suite  
