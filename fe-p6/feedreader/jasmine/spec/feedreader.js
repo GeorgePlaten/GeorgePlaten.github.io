@@ -334,7 +334,7 @@ $(function () {
       /** if .entry is found then the feed was built successfully */
       expect( !!$('.entry') ).toBe(true);
 
-      /** reset initial app state */
+      /** reset initial app state of allFeeds */
       allFeeds.pop();
     });
 
