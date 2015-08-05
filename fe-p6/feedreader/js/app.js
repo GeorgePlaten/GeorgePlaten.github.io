@@ -107,8 +107,8 @@ $(function () {
    * available feeds within the menu.
    */
   allFeeds.forEach(function (feed) {
-    
-    /** 
+
+    /**
      * @typedef {object} feed
      * @field {number} id - set enumerator, get feed array item by index with click event
      * @field {string} url - google.feeds feed url (rss/xml/etc)
@@ -138,17 +138,17 @@ $(function () {
   $menuIcon.on('click', function () {
     $('body').toggleClass('menu-hidden');
   });
-  
+
 }(jQuery) );
 
-/** 
- * 
+/**
+ *
  * Udacious extras
  * Add the ability to add more feeds
- * 
+ *
  */
- 
-/** 
+
+/**
  * @function Add a new feed to the allFeeds collection
  * @param {object} feed - feed object in the format of allFeeds[]
  * @returns {void}

@@ -312,7 +312,7 @@ $(function () {
     beforeEach(function() {
       addNewFeed(newFeed);
     });
-    
+
     /** reload the initial zeroth feed */
     afterAll(function () {
       loadFeed(0);
